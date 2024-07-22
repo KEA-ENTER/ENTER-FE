@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from "styled-components";
 
 interface ButtonProps {
@@ -6,7 +5,7 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
   return (
     <Btn onClick={onClick}>
       {text}
@@ -27,3 +26,5 @@ const Btn = styled.div`
     align-items: center;
     font-size: 16px;
 `;
+
+export default Button;

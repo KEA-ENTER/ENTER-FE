@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SearchBox } from "../../components/common/SearchBox";
-import { Button } from "../common/Button";
-import { Modal } from "../common/Modal";
+import Button from "../common/Button";
+import Modal from "../common/Modal";
 
-export default function AdminTest() {
+function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
     }
@@ -33,3 +33,5 @@ export default function AdminTest() {
         </div>
     );
 }
+
+export default AdminTest;
