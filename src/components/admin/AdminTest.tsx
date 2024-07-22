@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { SearchBox } from "../../components/common/SearchBox";
+import SearchBox from "../../components/common/SearchBox";
 import Button from "../common/Button";
 import Modal from "../common/Modal";
+import Input from "../common/Input";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
@@ -30,6 +31,8 @@ function AdminTest() {
                 onClose={closeModal}
                 />
             )}
+            <Input width="300px" placeholder="Custom width input" />
+            <Input placeholder="Default width input" />
         </div>
     );
 }
