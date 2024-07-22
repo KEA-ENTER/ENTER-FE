@@ -6,7 +6,7 @@ interface SearchBoxProps {
     onSearch: (selectedItem: string, searchText: string) => void;
 }
 
-export const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
     const [searchText, setSearchText] = useState("");
     const [isopen, setIsopen] = useState(false);
@@ -56,6 +56,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => 
         </SearchComp>
     );
 }
+export default SearchBox;
 
 // Style
 const SearchComp = styled.div`
