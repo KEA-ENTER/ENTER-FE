@@ -8,13 +8,13 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@typescript-eslint'],
+  plugins: ['react-refresh', '@typescript-eslint', 'import'],  // import 플러그인 추가
   rules: {
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
     'camelcase': ['error', { properties: 'always' }],
-    'import/prefer-default-export': 'error',
+    'import/prefer-default-export': 'error',  // import 규칙 사용
   },
-}
+};
