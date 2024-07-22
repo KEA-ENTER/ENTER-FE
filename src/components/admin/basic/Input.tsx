@@ -4,6 +4,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string;
 }
 
+const Input: React.FC<InputProps> = ({ width, ...props }) => {
+  return <InputBox width={width} {...props} />;
+};
+
+export default Input;
+
 const InputBox = styled.input<InputProps>`
   border-radius: 10px;
   padding: 8px;
@@ -15,9 +21,3 @@ const InputBox = styled.input<InputProps>`
     border: 1px solid #686868;
   }
 `;
-
-const Input: React.FC<InputProps> = ({ width, ...props }) => {
-  return <InputBox width={width} {...props} />;
-};
-
-export default Input;

@@ -1,4 +1,4 @@
-import AdminTest from "../../components/admin/AdminTest";
+import AdminTest from "../../components/admin/basic/AdminTest";
 
 export default function LoginPage() {
     return(

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import SearchBox from "../../components/common/SearchBox";
-import Button from "../common/Button";
-import Modal from "../common/Modal";
-import Input from "../common/Input";
+import SearchBox from "../../common/SearchBox";
+import Button from "./Button";
+import Modal from "./Modal";
+import Input from "./Input";
+import Title from "./Title";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
@@ -19,6 +20,7 @@ function AdminTest() {
     };
     return(
         <div>
+            <Title imageSrc="public/img/vehicle-step.png" title="인수 보고서" />
             <SearchBox 
                 menuItems={['Option 1', 'Option 2', 'Option 3']}
                 onSearch={handleSearch}
@@ -31,8 +33,8 @@ function AdminTest() {
                 onClose={closeModal}
                 />
             )}
-            <Input width="300px" placeholder="Custom width input" />
-            <Input placeholder="Default width input" />
+            <Input width="300px" placeholder="하이" />
+            <Input placeholder="width 설정 안 함" />
         </div>
     );
 }

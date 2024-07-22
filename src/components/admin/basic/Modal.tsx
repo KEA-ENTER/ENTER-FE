@@ -21,6 +21,8 @@ const Modal: React.FC<ModalProps> = ({ title, description, onClose }) => {
   );
 };
 
+export default Modal;
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -65,5 +67,3 @@ const ButtonContainer = styled.div`
   bottom: 20px;
   right: 20px;
 `;
-
-export default Modal;

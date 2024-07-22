@@ -110,7 +110,6 @@ const DropdownList = styled.ul`
     z-index: 1000;
     max-height: 150px;
     overflow-y: auto;
-
     display: flex;
     flex-direction: column;
 `;
@@ -132,7 +131,6 @@ const DropdownItem = styled.li`
 
     &.selected {
         background-color: #cccccc;
-        color: white;
     }
 
     display: flex;
