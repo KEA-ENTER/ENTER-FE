@@ -1,4 +1,4 @@
-import Step from "../../components/admin/step/AdminPage";
+import Step from "../../components/admin/step/Step";
 
 export default function VehicleStepPage() {
     return( 

@@ -51,7 +51,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                     value={searchText} 
                     onChange={(e) => setSearchText(e.target.value)}
                 />
-                <Button onClick={handleSearch} src="public/img/search.png" alt="Search"/>
+                <Button onClick={handleSearch} src="/img/search.png" alt="Search"/>
             </InputComp>
         </SearchComp>
     );
@@ -120,6 +120,9 @@ const DropdownItem = styled.li`
     padding: 0px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:last-child {
         border-bottom: none;
@@ -130,12 +133,8 @@ const DropdownItem = styled.li`
     }
 
     &.selected {
-        background-color: #cccccc;
+        background-color: #dddddd;
     }
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 const InputComp = styled.div`

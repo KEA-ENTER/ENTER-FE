@@ -4,6 +4,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import Input from "./Input";
 import Title from "./Title";
+import Pagination from "./Pagination";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
@@ -18,9 +19,17 @@ function AdminTest() {
     const closeModal = () => {
       setIsModalOpen(false);
     };
+
+    const [page, setPage] = useState(1);
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        console.log('현재: ', newPage);
+        console.log(page)
+    }
+
     return(
         <div>
-            <Title imageSrc="public/img/vehicle-step.png" title="인수 보고서" />
+            <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBox 
                 menuItems={['Option 1', 'Option 2', 'Option 3']}
                 onSearch={handleSearch}
@@ -35,6 +44,8 @@ function AdminTest() {
             )}
             <Input width="300px" placeholder="하이" />
             <Input placeholder="width 설정 안 함" />
+
+            <Pagination totalPages={10} onPageChange={handlePageChange} />
         </div>
     );
 }
