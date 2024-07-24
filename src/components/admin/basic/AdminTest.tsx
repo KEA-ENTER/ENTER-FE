@@ -38,7 +38,7 @@ function AdminTest() {
             {isModalOpen && (
                 <Modal
                 title="모달 창 제목"
-                description="이것은 모달 창의 설명입니다."
+                description="모달 창 설명"
                 onClose={closeModal}
                 />
             )}

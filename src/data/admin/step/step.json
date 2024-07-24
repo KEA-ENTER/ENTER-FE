@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "model": "fds",
+        "number": "lwer1345",
+        "date": "24년 7월 31일 ~ 24년 8월 1일",
+        "receiver": "이다현",
+        "state": "return"
+    },
+    {
+        "id": 2,
+        "model": "fds",
+        "number": "lwer1345",
+        "date": "24년",
+        "receiver": "이다현",
+        "state": "take-over"
+    },
+    {
+        "id": 3,
+        "model": "fds",
+        "number": "lwer1345",
+        "date": "24년",
+        "receiver": "이다현",
+        "state": "waiting"
+    },
+    {
+        "id": 4,
+        "model": "fds",
+        "number": "lwer1345",
+        "date": "24년",
+        "receiver": "이다현",
+        "state": "return"
+    },
+    {
+        "id": 5,
+        "model": "fds",
+        "number": "lwer1345",
+        "date": "24년",
+        "receiver": "이다현",
+        "state": "return"
+    }
+]
