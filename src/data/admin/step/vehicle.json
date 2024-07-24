@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "image": "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
+        "model": "G80",
+        "number": "123가 1234",
+        "personnel": 2,
+        "state": "take-over"
+    },
+    {
+        "id": 2,
+        "image": "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
+        "model": "G80",
+        "number": "123가 1234",
+        "personnel": 2,
+        "state": "take-over"
+    },
+    {
+        "id": 3,
+        "image": "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
+        "model": "G80",
+        "number": "123가 1234",
+        "personnel": 2,
+        "state": "take-over"
+    },
+    {
+        "id": 4,
+        "image": "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
+        "model": "G80",
+        "number": "123가 1234",
+        "personnel": 2,
+        "state": "take-over"
+    }
+]

@@ -82,7 +82,6 @@ export default StepList;
 
 // Style
 const Container = styled.div`
-    background: rgba(238, 238, 238, 0.6);
     padding: 20px;
     border-radius: 0px;
 `;
@@ -91,12 +90,11 @@ const Table = styled.table`
     width: 100%;
     border-collapse: collapse;
     background: white;
-    border-radius: 10px;
     overflow: hidden;
 `;
 
 const TableRow = styled.tr`
-
+    border-bottom: solid 1px #686868;
 `;
 
 const TableHeader = styled.td`
@@ -114,6 +112,8 @@ const TableCell = styled.td`
     padding: 10px;
     text-align: center;
     width: 10%;
+    background: rgba(238, 238, 238, 0.6);
+    border-bottom: solid 1px #ddd;
 `;
 
 const TableCellDetail = styled(TableCell)`
