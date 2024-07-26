@@ -55,6 +55,6 @@ const DropdownItem = styled.div`
     font-size: 13px;
     font-color: #686868;
     &:hover {
-        background-color: #eeeeee;
+        background: rgba(238, 238, 238, 0.6);
     }
 `;
