@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import Input from "./Input";
 import Title from "./Title";
 import Pagination from "./Pagination";
+import Image from "./Image";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
@@ -44,6 +45,10 @@ function AdminTest() {
             )}
             <Input width="300px" placeholder="하이" />
             <Input placeholder="width 설정 안 함" />
+
+            <Image imageUrl="/img/car.png" />
+            <Image imageUrl="https://example.com/valid-image.jpg" />
+
 
             <Pagination totalPages={10} onPageChange={handlePageChange} />
         </div>

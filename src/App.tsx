@@ -6,6 +6,7 @@ import RentReportPage from "./pages/admin/RentReportPage";
 import ReturnReportPage from "./pages/admin/ReturnReportPage";
 import VehiclePage from "./pages/admin/VehiclePage";
 import VehicleCreatePage from "./pages/admin/VehicleCreatePage";
+import VehicleDetailPage from "./pages/admin/VehicleDetailPage";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/vehicle-step/return/:id' element={<ReturnReportPage />} />
           <Route path='/vehicle' element={<VehiclePage />} />
           <Route path='/vehicle/create' element={<VehicleCreatePage />} />
+          <Route path='/vehicle/detail' element={<VehicleDetailPage />} />
         </Routes>
       </Router>
     );
