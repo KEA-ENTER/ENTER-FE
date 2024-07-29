@@ -49,6 +49,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                 />
                 <Button onClick={handleLogin}>로그인</Button>
             </Body>
+            <Disc>· 이메일, 비밀번호를 입력해주세요</Disc>
         </Container>
     );
 }
@@ -107,4 +108,12 @@ const Button = styled.button`
     margin-bottom: 20px;
     background-color: #fee500;
     color: #191919;
+`;
+
+const Disc = styled.div`
+    color: gray;
+    font-weight: 200;
+    width: 100%;
+
+    padding-left: 10px;
 `;
