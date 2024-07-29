@@ -6,7 +6,7 @@ import Input from "./Input";
 import Title from "./Title";
 import Pagination from "./Pagination";
 import Image from "./Image";
-import Header from "./Header";
+import Header from "../../../pages/admin/Header";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
