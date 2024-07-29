@@ -1,5 +1,5 @@
-import Title from "../basic/Title";
-import Penalty from "./Penalty";
+import Title from "../../basic/Title";
+import Penalty from "./penalty/Penalty";
 
 export default function ReturnReport() {
     return(

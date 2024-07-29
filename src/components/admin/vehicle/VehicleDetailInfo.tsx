@@ -50,6 +50,7 @@ const Container = styled.div`
     display: flex;
     background: rgba(238, 238, 238, 0.6);
     padding: 20px;
+    margin: 10px 0px;
     border-radius: 0px;
 `;
 

@@ -42,6 +42,7 @@ const Container = styled.div`
     background: rgba(238, 238, 238, 0.6);
     margin: 20px 0px 0px 0px;
     padding: 20px;
+    margin: 10px 0px;
     border-radius: 0px;
 `;
 

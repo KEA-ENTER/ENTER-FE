@@ -15,8 +15,8 @@ function App() {
           <Route path='/' element={<LoginPage />} />
           <Route path='/admin-test' element={<AdminTest />} />
           <Route path='/vehicle-step' element={<VehicleStepPage />} />
-          <Route path='/vehicle-step/rent/:id' element={<RentReportPage />} />
-          <Route path='/vehicle-step/return/:id' element={<ReturnReportPage />} />
+          <Route path='/vehicle-step/rent' element={<RentReportPage />} />
+          <Route path='/vehicle-step/return' element={<ReturnReportPage />} />
           <Route path='/vehicle' element={<VehiclePage />} />
           <Route path='/vehicle/create' element={<VehicleCreatePage />} />
           <Route path='/vehicle/detail' element={<VehicleDetailPage />} />

@@ -1,37 +1,30 @@
 import { useState } from 'react';
 import styled from "styled-components";
 
-interface SearchBoxProps {
+interface PenaltyMenuProps {
     menuItems: string[];
-    onSearch: (selectedItem: string, searchText: string) => void;
+    isOpen: boolean;
+    onToggle: () => void;
+    onSearch: (selectedItem: string) => void;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
+const PenaltyMenu: React.FC<PenaltyMenuProps> = ({ menuItems, isOpen, onToggle, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
-    const [searchText, setSearchText] = useState("");
-    const [isopen, setIsopen] = useState(false);
-
-    const handleSearch = () => {
-        onSearch(selectedItem, searchText);
-    }
-
-    const toggleDropdown = () => {
-        setIsopen(!isopen);
-    }
 
     const handleSelect = (item: string) => {
         setSelectedItem(item);
-        setIsopen(false);
+        onSearch(item);
+        onToggle();
     }
 
     return (
         <SearchComp>
             <DropdownContainer>
-                <DropdownButton onClick={toggleDropdown} isopen={isopen}>
+                <DropdownButton onClick={onToggle} isopen={isOpen}>
                     <ButtonText>{selectedItem}</ButtonText>
-                    <ButtonIcon>{isopen ? '▲' : '▼'}</ButtonIcon>
+                    <ButtonIcon>{isOpen ? '▲' : '▼'}</ButtonIcon>
                 </DropdownButton>
-                {isopen && (
+                {isOpen && (
                     <DropdownList>
                         {menuItems.map(item => (
                             <DropdownItem 
@@ -45,29 +38,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                     </DropdownList>
                 )}
             </DropdownContainer>
-            <InputComp>
-                <Input 
-                    type="text" 
-                    value={searchText} 
-                    onChange={(e) => setSearchText(e.target.value)}
-                />
-                <Button onClick={handleSearch} src="/img/search.png" alt="Search"/>
-            </InputComp>
         </SearchComp>
     );
 }
-export default SearchBox;
+export default PenaltyMenu;
 
 // Style
 const SearchComp = styled.div`
-    height: 30px;
-    width: 330px;
+    height: 100%;
     display: flex;
 `;
 
 const DropdownContainer = styled.div`
     height: 100%;
-    width: 30%;
+    width: 200px;
     margin-right: 5%;
     position: relative;
     display: flex;
@@ -78,8 +62,9 @@ const DropdownButton = styled.button<{ isopen: boolean }>`
     height: 100%;
     width: 100%;
     border-radius: ${(props) => (props.isopen ? '10px 10px 0 0' : '10px')};
-    background-color: white;
+    background-color: #Fee500;
     border: 1px solid #686868;
+    border-width: ${(props) => (props.isopen ? '1px 1px 0px 1px': '0px 0px 0px 0px')};
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -110,15 +95,15 @@ const DropdownList = styled.ul`
     border-top: none;
     border-radius: 0 0 10px 10px;
     background-color: white;
-    z-index: 11;
     max-height: 150px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    z-index: 1;
 `;
 
 const DropdownItem = styled.li`
-    height: 25px;
+    height: 30px;
     width: 100%;
     padding: 0px;
     cursor: pointer;
@@ -126,6 +111,7 @@ const DropdownItem = styled.li`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 15px;
 
     &:last-child {
         border-bottom: none;
@@ -138,29 +124,4 @@ const DropdownItem = styled.li`
     &.selected {
         background-color: #dddddd;
     }
-`;
-
-const InputComp = styled.div`
-    height: 93%;
-    width: 65%;
-    border: 1px solid #686868;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-`;
-
-const Input = styled.input`
-    padding: 4px;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    flex: 1;
-`;
-
-const Button = styled.img`
-    height: 17px;
-    width: 17px;
-    padding: 4px 8px;
-    border: none;
-    cursor: pointer;
 `;

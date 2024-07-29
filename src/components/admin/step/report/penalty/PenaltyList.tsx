@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from '../basic/Modal';
-import data from '../../../data/admin/step/penalty.json';
 
-const PenaltyManage: React.FC = () => {
+import data from '../../../../../data/admin/step/penalty.json';
+import Modal from '../../../basic/Modal';
+
+const PenaltyList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -51,13 +52,12 @@ const PenaltyManage: React.FC = () => {
       )}
     </Container>
   );
-};
+}
 
-export default PenaltyManage;
+export default PenaltyList;
 
 // Style
 const Container = styled.div`
-  background: rgba(238, 238, 238, 0.6);
   padding: 20px;
   border-radius: 0px;
 `;
@@ -75,7 +75,6 @@ const Table = styled.table`
 `;
 
 const TableRow = styled.tr`
-
 `;
 
 const TableHeader = styled.td`
