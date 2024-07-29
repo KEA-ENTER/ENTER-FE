@@ -1,9 +1,7 @@
-import AdminTest from "../../components/admin/basic/AdminTest";
-
 export default function AdminPage() {
-    return(
+    return (
         <div>
-            <AdminTest />
+            <h1>Welcome to the Admin Main Page</h1>
         </div>
     );
 }
