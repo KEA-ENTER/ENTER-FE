@@ -13,6 +13,8 @@ const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
   );
 };
 
+export default Button;
+
 const Btn = styled.div`
     background-color: #FEE500;
     width: 115px;
@@ -26,5 +28,3 @@ const Btn = styled.div`
     align-items: center;
     font-size: 16px;
 `;
-
-export default Button;
