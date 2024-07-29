@@ -44,9 +44,9 @@ const StepList: React.FC = () => {
                     {data.map((item) => (
                         <TableRow key={item.id}>
                             <TableCellDetail>{item.model} - {item.number}</TableCellDetail>
-                            <TableCell>{item.date}</TableCell>
+                            <TableCellDetail>{item.date}</TableCellDetail>
                             <TableCell>{item.receiver}</TableCell>
-                            <TableCellDetail>{getStatusText(item.state)}</TableCellDetail>
+                            <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCellDetail>
                                 <ReportBtn 
                                     onClick={() => openModal(item.id)} 
@@ -69,7 +69,7 @@ const StepList: React.FC = () => {
             </Table>
             {isModalOpen && selectedId !== null && (
             <Modal
-                title="보고서로 연결해야 하는데"
+                title="이때 여기에다가 보고서를 연결해야 doi"
                 description={`기록 아이디: ${selectedId}`}
                 onClose={closeModal}
                 />
@@ -82,7 +82,7 @@ export default StepList;
 
 // Style
 const Container = styled.div`
-    padding: 0px;
+    padding: 20px 0px;
     border-radius: 0px;
 `;
 
