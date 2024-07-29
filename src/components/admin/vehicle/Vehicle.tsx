@@ -5,6 +5,7 @@ import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import VehicleList from "./VehicleList";
 import Button from "../basic/Button";
+import styled from "styled-components";
 
 export default function Vehicle() {
     const [page, setPage] = useState(1);
@@ -26,13 +27,22 @@ export default function Vehicle() {
     return(
         <div>
             <Title imageSrc="/img/car.png" title="차량 관리" />
-            <SearchBox 
-                menuItems={['모델', '차량 번호', '상태']}
-                onSearch={handleSearch}
-            />
+            <SearchBoxContainer>
+                <SearchBox 
+                    menuItems={['모델', '차량 번호', '상태']}
+                    onSearch={handleSearch}
+                />
+            </SearchBoxContainer>
             <Button text="차량 추가하기" onClick={goVehicleCreate}/>
             <VehicleList />
             <Pagination totalPages={10} onPageChange={handlePageChange} />
         </div>
     );
 }
+
+const SearchBoxContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+`;
