@@ -23,14 +23,14 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
-                            <Route path='/admin' element={<AdminLayout />}>
-                                <Route path='admin-test' element={<AdminTest />} />
-                                <Route path='vehicle-step' element={<VehicleStepPage />} />
-                                <Route path='vehicle-step/rent' element={<RentReportPage />} />
-                                <Route path='vehicle-step/return' element={<ReturnReportPage />} />
-                                <Route path='vehicle' element={<VehiclePage />} />
-                                <Route path='vehicle/create' element={<VehicleCreatePage />} />
-                                <Route path='vehicle/detail' element={<VehicleDetailPage />} />
+                            <Route path="/admin" element={<AdminLayout />}>
+                                <Route path="admin-test" element={<AdminTest />} />
+                                <Route path="vehicle-step" element={<VehicleStepPage />} />
+                                <Route path="vehicle-step/rent" element={<RentReportPage />} />
+                                <Route path="vehicle-step/return" element={<ReturnReportPage />} />
+                                <Route path="vehicle" element={<VehiclePage />} />
+                                <Route path="vehicle/create" element={<VehicleCreatePage />} />
+                                <Route path="vehicle/detail" element={<VehicleDetailPage />} />
                             </Route>
                         </Routes>
                     ) : (
