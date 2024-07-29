@@ -82,7 +82,7 @@ export default StepList;
 
 // Style
 const Container = styled.div`
-    padding: 20px;
+    padding: 0px;
     border-radius: 0px;
 `;
 

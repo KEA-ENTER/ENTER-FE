@@ -61,13 +61,13 @@ export default SearchBox;
 // Style
 const SearchComp = styled.div`
     height: 30px;
-    width: 330px;
+    width: 350px;
     display: flex;
 `;
 
 const DropdownContainer = styled.div`
     height: 100%;
-    width: 30%;
+    width: 40%;
     margin-right: 5%;
     position: relative;
     display: flex;
@@ -89,7 +89,7 @@ const DropdownButton = styled.button<{ isopen: boolean }>`
 
 const ButtonText = styled.span`
     position: absolute;
-    left: 50%;
+    left: 45%;
     transform: translateX(-50%);
     font-size: 15px;
 `;

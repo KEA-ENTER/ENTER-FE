@@ -19,7 +19,7 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>사용 일자</InfoItem>
+                    <InfoItem>사용 일자{vehicleInfo.model}</InfoItem>
                     <InfoItem>사용자 이름</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>

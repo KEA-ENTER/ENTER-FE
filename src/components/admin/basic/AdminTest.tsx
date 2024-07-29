@@ -6,6 +6,7 @@ import Input from "./Input";
 import Title from "./Title";
 import Pagination from "./Pagination";
 import Image from "./Image";
+import Header from "./Header";
 
 function AdminTest() {
     const handleSearch = (selectedItem: string, searchText: string) => {
@@ -30,6 +31,7 @@ function AdminTest() {
 
     return(
         <div>
+            <Header />
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBox 
                 menuItems={['Option 1', 'Option 2', 'Option 3']}

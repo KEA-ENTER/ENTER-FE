@@ -54,7 +54,7 @@ const VehicleList: React.FC = () => {
                             <TableCell>{item.personnel}명</TableCell>
                             <TableCell>{item.state}</TableCell>
                             <TableCell onClick={(e) => e.stopPropagation()}>
-                                <MoreBtn src='img/more.png' onClick={() => openMenu(item.id)}/>
+                                <MoreBtn src='/img/more.png' onClick={() => openMenu(item.id)}/>
                                 {isMenuOpen && selectedId === item.id && (
                                     <CarMenu
                                         key={selectedId}
@@ -83,7 +83,7 @@ export default VehicleList;
 
 // Style
 const Container = styled.div`
-    padding: 20px;
+    padding: 0px;
     border-radius: 0px;
 `;
 
