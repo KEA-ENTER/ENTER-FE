@@ -17,7 +17,7 @@ export default function Lottery () {
     }
     return(
         <Container>
-            <Title imageSrc="/img/lottery.png" title="추첨 관리" />
+            <TitleStyle imageSrc="/img/lottery.png" title="추첨 관리" />
             <SearchBoxContainer>
                 <SearchBox
                     menuItems={['회차', '차량 정보']}
@@ -33,9 +33,12 @@ export default function Lottery () {
 const Container = styled.div`
 `;
 
+const TitleStyle = styled(Title)`
+    margin: 10px 0px;
+`;
+
 const SearchBoxContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
 `;

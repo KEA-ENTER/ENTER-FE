@@ -47,6 +47,7 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
+    height: 55px;
 `;
 
 const TableHeader = styled.td`

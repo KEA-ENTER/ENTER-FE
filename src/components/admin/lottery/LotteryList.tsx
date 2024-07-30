@@ -14,7 +14,7 @@ const LotteryList: React.FC = () => {
                 <thead>
                     <TableRow>
                         <TableHeader>회차</TableHeader>
-                        <TableHeaderDetail>날짜</TableHeaderDetail>
+                        <TableHeaderDetail>인수 기간</TableHeaderDetail>
                         <TableHeaderDetail>차량 정보</TableHeaderDetail>
                         <TableHeader>신청자 수</TableHeader>
                         <TableHeader>당첨자 수</TableHeader>
@@ -26,7 +26,7 @@ const LotteryList: React.FC = () => {
                     {lotteryData.map((item) => (
                         <TableRow key={item.id} onClick={() => goLotteryDetail(item.round, item.startDate, item.vehicleModel)}>
                             <TableCell>{item.round}회차</TableCell>
-                            <TableCellDetail>{item.startDate}{"\n ~"}{item.endDate}</TableCellDetail>
+                            <TableCellDetail>{item.startDate}{" ~ "}{item.endDate}</TableCellDetail>
                             <TableCellDetail>{item.vehicleModel} - {item.vehicleNum}</TableCellDetail>
                             <TableCell>{item.applicantNum}명</TableCell>
                             <TableCell>{item.winnerNum}명</TableCell>
@@ -57,17 +57,18 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
+        height: 60px;
 `;
 
 const TableHeader = styled.td`
     font-style: none;
     padding: 10px;
     text-align: center;
-    width: 12%;
+    width: 11%;
 `;
 
 const TableHeaderDetail = styled(TableHeader)`
-    width: 20%;
+    width: 22.5%;
 `;
 
 const TableCell = styled.td`

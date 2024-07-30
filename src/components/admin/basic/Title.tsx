@@ -19,6 +19,7 @@ export default Title;
 const Container = styled.div`
   display: flex;
   align-items: center;
+  padding: 20px 0px 10px 0px;
 `;
 
 const Image = styled.img`
@@ -29,6 +30,6 @@ const Image = styled.img`
 
 const TitleText = styled.h1`
   color: #232D63;
-  font-size: 40px;
+  font-size: 35px;
   font-weight: bold;
 `;

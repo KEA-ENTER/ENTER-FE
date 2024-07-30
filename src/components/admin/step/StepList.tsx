@@ -45,7 +45,7 @@ const StepList: React.FC = () => {
                     {data.map((item) => (
                         <TableRow key={item.id}>
                             <TableCellDetail>{item.model} - {item.number}</TableCellDetail>
-                            <TableCellDetail>{item.date}</TableCellDetail>
+                            <TableCellDetail>{item.startDate}{" ~ "}{item.endDate}</TableCellDetail>
                             <TableCell>{item.receiver}</TableCell>
                             <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCellDetail>
@@ -96,6 +96,7 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
+    height: 60px;
 `;
 
 const TableHeader = styled.td`
@@ -110,7 +111,6 @@ const TableHeaderDetail = styled(TableHeader)`
 `;
 
 const TableCell = styled.td`
-    padding: 10px;
     text-align: center;
     width: 10%;
     background: rgba(238, 238, 238, 0.6);

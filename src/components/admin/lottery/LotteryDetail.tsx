@@ -39,7 +39,7 @@ const Container = styled.div`
 `;
 
 const DetailTitle = styled.div`
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 `;
 

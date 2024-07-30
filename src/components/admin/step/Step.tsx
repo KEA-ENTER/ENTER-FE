@@ -37,5 +37,4 @@ const SearchBoxContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
 `;
