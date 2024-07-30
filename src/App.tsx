@@ -31,6 +31,8 @@ export default function App() {
                                 <Route path="vehicle" element={<VehiclePage />} />
                                 <Route path="vehicle/create" element={<VehicleCreatePage />} />
                                 <Route path="vehicle/detail" element={<VehicleDetailPage />} />
+                                <Route path="question" element={<VehicleDetailPage />} />
+                                <Route path="question/detail/:id" element={<VehicleDetailPage />} />
                             </Route>
                         </Routes>
                     ) : (
