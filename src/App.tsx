@@ -30,8 +30,8 @@ export default function App() {
                                 <Route path='' element={<AdminHomePage />} />
                                 <Route path='admin-test' element={<AdminTest />} />
                                 <Route path='vehicle-step' element={<VehicleStepPage />} />
-                                <Route path='vehicle-step/rent' element={<RentReportPage />} />
-                                <Route path='vehicle-step/return' element={<ReturnReportPage />} />
+                                <Route path='vehicle-step/rent/:id' element={<RentReportPage />} />
+                                <Route path='vehicle-step/return/:id' element={<ReturnReportPage />} />
                                 <Route path='lottery' element={<LotteryPage />} />
                                 <Route path='lottery/detail/:round/:date/:id' element={<LotteryDetailPage />} />
                                 <Route path='vehicle' element={<VehiclePage />} />

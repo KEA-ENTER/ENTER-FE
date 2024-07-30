@@ -1,23 +1,17 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import Modal from '../basic/Modal';
 import data from '../../../data/admin/step/step.json';
+import { useNavigate } from 'react-router-dom';
 
 const StepList: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const navigate = useNavigate();
 
-    const openModal = (id: number) => {
-        setSelectedId(id);
-        setIsModalOpen(true);
-    };
+    const goRentReport = (id: number) => {
+        navigate(`/admin/vehicle-step/rent/${id}`)
+    }
+    const goReturnReport = (id: number) => {
+        navigate(`/admin/vehicle-step/return/${id}`)
+    }
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedId(null);
-    };
-
-    // 영어로 받을 (아마도) 상태 -> 프론트 전용 단어로 변환
     const getStatusText = (state: string) => {
         if (state === 'return')
             return '반납 완료';
@@ -50,14 +44,14 @@ const StepList: React.FC = () => {
                             <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCellDetail>
                                 <ReportBtn 
-                                    onClick={() => openModal(item.id)} 
+                                    onClick={() => goRentReport(item.id)} 
                                     disabled={item.state === 'waiting'} 
                                     isDisabled={item.state === 'waiting'}
                                     >
                                     인수 보고서
                                 </ReportBtn>
                                 <ReportBtn 
-                                    onClick={() => openModal(item.id)} 
+                                    onClick={() => goReturnReport(item.id)} 
                                     disabled={item.state !== 'return'} 
                                     isDisabled={item.state !== 'return'}
                                     >
@@ -68,15 +62,8 @@ const StepList: React.FC = () => {
                     ))}
                 </tbody>
             </Table>
-            {isModalOpen && selectedId !== null && (
-            <Modal
-                title="여기에다가 보고서를 연결해야 doi"
-                description={`기록 아이디: ${selectedId}`}
-                onClose={closeModal}
-                />
-        )}
-    </Container>
-  );
+        </Container>
+    );
 };
 
 export default StepList;
