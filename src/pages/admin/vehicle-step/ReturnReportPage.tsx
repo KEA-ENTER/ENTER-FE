@@ -1,4 +1,4 @@
-import ReturnReport from "../../components/admin/step/report/ReturnReport";
+import ReturnReport from "../../../components/admin/step/report/ReturnReport";
 
 export default function ReturnReportPage() {
     return( 
