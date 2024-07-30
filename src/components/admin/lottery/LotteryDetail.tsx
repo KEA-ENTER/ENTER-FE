@@ -2,10 +2,14 @@ import { useState } from "react";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
-import StepList from "./LotteryList";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import LotteryDetailList from "./LotteryDetailList";
 
 export default function LotteryDetail () {
+    const { round } = useParams<{ round: string }>();
+    const { date } = useParams<{ date: string }>();
+    const { id } = useParams<{ id: string }>();
     const [page, setPage] = useState(1);
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
@@ -17,14 +21,15 @@ export default function LotteryDetail () {
     }
     return(
         <Container>
-            <Title imageSrc="/img/vehicle-step.png" title="추첨레스기" />
+            <Title imageSrc="/img/vehicle-step.png" title="신청 내역" />
+            <DetailTitle>{round}회차 / {date} / {id}</DetailTitle>
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['차량 정보', '인수자명', '상태']}
+                    menuItems={['아이디', '신청자명', '결과']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>
-            <StepList />
+            <LotteryDetailList />
             <Pagination totalPages={10} onPageChange={handlePageChange} />
         </Container>
     );
@@ -33,9 +38,14 @@ export default function LotteryDetail () {
 const Container = styled.div`
 `;
 
+const DetailTitle = styled.div`
+    font-size: 24px;
+    font-weight: bold;
+`;
+
 const SearchBoxContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 `;

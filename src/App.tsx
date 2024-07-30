@@ -33,7 +33,7 @@ export default function App() {
                                 <Route path='vehicle-step/rent' element={<RentReportPage />} />
                                 <Route path='vehicle-step/return' element={<ReturnReportPage />} />
                                 <Route path='lottery' element={<LotteryPage />} />
-                                <Route path='lottery/detail' element={<LotteryDetailPage />} />
+                                <Route path='lottery/detail/:round/:date/:id' element={<LotteryDetailPage />} />
                                 <Route path='vehicle' element={<VehiclePage />} />
                                 <Route path='vehicle/create' element={<VehicleCreatePage />} />
                                 <Route path='vehicle/detail' element={<VehicleDetailPage />} />
