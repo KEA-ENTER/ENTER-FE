@@ -37,29 +37,26 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: white;
-  width: 500px;
-  height: 250px;
-  border-radius: 0px;
-  padding: 20px;
-  position: relative;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    background-color: white;
+    width: 450px;
+    height: 230px;
+    padding: 20px;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Title = styled.div`
-  font-size: 28px;
+  font-size: 25px;
   font-weight: bold;
-  margin: 0 0 10px 0;
+  margin: 10px 0 10px 0;
   text-align: center;
 `;
 
 const Description = styled.div`
   font-size: 16px;
-  margin: 0 0 40px 0;
+  margin: 0 0 0px 0;
   text-align: center;
 `;
 

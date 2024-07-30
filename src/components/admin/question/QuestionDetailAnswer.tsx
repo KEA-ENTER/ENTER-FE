@@ -1,16 +1,34 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Button from "../basic/Button";
+import ConfirmModal from "../basic/ConfirmModal";
 
 export default function QuestionDetailAnswer () {
-    const completeAnswer = () => {
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
+    const closeModal = () => {
+        setIsConfirmModalOpen(false);
+    }
+    
+    const completeAnswer = () => {
+        setIsConfirmModalOpen(true);
     };
     return(
         <Container>
             <ContentBox />
             <ButtonContainer>
-                    <Button text="wkrtjddhksfy" onClick={completeAnswer} />
-                </ButtonContainer>
+                <Button text="확인" onClick={completeAnswer} />
+            </ButtonContainer>
+            {isConfirmModalOpen && (
+                <ConfirmModal
+                    title="모달 창 제목"
+                    description="모달 창 설명"
+                    onClose={closeModal}
+                    setIsConfirmed = {setIsConfirmed}
+                />
+            )}
+            {`리턴: ${isConfirmed}`}
         </Container>
     );
 }
