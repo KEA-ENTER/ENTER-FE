@@ -15,7 +15,7 @@ import VehicleDetailPage from './pages/admin/vehicle/VehicleDetailPage';
 import AdminHomePage from './pages/admin/AdminHomePage';
 
 export default function App() {
-    const [role, setRole] = useState<string | null>('admin');
+    const [role, setRole] = useState<string | null>('user');
     const handleLoginSuccess = (role: string) => {
         setRole(role);
     };
@@ -26,17 +26,17 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
-                            <Route path='/admin' element={<AdminLayout />}>
-                                <Route path='' element={<AdminHomePage />} />
-                                <Route path='admin-test' element={<AdminTest />} />
-                                <Route path='vehicle-step' element={<VehicleStepPage />} />
-                                <Route path='vehicle-step/rent/:id' element={<RentReportPage />} />
-                                <Route path='vehicle-step/return/:id' element={<ReturnReportPage />} />
-                                <Route path='lottery' element={<LotteryPage />} />
-                                <Route path='lottery/detail/:round/:date/:id' element={<LotteryDetailPage />} />
-                                <Route path='vehicle' element={<VehiclePage />} />
-                                <Route path='vehicle/create' element={<VehicleCreatePage />} />
-                                <Route path='vehicle/detail' element={<VehicleDetailPage />} />
+                            <Route path="/admin" element={<AdminLayout />}>
+                                <Route path="" element={<AdminHomePage />} />
+                                <Route path="admin-test" element={<AdminTest />} />
+                                <Route path="vehicle-step" element={<VehicleStepPage />} />
+                                <Route path="vehicle-step/rent/:id" element={<RentReportPage />} />
+                                <Route path="vehicle-step/return/:id" element={<ReturnReportPage />} />
+                                <Route path="lottery" element={<LotteryPage />} />
+                                <Route path="lottery/detail/:round/:date/:id" element={<LotteryDetailPage />} />
+                                <Route path="vehicle" element={<VehiclePage />} />
+                                <Route path="vehicle/create" element={<VehicleCreatePage />} />
+                                <Route path="vehicle/detail" element={<VehicleDetailPage />} />
                             </Route>
                         </Routes>
                     ) : (
