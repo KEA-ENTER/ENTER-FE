@@ -1,11 +1,11 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
-import StepList from "./StepList";
-import styled from "styled-components";
+import QuestionList from "./QuestionList";
 
-export default function Step() {
+export default function Question () {
     const [page, setPage] = useState(1);
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
@@ -17,20 +17,24 @@ export default function Step() {
     }
     return(
         <Container>
-            <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
+            <TitleStyle imageSrc="/img/headphone.png" title="문의 관리" />
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['차량 정보', '인수자명', '상태']}
+                    menuItems={['카테고리', '상태', '작성자']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>
-            <StepList />
+            <QuestionList />
             <Pagination totalPages={10} onPageChange={handlePageChange} />
         </Container>
     );
 }
 
 const Container = styled.div`
+`;
+
+const TitleStyle = styled(Title)`
+    margin: 10px 0px;
 `;
 
 const SearchBoxContainer = styled.div`

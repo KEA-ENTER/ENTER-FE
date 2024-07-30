@@ -19,7 +19,7 @@ export default function RentReport() {
     const navigate = useNavigate();
 
     const goStep = () => {
-        navigate('/vehicle-step');
+        navigate('/admin/vehicle-step');
     }
 
     return(
@@ -28,13 +28,14 @@ export default function RentReport() {
             <ReportInfo vehicleInfo={vehicleData}/>
             <Penalty />
             <ButtonContainer>
-                <Button onClick={goStep} text={"모두 삭제"} />
+                <Button onClick={goStep} text={"확인"} />
             </ButtonContainer>
         </div>
     );
 }
 
 const ButtonContainer = styled.div`
-    margin-top: 20px;
-    margin-left: auto;
+    margin: 20px;
+    display: flex;
+    justify-content: flex-end;
 `;

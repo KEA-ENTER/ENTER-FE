@@ -10,12 +10,12 @@ const Header: React.FC = () => {
 
     return (
         <Head>
-            <Title onClick={() => goPage('/admin/home')}>탈까?</Title>
+            <Title onClick={() => goPage('/admin')}>탈까?</Title>
             <Container>
                 <Menu onClick={() => goPage('/admin/vehicle-step')}>인수 관리</Menu>
                 <Menu onClick={() => goPage('/admin/lottery')}>추첨 관리</Menu>
                 <Menu onClick={() => goPage('/admin/vehicle')}>차량 관리</Menu>
-                <Menu onClick={() => goPage('/admin/admin-test')}>문의 관리</Menu>
+                <Menu onClick={() => goPage('/admin/question')}>문의 관리</Menu>
             </Container>
         </Head>
     );

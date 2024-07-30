@@ -3,7 +3,8 @@
         "id": 1,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년 7월 31일 ~ 24년 8월 1일",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "return"
     },
@@ -11,7 +12,8 @@
         "id": 2,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "take-over"
     },
@@ -19,7 +21,8 @@
         "id": 3,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "waiting"
     },
@@ -27,7 +30,8 @@
         "id": 4,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "return"
     },
@@ -35,7 +39,8 @@
         "id": 5,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "return"
     },
@@ -43,7 +48,8 @@
         "id": 6,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "take-over"
     },
@@ -51,7 +57,8 @@
         "id": 7,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "waiting"
     },
@@ -59,7 +66,8 @@
         "id": 8,
         "model": "fds",
         "number": "lwer1345",
-        "date": "24년",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
         "receiver": "이다현",
         "state": "return"
     }

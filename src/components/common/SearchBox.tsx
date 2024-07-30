@@ -102,7 +102,7 @@ const DropdownList = styled.ul`
     position: absolute;
     top: 100%;
     left: 0;
-    width: 99%;
+    width: 98.5%;
     margin: 0px;
     padding: 0px;
     list-style: none;
