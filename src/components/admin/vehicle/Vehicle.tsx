@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
-import VehicleList from "./VehicleList";
 import Button from "../basic/Button";
-import styled from "styled-components";
+import VehicleList from "./VehicleList";
 
 export default function Vehicle() {
     const [page, setPage] = useState(1);

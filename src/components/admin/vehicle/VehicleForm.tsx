@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
+import styled from 'styled-components';
 import Input from '../basic/Input';
 
 interface VehicleFormProps {

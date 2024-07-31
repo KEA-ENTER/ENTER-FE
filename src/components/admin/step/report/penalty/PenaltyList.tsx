@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import data from '../../../../../data/admin/step/penalty.json';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
+import data from '../../../../../data/admin/step/penalty.json';
 
 const PenaltyList: React.FC = () => {
     const [alertModal, setAlertModal] = useState(false);

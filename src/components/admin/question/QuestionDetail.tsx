@@ -1,9 +1,10 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../basic/Title";
-import QuestionDetailContents from "./QuestionDetailContents";
 import Button from "../basic/Button";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import QuestionDetailContents from "./QuestionDetailContents";
+
 import QuestionDetailAnswer from "./QuestionDetailAnswer";
 
 export default function QuestionDetail() {

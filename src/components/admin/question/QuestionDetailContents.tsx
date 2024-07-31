@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import DateString from "../basic/DateString";
 
 const questionData = {
     id: 1,
@@ -21,7 +22,7 @@ export default function QuestionDetailContents () {
             <Title>
                 {`[${questionData.category}] ${questionData.contentSummary}...`}
             </Title>
-            <DetailInfo>{`${questionData.date} ${questionData.userName}`}</DetailInfo>
+            <DetailInfo>{`${DateString(questionData.date)} ${questionData.userName}`}</DetailInfo>
             <ContentBox>{questionData.contents}</ContentBox>
         </Container>
     );

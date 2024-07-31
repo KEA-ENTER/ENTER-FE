@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import PenaltyMenu from './PenaltyMenu';
 import Button from '../../../basic/Button';
 import Modal from '../../../basic/Modal';
+import PenaltyMenu from './PenaltyMenu';
 
 const PenaltyManage: React.FC = () => {
-    const menuItems = ['메롱메롱', '너는 바보', '하기싫다', '살려줘'];
-    const levelItems = ['개작은페널티', '괜찮', '개큰페널티'];
+    const menuItems = ['미인수', '사용불량', '사용잘함', '사용사용'];
+    const levelItems = ['작은페널티', '적당페널티', '개큰페널티'];
     const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);

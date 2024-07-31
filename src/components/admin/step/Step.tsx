@@ -1,9 +1,9 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import StepList from "./StepList";
-import styled from "styled-components";
 
 export default function Step() {
     const [page, setPage] = useState(1);

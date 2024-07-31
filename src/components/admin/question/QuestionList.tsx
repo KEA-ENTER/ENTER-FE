@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import DateString from "../basic/DateString";
 import data from "../../../data/admin/question/question.json";
 
 export default function QuestionList () {
@@ -27,7 +28,7 @@ export default function QuestionList () {
                             <TableCellDetail>{item.contentSummary}...</TableCellDetail>
                             <TableCell>{item.status}</TableCell>
                             <TableCell>{item.userName}</TableCell>
-                            <TableCell>{item.date}</TableCell>
+                            <TableCell>{DateString(item.date)}</TableCell>
                         </TableRow>
                     ))}
                 </tbody>

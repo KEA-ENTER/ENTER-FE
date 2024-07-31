@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../basic/Title";
+import Button from "../basic/Button";
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
-import Button from "../basic/Button";
 
 const vehicleData = {
     imageUrl: "img/vehicle-step.png",

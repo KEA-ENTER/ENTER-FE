@@ -79,7 +79,7 @@ const DropdownButton = styled.button<{ isopen: boolean }>`
     width: 100%;
     border-radius: ${(props) => (props.isopen ? '10px 10px 0 0' : '10px')};
     background-color: white;
-    border: 1px solid #686868;
+    border: 1px solid #858585;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -88,13 +88,16 @@ const DropdownButton = styled.button<{ isopen: boolean }>`
 `;
 
 const ButtonText = styled.span`
+    color: #686868;
     position: absolute;
     left: 45%;
     transform: translateX(-50%);
-    font-size: 15px;
+    font-size: 13px;
 `;
 
 const ButtonIcon = styled.span`
+    color: #858585;
+    font-size: 13px;
     margin-left: auto;
 `;
 
@@ -106,7 +109,7 @@ const DropdownList = styled.ul`
     margin: 0px;
     padding: 0px;
     list-style: none;
-    border: 1px solid #686868;
+    border: 1px solid #858585;
     border-top: none;
     border-radius: 0 0 10px 10px;
     background-color: white;
@@ -118,6 +121,8 @@ const DropdownList = styled.ul`
 `;
 
 const DropdownItem = styled.li`
+    color: #686868;
+    font-size: 13px;
     height: 25px;
     width: 100%;
     padding: 0px;
@@ -143,7 +148,7 @@ const DropdownItem = styled.li`
 const InputComp = styled.div`
     height: 93%;
     width: 65%;
-    border: 1px solid #686868;
+    border: 1px solid #858585;
     border-radius: 10px;
     display: flex;
     align-items: center;
