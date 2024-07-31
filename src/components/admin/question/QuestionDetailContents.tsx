@@ -4,16 +4,10 @@ import DateString from "../basic/DateString";
 const questionData = {
     id: 1,
     category: "차량 문의",
-    contentSummary: "안녕하세요 안녕하세요안녕하",
+    contentSummary: "저는 악성유저니까 빨리 답변",
     date: "2020-02-02",
     userName: "이다현",
-    contents: "안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
-    + "안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요 안녕하세요안녕하세요"
+    contents:  "저는 악성유저니까 빨리 답변 부탁드려요\n\n2024년 7월 31일에 개큰 페널티를 받았습니다.\n왜 저에게 페널티가 부여됐는지 도저히 모르겠어서 문의 드립니다.\n편하신 시간에 천천하지만 신속하고 빠르게 답변 부탁드립니다."
 };
 
 export default function QuestionDetailContents () {
@@ -48,4 +42,5 @@ const ContentBox = styled.div`
     border: 1px solid #686868;
     border-radius: 10px;
     margin: 20px 0px;
+    white-space: pre-wrap;
 `;

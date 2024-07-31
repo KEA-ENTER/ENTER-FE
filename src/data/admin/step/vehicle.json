@@ -5,7 +5,7 @@
         "model": "G80",
         "number": "123가 1234",
         "personnel": 2,
-        "state": "take-over"
+        "state": "사용중"
     },
     {
         "id": 2,
@@ -13,7 +13,7 @@
         "model": "G80",
         "number": "123가 1234",
         "personnel": 2,
-        "state": "take-over"
+        "state": "사용중"
     },
     {
         "id": 3,
@@ -21,7 +21,7 @@
         "model": "G80",
         "number": "123가 1234",
         "personnel": 2,
-        "state": "take-over"
+        "state": "사용중"
     },
     {
         "id": 4,
@@ -29,6 +29,6 @@
         "model": "G80",
         "number": "123가 1234",
         "personnel": 2,
-        "state": "take-over"
+        "state": "사용중"
     }
 ]

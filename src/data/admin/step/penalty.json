@@ -1,30 +1,16 @@
 [
     {
         "id": 1,
-        "category": "hi1",
+        "category": "사용 불량",
         "date": "2020-02-01",
-        "level": "high",
-        "detail": "no"
+        "level": "보통",
+        "detail": "사용 불량"
     },
     {
         "id": 2,
-        "category": "hi2",
+        "category": "사용 불량",
         "date": "2020-02-02",
-        "level": "high",
-        "detail": "nono"
-    },
-    {
-        "id": 3,
-        "category": "hi3",
-        "date": "2020-02-03",
-        "level": "high",
-        "detail": "nonono"
-    },
-    {
-        "id": 4,
-        "category": "hi4",
-        "date": "2020-02-04",
-        "level": "high",
-        "detail": "nononono"
+        "level": "높음",
+        "detail": "사용 진짜 많이 불량"
     }
 ]

@@ -18,7 +18,7 @@ import QuestionPage from './pages/admin/question/QuestionPage';
 import QuestionDetailPage from './pages/admin/question/QuestionDetailPage';
 
 export default function App() {
-    const [role, setRole] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>('admin');
     const handleLoginSuccess = (role: string) => {
         setRole(role);
     };

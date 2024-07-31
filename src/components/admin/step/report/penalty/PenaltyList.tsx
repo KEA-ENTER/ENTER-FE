@@ -31,6 +31,7 @@ const PenaltyList: React.FC = () => {
             <thead>
             <TableRow>
                 <TableHeader>사유</TableHeader>
+                <TableHeader>페널티 수준</TableHeader>
                 <TableHeader>날짜</TableHeader>
                 <TableHeaderDetail>비고</TableHeaderDetail>
                 <TableHeader></TableHeader>
@@ -40,6 +41,7 @@ const PenaltyList: React.FC = () => {
             {data.map((item) => (
                 <TableRow key={item.id}>
                 <TableCell>{item.category}</TableCell>
+                <TableCell>{item.level}</TableCell>
                 <TableCell>{item.date}</TableCell>
                 <TableCellDetail>{item.detail}</TableCellDetail>
                 <TableCell>
@@ -95,21 +97,21 @@ const TableHeader = styled.td`
   font-style: none;
   padding: 10px;
   text-align: center;
-  width: 20%;
+  width: 18%;
 `;
 
 const TableHeaderDetail = styled(TableHeader)`
-  width: 40%;
+  width: 28%;
 `;
 
 const TableCell = styled.td`
   padding: 10px;
   text-align: center;
-  width: 20%;
+  width: 18%;
 `;
 
 const TableCellDetail = styled(TableCell)`
-  width: 40%;
+  width: 28%;
 `;
 
 const DeleteButton = styled.button`

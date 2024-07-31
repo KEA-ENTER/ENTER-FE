@@ -6,7 +6,7 @@ import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
 
 const vehicleData = {
-    imageUrl: "img/vehicle-step.png",
+    imageUrl: "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
     status: "사용 가능",
     manufacturer: "현대",
     model: "model",
