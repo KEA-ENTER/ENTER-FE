@@ -1,48 +1,51 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "../basic/Button";
-import ConfirmModal from "../basic/ConfirmModal";
 import Modal from "../basic/Modal";
 
 export default function QuestionDetailAnswer () {
     const [errorModal, setErrorModal] = useState(false);
-    const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
+    const [contentData, setContentData] = useState<string | null>(null)
 
-    const closeAlertModal = () => {
-        setAlertModal(false);
+    const closeErrorModal = () => {
+        setErrorModal(false);
     }
     
     const completeAnswer = () => {
-        setAlertModal(true);
+        if (!contentData){
+            setErrorModal(true);
+        }
+        else {
+            setConfirmModal(true);
+        }
     };
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
+        setContentData(null);
     }
 
     return(
         <Container>
-            <ContentBox />
+            <ContentBox onChange={(e) => setContentData(e.target.value)}/>
             <ButtonContainer>
                 <Button text="확인" onClick={completeAnswer} />
             </ButtonContainer>
-            {alertModal && (
-                <ConfirmModal
-                    title="모달 창 제목"
-                    description="모달 창 설명"
-                    onClose={closeAlertModal}
-                    setIsConfirmed = {setConfirmModal}
+            {errorModal && 
+                <Modal
+                    title='내용을 입력하세요'
+                    description='비고란에 빈 값이 존재합니다.'
+                    onClose={closeErrorModal} 
                 />
-            )}
-            {confirmModal && (
-                <Modal 
-                    title="모달 창 제목"
-                    description="모달 창 설명"
-                    onClose={closeConfirmModal}
+            }
+            {confirmModal && 
+                <Modal
+                    title='추가되었습니다.'
+                    description=''
+                    onClose={closeConfirmModal} 
                 />
-            )}
-            {`리턴: ${confirmModal}`}
+            }
         </Container>
     );
 }

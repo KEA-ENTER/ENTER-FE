@@ -89,8 +89,8 @@ const PenaltyManage: React.FC = () => {
             }
             {confirmModal && 
                 <Modal
-                    title='됐도이'
-                    description='모든 비고 값이 입력되었습니다.'
+                    title='추가되었습니다.'
+                    description=''
                     onClose={closeConfirmModal} 
                 />
             }

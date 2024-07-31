@@ -14,7 +14,7 @@ export default function QuestionList () {
                 <thead>
                     <TableRow>
                         <TableHeader>카테고리</TableHeader>
-                        <TableHeaderDetail>내힘들다들힘내</TableHeaderDetail>
+                        <TableHeaderDetail>내용</TableHeaderDetail>
                         <TableHeader>상태</TableHeader>
                         <TableHeader>작성자</TableHeader>
                         <TableHeader>날짜</TableHeader>
