@@ -102,7 +102,7 @@ const DropdownList = styled.ul`
     position: absolute;
     top: 100%;
     left: 0;
-    width: 98.5%;
+    width: 100%;
     margin: 0px;
     padding: 0px;
     list-style: none;
@@ -160,7 +160,6 @@ const Input = styled.input`
 const Button = styled.img`
     height: 17px;
     width: 17px;
-    padding: 4px 8px;
-    border: none;
+    margin-right: 8px;
     cursor: pointer;
 `;

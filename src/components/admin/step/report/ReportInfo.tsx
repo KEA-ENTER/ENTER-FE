@@ -23,7 +23,8 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
                     <InfoItem>사용자 이름</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>
-                    <InfoItem>보고 시간</InfoItem>   
+                    <InfoItem>보고 시간</InfoItem>
+                    <InfoItem>주차 위치</InfoItem>   
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>

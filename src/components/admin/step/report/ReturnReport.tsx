@@ -35,7 +35,7 @@ export default function ReturnReport() {
 }
 
 const ButtonContainer = styled.div`
-    margin-top: 20px;
+    margin: 20px;
     display: flex;
     justify-content: flex-end;
 `;

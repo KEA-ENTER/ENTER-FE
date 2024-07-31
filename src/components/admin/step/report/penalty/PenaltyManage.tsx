@@ -5,8 +5,10 @@ import Button from '../../../basic/Button';
 
 const PenaltyManage: React.FC = () => {
     const menuItems = ['메롱메롱', '너는 바보', '하기싫다', '살려줘'];
+    const levelItems = ['개작은페널티', '괜찮', '개큰페널티'];
     const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);
     const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
+    const [openLevelIndex, setOpenLevelIndex] = useState<number | null>(null);
 
     const addPenalty = () => {
         setPenalties([...penalties, { reason: menuItems[0], remark: '' }]);
@@ -25,6 +27,7 @@ const PenaltyManage: React.FC = () => {
         <PenaltyContainer>
             <PenaltyHeader>
                 <PenaltyMenuHeader>사유</PenaltyMenuHeader>
+                <PenaltyMenuHeader>페널티 수준</PenaltyMenuHeader>
                 <PenaltyInputHeader>비고</PenaltyInputHeader>
             </PenaltyHeader>
             {penalties.map((penalty, index) => (
@@ -33,6 +36,12 @@ const PenaltyManage: React.FC = () => {
                         menuItems={menuItems}
                         isOpen={openMenuIndex === index}
                         onToggle={() => setOpenMenuIndex(openMenuIndex === index ? null : index)}
+                        onSearch={(selectedItem) => updatePenalty(index, { ...penalty, reason: selectedItem })}
+                    />
+                    <PenaltyMenu
+                        menuItems={levelItems}
+                        isOpen={openLevelIndex === index}
+                        onToggle={() => setOpenLevelIndex(openLevelIndex === index ? null : index)}
                         onSearch={(selectedItem) => updatePenalty(index, { ...penalty, reason: selectedItem })}
                     />
                     <RemarkInput
@@ -68,7 +77,7 @@ const PenaltyHeader = styled.div`
 `;
 
 const PenaltyMenuHeader = styled.div`
-    width: 200px;
+    width: 170px;
     display: flex;
     justify-content: center;
     align-items: center;
