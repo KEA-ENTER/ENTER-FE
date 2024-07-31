@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Title from "../basic/Title";
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
@@ -41,7 +42,14 @@ export default function VehicleDetail() {
             <Title imageSrc="/img/car.png" title="123가 5678" />
             <VehicleDetailInfo vehicleData={vehicleData} />
             <VehicleDetailReport reportData={reportData} />
-            <Button text="확인" onClick={confirmBtn} />
+            <ButtonContainer>
+                <Button text="확인" onClick={confirmBtn} />
+            </ButtonContainer>
         </div>
     );
 }
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;

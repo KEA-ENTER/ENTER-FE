@@ -12,7 +12,7 @@ const CarMenu: React.FC<CarMenuProps> = ({ id, onCloseMenu, onOpenModal }) => {
     const navigate = useNavigate();
     const goModifyPage = (id: number) => {
         onCloseMenu()
-        navigate('/vehicle/modify/'+id)
+        navigate('/admin/vehicle/modify/'+id)
     }
 
     return (
@@ -45,7 +45,7 @@ const DropdownList = styled.div`
 `;
 
 const DropdownItem = styled.div`
-    height: 20px;
+    height: 40px;
     padding: 5px;
     cursor: pointer;
     border-bottom: 1px solid #eee;

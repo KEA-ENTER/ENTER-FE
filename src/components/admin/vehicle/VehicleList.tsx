@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import data from '../../../data/admin/step/vehicle.json';
 import CarMenu from './CarMenu';
@@ -8,6 +9,7 @@ const VehicleList: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
+    const navigate = useNavigate();
 
     const openModal = (id: number) => {
         setSelectedId(id);
@@ -30,6 +32,10 @@ const VehicleList: React.FC = () => {
         setSelectedId(null);
     }
 
+    const goDetailPage = (id: number) => {
+        navigate(`detail/${id}`);
+    }
+
     return (
         <Container onClick={closeModal}>
             <Table>
@@ -45,7 +51,7 @@ const VehicleList: React.FC = () => {
                 </thead>
                 <tbody>
                     {data.map((item) => (
-                        <TableRow key={item.id}>
+                        <TableRow key={item.id} onClick={() => goDetailPage(item.id)}>
                             <TableCell>
                                 <CarImg src={item.image} />
                             </TableCell>
