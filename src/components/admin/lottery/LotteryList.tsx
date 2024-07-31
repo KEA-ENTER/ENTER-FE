@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import lotteryData from '../../../data/admin/lottery/lottery.json'
 import { useNavigate } from 'react-router-dom';
+import DateString from '../basic/DateString';
+import lotteryData from '../../../data/admin/lottery/lottery.json'
 
 const LotteryList: React.FC = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const LotteryList: React.FC = () => {
                     {lotteryData.map((item) => (
                         <TableRow key={item.id} onClick={() => goLotteryDetail(item.round, item.startDate, item.vehicleModel)}>
                             <TableCell>{item.round}회차</TableCell>
-                            <TableCellDetail>{item.startDate}{" ~ "}{item.endDate}</TableCellDetail>
+                            <TableCellDetail>{DateString(item.startDate)}{" ~ "}{DateString(item.endDate)}</TableCellDetail>
                             <TableCellDetail>{item.vehicleModel} - {item.vehicleNum}</TableCellDetail>
                             <TableCell>{item.applicantNum}명</TableCell>
                             <TableCell>{item.winnerNum}명</TableCell>

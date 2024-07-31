@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Title from "../basic/Title";
+import Button from "../basic/Button";
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
-import Button from "../basic/Button";
 
 const vehicleData = {
-    imageUrl: "img/vehicle-step.png",
+    imageUrl: "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
     status: "사용 가능",
     manufacturer: "현대",
     model: "model",
@@ -33,7 +34,7 @@ export default function VehicleDetail() {
     const navigate = useNavigate();
 
     const confirmBtn = () => {
-        navigate('/vehicle')
+        navigate('/admin/vehicle')
     }
 
     return(
@@ -41,7 +42,15 @@ export default function VehicleDetail() {
             <Title imageSrc="/img/car.png" title="123가 5678" />
             <VehicleDetailInfo vehicleData={vehicleData} />
             <VehicleDetailReport reportData={reportData} />
-            <Button text="확인" onClick={confirmBtn} />
+            <ButtonContainer>
+                <Button text="확인" onClick={confirmBtn} />
+            </ButtonContainer>
         </div>
     );
 }
+
+const ButtonContainer = styled.div`
+    margin: 20px;
+    display: flex;
+    justify-content: flex-end;
+`;

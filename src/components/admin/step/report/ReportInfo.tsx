@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from '../../basic/Image';
+import DateString from '../../basic/DateString';
 
 interface VehicleInfoProps {
     vehicleInfo: {
-        imageUrl: string;
-        status: string;
-        manufacturer: string;
-        model: string;
-        fuel: string;
-        capacity: number;
-        registrationDate: string;
+        imageUrl: string,
+        date: string,
+        reportDate: string,
+        name: string,
+        carLocation: string
     };
 }
 
@@ -19,18 +18,19 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>사용 일자{vehicleInfo.model}</InfoItem>
-                    <InfoItem>사용자 이름</InfoItem>
+                    <InfoItem>{`사용 일자: ${DateString(vehicleInfo.date)} ~ ${DateString(vehicleInfo.date)}`}</InfoItem>
+                    <InfoItem>{`사용자 이름: ${vehicleInfo.name}`}</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>
-                    <InfoItem>보고 시간</InfoItem>   
+                    <InfoItem>{`보고 시간: ${DateString(vehicleInfo.reportDate)}`}</InfoItem>
+                    <InfoItem>{`주차 위치: ${vehicleInfo.carLocation}`}</InfoItem>   
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
                     <InfoItem>계기판 사진</InfoItem>  
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -43,13 +43,13 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
                 <HalfWrapper>
                     <InfoItem>전면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                     <InfoItem>후면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -61,12 +61,12 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
             <InfoWrapper>
                 <HalfWrapper>
                 <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                 <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
