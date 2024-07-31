@@ -21,7 +21,7 @@ export default function Vehicle() {
     }
 
     const goVehicleCreate = () => {
-        navigate('/vehicle/create')
+        navigate('create')
     }
 
     return(

@@ -36,7 +36,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     placeholder="모델"
                     value={formData.model}
                     onChange={handleInputChange}
-                    width="60%"
+                    width="50%"
                 />
                 <InputTitle>제조 회사</InputTitle>
                 <Input
@@ -44,7 +44,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     placeholder="제조 회사"
                     value={formData.manufacturer}
                     onChange={handleInputChange}
-                    width="60%"
+                    width="50%"
                 />
             </Row>
             <Row>
@@ -54,7 +54,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     placeholder="차량 번호"
                     value={formData.vehicleNumber}
                     onChange={handleInputChange}
-                    width="60%"
+                    width="50%"
                 />
                 <InputTitle>연료</InputTitle>
                 <Input
@@ -62,7 +62,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     placeholder="연료"
                     value={formData.fuel}
                     onChange={handleInputChange}
-                    width="60%"
+                    width="50%"
                 />
             </Row>
             <Row>
@@ -73,7 +73,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     type="number"
                     value={formData.capacity}
                     onChange={handleInputChange}
-                    width="60%"
+                    width="50%"
                 />
                 <InputTitle>상태</InputTitle>
                 <StatusContainer>
@@ -103,7 +103,7 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                 <ImageUploadContainer {...getRootProps()}>
                     <input {...getInputProps()} />
                     {imagePreview ? (
-                        <ImagePreview src={imagePreview as string} alt="미리보기" />
+                            <ImagePreview src={imagePreview as string} alt="미리보기" />
                     ) : (
                         <UploadMessage>
                             Drag & Drop <br /> 이미지 파일을 업로드해주세요
@@ -132,14 +132,14 @@ const Row = styled.div`
 
 const InputTitle = styled.div`
     width: 20%;
-    margin: 0 20px;
+    margin: 0 10px;
 `;
 
 const StatusContainer = styled.div`
     display: flex;
     align-items: center;
     // border: 1px solid red;
-    width: 60%;
+    width: 50%;
         padding: 8px;
 
     label {
@@ -148,8 +148,8 @@ const StatusContainer = styled.div`
 `;
 
 const ImageUploadContainer = styled.div`
-    width: 100%;
-    height: 500px;
+    width: 98%;
+    height: 350px;
     border: 2px dashed #ddd;
     display: flex;
     justify-content: center;

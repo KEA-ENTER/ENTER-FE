@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from '../basic/Image';
+import DateString from '../basic/DateString';
 
 interface VehicleDetailProps {
     vehicleData: {
@@ -37,7 +38,7 @@ const VehicleDetailInfo: React.FC<VehicleDetailProps> = ({ vehicleData }) => {
                     <strong>탑승 인원: </strong>{vehicleData.capacity}
                 </InfoItem>
                 <InfoItem>
-                    <strong>차량 등록일: </strong>{vehicleData.registrationDate}
+                    <strong>차량 등록일: </strong>{DateString(vehicleData.registrationDate)}
                 </InfoItem>
             </InfoWrapper>
         </Container>

@@ -2,33 +2,47 @@ import { useState } from "react";
 import styled from "styled-components";
 import Button from "../basic/Button";
 import ConfirmModal from "../basic/ConfirmModal";
+import Modal from "../basic/Modal";
 
 export default function QuestionDetailAnswer () {
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-    const [isConfirmed, setIsConfirmed] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
+    const [alertModal, setAlertModal] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
 
-    const closeModal = () => {
-        setIsConfirmModalOpen(false);
+    const closeAlertModal = () => {
+        setAlertModal(false);
     }
     
     const completeAnswer = () => {
-        setIsConfirmModalOpen(true);
+        setAlertModal(true);
     };
+
+    const closeConfirmModal = () => {
+        setConfirmModal(false);
+    }
+
     return(
         <Container>
             <ContentBox />
             <ButtonContainer>
                 <Button text="확인" onClick={completeAnswer} />
             </ButtonContainer>
-            {isConfirmModalOpen && (
+            {alertModal && (
                 <ConfirmModal
                     title="모달 창 제목"
                     description="모달 창 설명"
-                    onClose={closeModal}
-                    setIsConfirmed = {setIsConfirmed}
+                    onClose={closeAlertModal}
+                    setIsConfirmed = {setConfirmModal}
                 />
             )}
-            {`리턴: ${isConfirmed}`}
+            {confirmModal && (
+                <Modal 
+                    title="모달 창 제목"
+                    description="모달 창 설명"
+                    onClose={closeConfirmModal}
+                />
+            )}
+            {`리턴: ${confirmModal}`}
         </Container>
     );
 }

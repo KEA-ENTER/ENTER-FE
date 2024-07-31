@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import Title from '../basic/Title';
 import Button from '../basic/Button';
 import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
 
 export default function VehicleModify() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
     const [formData, setFormData] = useState({
         model: '',
         manufacturer: '',
@@ -42,19 +43,19 @@ export default function VehicleModify() {
     const handleCreate = () => {
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
         if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
-            setIsErrorModalOpen(true);
+            setErrorModal(true);
         } else {
-            setIsModalOpen(true);
+            setConfirmModal(true);
         }
     };
 
     const closeModal = () => {
-        setIsModalOpen(false);
-        setIsErrorModalOpen(false);
+        setConfirmModal(false);
+        setErrorModal(false);
     };
 
     const goVehicleCreate = () => {
-        navigate('/vehicle');
+        navigate('/admin/vehicle');
     };
 
     return (
@@ -66,16 +67,22 @@ export default function VehicleModify() {
                 handleImageUpload={handleImageUpload}
                 imagePreview={imagePreview}
             />
-            <Button text="취소" onClick={goVehicleCreate} />
-            <Button text="확인" onClick={handleCreate} />
-            {isModalOpen && (
+            <ButtonContainer>
+                <ButtonWrapper>
+                    <Button text="취소" onClick={goVehicleCreate} />
+                </ButtonWrapper>
+                <ButtonWrapper>
+                    <Button text="확인" onClick={handleCreate} />
+                </ButtonWrapper>
+            </ButtonContainer>
+            {confirmModal && (
                 <Modal
                     title="등록되었습니다."
                     description=""
                     onClose={closeModal}
                 />
             )}
-            {isErrorModalOpen && (
+            {errorModal && (
                 <Modal
                     title="내용을 전부 입력해주세요"
                     description=""
@@ -85,3 +92,13 @@ export default function VehicleModify() {
         </div>
     );
 }
+
+const ButtonContainer = styled.div`
+    margin: 20px;
+    display: flex;
+    justify-content: flex-end;
+`;
+
+const ButtonWrapper = styled.div`
+    margin: 10px;
+`;

@@ -66,12 +66,13 @@ const ModalContainer = styled.div`
 const Title = styled.div`
     font-size: 25px;
     font-weight: bold;
-    margin: 10px 0 10px 0;
+    margin: 30px 0 10px 0;
     text-align: center;
 `;
 
 const Description = styled.div`
-    font-size: 16px;
+    font-size: 15px;
+    color: #686868;
     margin: 0 0 0px 0;
     text-align: center;
 `;

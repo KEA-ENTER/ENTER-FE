@@ -34,7 +34,7 @@ export default function VehicleDetail() {
     const navigate = useNavigate();
 
     const confirmBtn = () => {
-        navigate('/vehicle')
+        navigate('/admin/vehicle')
     }
 
     return(
@@ -50,6 +50,7 @@ export default function VehicleDetail() {
 }
 
 const ButtonContainer = styled.div`
+    margin: 20px;
     display: flex;
     justify-content: flex-end;
 `;

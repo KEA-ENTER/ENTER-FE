@@ -31,7 +31,7 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
                 <HalfWrapper>
                     <InfoItem>계기판 사진</InfoItem>  
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -44,13 +44,13 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
                 <HalfWrapper>
                     <InfoItem>전면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                     <InfoItem>후면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -62,12 +62,12 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
             <InfoWrapper>
                 <HalfWrapper>
                 <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                 <ImageContainer>
-                        <Image imageUrl='/img/car.png' />
+                        <Image imageUrl='' />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>

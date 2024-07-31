@@ -8,7 +8,7 @@ const PenaltyManage: React.FC = () => {
     const menuItems = ['메롱메롱', '너는 바보', '하기싫다', '살려줘'];
     const levelItems = ['개작은페널티', '괜찮', '개큰페널티'];
     const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);
-    const [alertModal, setAlertModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
     const [openLevelIndex, setOpenLevelIndex] = useState<number | null>(null);
@@ -29,14 +29,14 @@ const PenaltyManage: React.FC = () => {
     const uploadPenalties = () => {
         const hasEmptyRemark = penalties.some(penalty => penalty.remark === '');
         if (hasEmptyRemark) {
-            setAlertModal(true);
+            setErrorModal(true);
         } else {
             setConfirmModal(true);
         }
     };
 
-    const closeAlertModal = () => {
-        setAlertModal(false);
+    const closeErrorModal = () => {
+        setErrorModal(false);
     };
 
     const closeConfirmModal = () => {
@@ -80,11 +80,11 @@ const PenaltyManage: React.FC = () => {
                     <Button text="확인" onClick={uploadPenalties} />
                 </ButtonWrapper>
             </ButtonContainer>
-            {alertModal && 
+            {errorModal && 
                 <Modal
                     title='내용을 입력하세요'
                     description='비고란에 빈 값이 존재합니다.'
-                    onClose={closeAlertModal} 
+                    onClose={closeErrorModal} 
                 />
             }
             {confirmModal && 
