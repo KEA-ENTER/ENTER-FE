@@ -38,9 +38,11 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
     width: 100%;
     font-size: 20px;
+    margin-top: 10px;
 `;
 
 const Article = styled.article`
+    margin-top: 10px;
     color: gray;
     font-weight: 200;
     width: 100%;
