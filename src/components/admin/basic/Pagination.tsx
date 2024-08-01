@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => 
                 <PageButton
                     key={i}
                     onClick={() => handlePageChange(i)}
-                    isActive={currentPage === i}
+                    $isactive={currentPage === i}
                 >
                     {i}
                 </PageButton>
@@ -59,15 +59,15 @@ const PaginationContainer = styled.div`
     margin-top: 20px;
 `;
 
-const PageButton = styled.button<{ isActive: boolean }>`
+const PageButton = styled.button<{ $isactive: boolean }>`
     margin: 0 5px;
     padding: 5px 10px;
-    background-color: ${props => props.isActive ? '#bbb' : 'white'};
-    color: ${props => props.isActive ? 'white' : 'black'};
+    background-color: ${props => props.$isactive ? '#bbb' : 'white'};
+    color: ${props => props.$isactive ? 'white' : 'black'};
     border: 0px solid #eee;
     cursor: pointer;
     &:hover {
-        background-color: ${props => props.isActive ? '#dddddd' : '#f0f0f0'};
+        background-color: ${props => props.$isactive ? '#dddddd' : '#f0f0f0'};
     }
 `;
 

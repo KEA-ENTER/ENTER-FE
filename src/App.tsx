@@ -13,6 +13,7 @@ import VehiclePage from './pages/admin/VehiclePage';
 import VehicleCreatePage from './pages/admin/vehicle/VehicleCreatePage';
 import VehicleDetailPage from './pages/admin/vehicle/VehicleDetailPage';
 import AdminHomePage from './pages/admin/AdminHomePage';
+import HomePage from './pages/admin/HomePage';
 
 export default function App() {
     const [role, setRole] = useState<string | null>('admin');
@@ -26,6 +27,7 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
+                            <Route path='/' element={<HomePage />} />
                             <Route path='/admin' element={<AdminLayout />}>
                                 <Route path='' element={<AdminHomePage />} />
                                 <Route path='admin-test' element={<AdminTest />} />
