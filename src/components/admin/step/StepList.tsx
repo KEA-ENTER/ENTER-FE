@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import data from '../../../data/admin/step/step.json';
 import { useNavigate } from 'react-router-dom';
+import DateString from '../basic/DateString';
+import data from '../../../data/admin/step/step.json';
 
 const StepList: React.FC = () => {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ const StepList: React.FC = () => {
                     {data.map((item) => (
                         <TableRow key={item.id}>
                             <TableCellDetail>{item.model} - {item.number}</TableCellDetail>
-                            <TableCellDetail>{item.startDate}{" ~ "}{item.endDate}</TableCellDetail>
+                            <TableCellDetail>{DateString(item.startDate)}{" ~ "}{DateString(item.endDate)}</TableCellDetail>
                             <TableCell>{item.receiver}</TableCell>
                             <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCellDetail>

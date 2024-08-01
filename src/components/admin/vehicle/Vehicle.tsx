@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
-import VehicleList from "./VehicleList";
 import Button from "../basic/Button";
-import styled from "styled-components";
+import VehicleList from "./VehicleList";
 
 export default function Vehicle() {
     const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ export default function Vehicle() {
     }
 
     const goVehicleCreate = () => {
-        navigate('/vehicle/create')
+        navigate('create')
     }
 
     return(
@@ -33,7 +33,9 @@ export default function Vehicle() {
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>
-            <Button text="차량 추가하기" onClick={goVehicleCreate}/>
+            <AddBtnContainer>
+                <Button text="차량 추가하기" onClick={goVehicleCreate}/> 
+            </AddBtnContainer>
             <VehicleList />
             <Pagination totalPages={10} onPageChange={handlePageChange} />
         </div>
@@ -45,4 +47,11 @@ const SearchBoxContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
+`;
+
+const AddBtnContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
 `;

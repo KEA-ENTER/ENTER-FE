@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DateString from '../basic/DateString';
 import data from '../../../data/admin/lottery/lotteryDetail.json';
 
 const LotteryDetailList: React.FC = () => {
@@ -21,7 +22,7 @@ const LotteryDetailList: React.FC = () => {
                             <TableCell>{item.userName}</TableCell>
                             <TableCell>{item.purpose}</TableCell>
                             <TableCell>{item.result}</TableCell>
-                            <TableCell>{item.date}</TableCell>
+                            <TableCell>{DateString(item.date)}</TableCell>
                         </TableRow>
                     ))}
                 </tbody>
