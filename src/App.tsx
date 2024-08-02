@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/auth/LoginPage';
-import UserPage from './pages/user/UserPage';
+import UserRoutes from './pages/user/UserRoutes';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminTest from './components/admin/basic/AdminTest';
 import VehicleStepPage from './pages/admin/vehicle/VehicleStepPage';
@@ -40,9 +40,7 @@ export default function App() {
                             </Route>
                         </Routes>
                     ) : (
-                        <Routes>
-                            <Route path="/" element={<UserPage />} />
-                        </Routes>
+                        <UserRoutes />
                     )
                 ) : (
                     <Login onLoginSuccess={handleLoginSuccess} />
