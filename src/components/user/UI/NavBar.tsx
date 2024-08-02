@@ -37,11 +37,14 @@ export default function NavBar() {
 const Nav = styled.nav`
     width: 100%;
     height: 90px;
-    border: 1px solid red;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    
+    margin-bottom: 80px;
+
+    @media (max-width: 500px) {
+        margin-bottom: 0px;
+    }
 `;
 
 const Button = styled.div`

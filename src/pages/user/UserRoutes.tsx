@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import Layout from '../../components/user/Layout/Layout'; // 경로를 실제 경로에 맞게 수정
+import Layout from '../../components/user/Layout/Layout';
 import License from './License/License';
 
 const UserRoutes = () => {

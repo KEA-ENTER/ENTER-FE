@@ -1,23 +1,20 @@
 import styled from 'styled-components';
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 interface InputProps {
     value: number | string;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    type?: string;
+    type?: 'text' | 'number'; // 타입 : text, number
     placeholder?: string;
 }
 
-const Input: React.FC<InputProps> = ({ value, onChange, type = "text", placeholder = "" }) => {
-    return (
-        <StyledInput
-            value={value}
-            onChange={onChange}
-            type={type}
-            placeholder={placeholder}
-        />
-    );
-}
+const Input: React.FC<InputProps> = ({ value, onChange, type, placeholder = '' }) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        onChange(event);
+    };
+
+    return <StyledInput value={value} onChange={handleChange} type={type} placeholder={placeholder} />;
+};
 
 export default Input;
 
