@@ -34,7 +34,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                 <SubTitle>회사 법인차량,</SubTitle>
                 <MainTitle>탈까?</MainTitle>
             </TitleContainer>
-            <Body>
+            <Article>
                 <Input
                     value={username}
                     type="text"
@@ -48,7 +48,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button onClick={handleLogin}>로그인</Button>
-            </Body>
+            </Article>
             <Disc>· 이메일, 비밀번호를 입력해주세요</Disc>
         </Container>
     );
@@ -80,7 +80,7 @@ const MainTitle = styled.h1`
     font-size: 60px;
 `;
 
-const Body = styled.div`
+const Article = styled.article`
     // border: 1px solid red;
     width: 100%;
     display: flex;
@@ -114,6 +114,5 @@ const Disc = styled.div`
     color: gray;
     font-weight: 200;
     width: 100%;
-
     padding-left: 10px;
 `;

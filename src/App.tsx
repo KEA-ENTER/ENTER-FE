@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/auth/LoginPage';
-import UserPage from './pages/user/UserPage';
+import UserRoutes from './pages/user/UserRoutes';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminTest from './components/admin/basic/AdminTest';
 import VehicleStepPage from './pages/admin/vehicle/VehicleStepPage';
@@ -18,7 +18,7 @@ import QuestionPage from './pages/admin/question/QuestionPage';
 import QuestionDetailPage from './pages/admin/question/QuestionDetailPage';
 
 export default function App() {
-    const [role, setRole] = useState<string | null>('admin');
+    const [role, setRole] = useState<string | null>('user');
     const handleLoginSuccess = (role: string) => {
         setRole(role);
     };
@@ -29,6 +29,7 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
+
                             <Route path='/admin' element={<AdminLayout />}>
                                 <Route path='' element={<AdminHomePage />} />
                                 <Route path='admin-test' element={<AdminTest />} />
@@ -46,9 +47,7 @@ export default function App() {
                             </Route>
                         </Routes>
                     ) : (
-                        <Routes>
-                            <Route path="/" element={<UserPage />} />
-                        </Routes>
+                        <UserRoutes />
                     )
                 ) : (
                     <Login onLoginSuccess={handleLoginSuccess} />
