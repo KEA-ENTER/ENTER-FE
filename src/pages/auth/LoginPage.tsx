@@ -16,10 +16,10 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     const handleLogin = async () => {
         try {
             const response = await axios.post(
-                'https://moaboa.shop/api/login',
+                'https://moaboa.shop/auth/login',
                 {
-                    username,
-                    password,
+                    email: username,
+                    password: password,
                 },
                 {
                     headers: {
@@ -29,12 +29,14 @@ export default function Login({ onLoginSuccess }: LoginProps) {
             );
 
             if (response.status === 200) {
-                const { token, name } = response.data;
-                console.log(token);
-                sessionStorage.setItem('jwt', token);
-                console.log(JSON.parse(atob(token.split('.')[1])).role);
-                setUser(name, token, JSON.parse(atob(token.split('.')[1])).role);
-                onLoginSuccess(JSON.parse(atob(token.split('.')[1])).role);
+                console.log(response);
+                const { accessToken, refreshToken, name } = response.data;
+                sessionStorage.setItem('accessToken', accessToken);
+                document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+                const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
+                const role = decodedToken.role;
+                setUser(name, accessToken, role);
+                onLoginSuccess(role);
             } else {
                 alert('Login failed');
             }
