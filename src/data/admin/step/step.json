@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "return"
+    },
+    {
+        "id": 2,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "take-over"
+    },
+    {
+        "id": 3,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "waiting"
+    },
+    {
+        "id": 4,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "return"
+    },
+    {
+        "id": 5,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "return"
+    },
+    {
+        "id": 6,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "take-over"
+    },
+    {
+        "id": 7,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "waiting"
+    },
+    {
+        "id": 8,
+        "model": "G80",
+        "number": "123가 9876",
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "receiver": "이다현",
+        "state": "return"
+    }
+]

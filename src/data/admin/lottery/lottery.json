@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },
+    {
+        "id": 2,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },
+    {
+        "id": 3,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },
+    {
+        "id": 4,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },
+    {
+        "id": 5,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },
+    {
+        "id": 6,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },    
+    {
+        "id": 7,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    },    
+    {
+        "id": 8,
+        "round": 27,
+        "startDate": "2024-07-31",
+        "endDate": "2024-99-99",
+        "vehicleModel": "G80",
+        "vehicleNum": "123가1235",
+        "applicantNum": 100,
+        "winnerNum": 15,
+        "unclaimedNum": 1,
+        "compRate": "100:1"
+    }
+]
