@@ -18,7 +18,9 @@ import QuestionPage from './pages/admin/question/QuestionPage';
 import QuestionDetailPage from './pages/admin/question/QuestionDetailPage';
 
 export default function App() {
-    const [role, setRole] = useState<string | null>('user');
+
+    const [role, setRole] = useState<string | null>();
+
     const handleLoginSuccess = (role: string) => {
         setRole(role);
     };
@@ -29,7 +31,6 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
-
                             <Route path='/admin' element={<AdminLayout />}>
                                 <Route path='' element={<AdminHomePage />} />
                                 <Route path='admin-test' element={<AdminTest />} />
