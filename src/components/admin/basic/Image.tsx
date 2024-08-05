@@ -22,7 +22,7 @@ const Image: React.FC<ImageUploaderProps> = ({ imageUrl }) => {
                 />
             ) : (
                 <Placeholder>
-                    이미지가 유효하지 않거나 불러올 수 없습니다
+                    이미지를 불러올 수 없습니다
                 </Placeholder>
             )}
         </ImageContainer>

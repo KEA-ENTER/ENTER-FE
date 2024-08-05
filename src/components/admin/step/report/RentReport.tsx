@@ -1,18 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../../basic/Title";
+import Button from "../../basic/Button";
 import Penalty from "./penalty/Penalty";
 import ReportInfo from "./ReportInfo";
-import Button from "../../basic/Button";
-import { useNavigate } from "react-router-dom";
 
 const vehicleData = {
     imageUrl: "img/vehicle-step.png",
-    status: "사용 가능",
-    manufacturer: "현대",
-    model: "model",
-    fuel: "연료",
-    capacity: 5,
-    registrationDate: "2023-05-01"
+    date: "2023-02-02",
+    reportDate: "2023-05-01",
+    name: "이다현",
+    carLocation: "N동 지하3층 101"
 };
 
 export default function RentReport() {
