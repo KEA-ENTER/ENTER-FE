@@ -6,7 +6,7 @@ import Button from '../basic/Button';
 import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
 
-export default function VehicleCreate() {
+export default function VehicleModify() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
     const [formData, setFormData] = useState({
@@ -60,7 +60,7 @@ export default function VehicleCreate() {
 
     return (
         <div>
-            <Title imageSrc="/img/car.png" title="차량 추가" />
+            <Title imageSrc="/img/car.png" title="123가 9876" />
             <VehicleForm
                 formData={formData}
                 handleInputChange={handleInputChange}

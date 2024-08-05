@@ -1,23 +1,33 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import data from '../../../data/admin/step/vehicle.json';
-import CarMenu from './CarMenu';
 import Modal from '../basic/Modal';
+import ConfirmModal from '../basic/ConfirmModal';
+import CarMenu from './CarMenu';
+import data from '../../../data/admin/step/vehicle.json';
 
 const VehicleList: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
+    const navigate = useNavigate();
+    const [alertModal, setAlertModal] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);
 
-    const openModal = (id: number) => {
-        setSelectedId(id);
-        setIsModalOpen(true);
-        setIsMenuOpen(false);
+    const openAlertModal = (id: number, model: string, number: string) => {
+        closeMenu();
+        console.log(id)
+        setSelectedPenalty(`선택된 차량: ${model} / ${number}`);
+        setAlertModal(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedId(null);
+    const closeAlertModal = () => {
+        setAlertModal(false);
+        setSelectedPenalty(null);
+    };
+
+    const closeConfirmModal = () => {
+        setConfirmModal(false);
     }
 
     const openMenu = (id: number) => {
@@ -30,8 +40,12 @@ const VehicleList: React.FC = () => {
         setSelectedId(null);
     }
 
+    const goDetailPage = (id: number) => {
+        navigate(`detail/${id}`);
+    }
+
     return (
-        <Container onClick={closeModal}>
+        <Container onClick={closeAlertModal}>
             <Table>
                 <thead>
                     <TableRow>  
@@ -45,7 +59,7 @@ const VehicleList: React.FC = () => {
                 </thead>
                 <tbody>
                     {data.map((item) => (
-                        <TableRow key={item.id}>
+                        <TableRow key={item.id} onClick={() => goDetailPage(item.id)}>
                             <TableCell>
                                 <CarImg src={item.image} />
                             </TableCell>
@@ -59,7 +73,7 @@ const VehicleList: React.FC = () => {
                                     <CarMenu
                                         key={selectedId}
                                         onCloseMenu={closeMenu}
-                                        onOpenModal={() => openModal(item.id)}
+                                        onOpenModal={() => openAlertModal(item.id, item.model, item.number)}
                                         id={selectedId} 
                                     />
                                 )}
@@ -68,11 +82,19 @@ const VehicleList: React.FC = () => {
                     ))}
                 </tbody>
             </Table>
-            {isModalOpen && (
-                <Modal
+            {alertModal && selectedPenalty !== null &&(
+                <ConfirmModal
                     title="정말 삭제하시겠습니까?"
-                    description={`삭제할 페널티의 아이디: ${selectedId}`}
-                    onClose={closeModal}
+                    description={selectedPenalty}
+                    onClose={closeAlertModal}
+                    setIsConfirmed = {setConfirmModal}
+                />
+            )}
+            {confirmModal && (
+                <Modal 
+                    title="삭제되었습니다."
+                    description=""
+                    onClose={closeConfirmModal}
                 />
             )}
         </Container>

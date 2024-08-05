@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import DateString from "../basic/DateString";
 
 interface VehicleReportProps {
     reportData: {
@@ -25,7 +26,7 @@ const VehicleDetailReport: React.FC<VehicleReportProps> = ({ reportData }) => {
                 {reportData.map((item) => (
                     <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.date}</TableCell>
+                    <TableCell>{DateString(item.date)}</TableCell>
                     <TableCellDetail>{item.contents}</TableCellDetail>
                     </TableRow>
                 ))}

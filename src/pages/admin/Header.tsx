@@ -15,7 +15,7 @@ const Header: React.FC = () => {
                 <Menu onClick={() => goPage('/admin/vehicle-step')}>인수 관리</Menu>
                 <Menu onClick={() => goPage('/admin/lottery')}>추첨 관리</Menu>
                 <Menu onClick={() => goPage('/admin/vehicle')}>차량 관리</Menu>
-                <Menu onClick={() => goPage('/admin/admin-test')}>문의 관리</Menu>
+                <Menu onClick={() => goPage('/admin/question')}>문의 관리</Menu>
             </Container>
         </Head>
     );
