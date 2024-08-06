@@ -17,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({ disabled = false, onClick, children }) 
 export default Button;
 
 const StyledButton = styled.button<{ disabled?: boolean }>`
+    margin: 10px;
     padding: 13px 23px;
     border: none;
     border-radius: 20px;

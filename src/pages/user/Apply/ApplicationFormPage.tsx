@@ -58,13 +58,13 @@ const DUMMY_CARS: Car[] = [
     },
 ];
 
-export default function ApplyFormPage() {
+export default function ApplicationFormPage() {
     const [purpose, setPurpose] = useState<string>('여행'); //사용 목적
     const [next, setNext] = useState<boolean>(false);
     const [selectedDates, setSelectedDates] = useState<string[]>([]); //탑승일
     const [selectedCar, setSelectedCar] = useState<Car | null>(null); //탑승할 차량
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
-    const [finished, setFinished] = useState<boolean>(true);
+    const [finished, setFinished] = useState<boolean>(false);
     const datesRef = useRef<string[]>([]);
     const carsRef = useRef<Car[]>(DUMMY_CARS);
     const navigate = useNavigate();
@@ -200,7 +200,6 @@ const Select = styled.select`
 `;
 
 const ButtonContainer = styled.div`
-    margin-top: 15px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
