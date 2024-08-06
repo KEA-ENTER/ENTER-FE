@@ -11,7 +11,7 @@ const SubTitle: React.FC<PageProps> = ({ subTitle }) => {
 const StyledSubTitle = styled.h2`
     width: 100%;
     font-size: 20px;
-    margin: 10px 0px 0px 5px;
+    margin: 12px 0px 5px 5px;
 `;
 
 export default SubTitle;

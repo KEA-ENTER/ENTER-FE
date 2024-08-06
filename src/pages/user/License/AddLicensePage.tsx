@@ -8,7 +8,7 @@ import Section from '../../../components/user/UI/Section';
 import Button from '../../../components/user/UI/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function License() {
+export default function AddLicensePage() {
     const [licenseCode, setLicenseCode] = useState<number | ''>('');
     const [licensePassword, setLicensePassword] = useState<number | ''>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -65,7 +65,9 @@ export default function License() {
                     placeholder="암호 일련번호"
                 />
                 <ButtonContainer>
-                    <Button onClick={handleButtonClick} disabled={isButtonDisabled}>다음</Button>
+                    <Button onClick={handleButtonClick} disabled={isButtonDisabled}>
+                        다음
+                    </Button>
                     {errorMessage && <Error>{errorMessage}</Error>}
                 </ButtonContainer>
             </Section>

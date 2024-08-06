@@ -10,7 +10,7 @@ const Section: React.FC<PageProps> = ({ children }) => {
 };
 
 const StyledSection = styled.h1`
-    margin-top: 10px;
+    // margin-top: 10px;
     color: gray;
     font-weight: 200;
     width: 100%;
