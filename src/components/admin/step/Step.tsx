@@ -31,6 +31,7 @@ export default function Step() {
 }
 
 const Container = styled.div`
+    width: 850px;
 `;
 
 const SearchBoxContainer = styled.div`

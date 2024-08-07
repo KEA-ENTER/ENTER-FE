@@ -31,6 +31,7 @@ export default function Question () {
 }
 
 const Container = styled.div`
+    width: 850px;
 `;
 
 const TitleStyle = styled(Title)`

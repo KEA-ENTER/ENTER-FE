@@ -17,21 +17,26 @@ const AdminLayout: React.FC = () => {
 export default AdminLayout;
 
 const LayoutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    height: 100vh;
+    overflow-x: auto;
 `;
 
 const HeaderLayout = styled(Header)`
-  position: fixed;
-  top: 0px;
-  left: 0;
-  right: 0;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
 `;
 
 const Content = styled.div`
-  margin-top: 50px;
-  width: 850px;
+    margin: 50px 0px 0px 0px;
+    width: 850px;
+    @media (max-width: 850px) {
+        width: 100%;
+    }
 `;

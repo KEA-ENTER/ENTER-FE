@@ -35,19 +35,17 @@ const Head = styled.div`
   z-index: 15;
 `;
 
+const Container = styled.div`
+  display: flex;
+  width: 1000px;
+  margin: 0 auto;
+`;
+
 const Title = styled.div`
   font-size: 16px;
   font-weight: bold;
-  position: absolute;
-  left: calc((100% - 850px) / 2.5);
-  transform: translateX(-50%);
+  margin: 0 20px 0 10px;
   cursor: pointer;
-`;
-
-const Container = styled.div`
-  display: flex;
-  width: 850px;
-  margin: 0 auto;
 `;
 
 const Menu = styled.div`

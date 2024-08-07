@@ -25,7 +25,7 @@ export default function Vehicle() {
     }
 
     return(
-        <div>
+        <Container>
             <Title imageSrc="/img/car.png" title="차량 관리" />
             <SearchBoxContainer>
                 <SearchBox 
@@ -38,9 +38,13 @@ export default function Vehicle() {
             </AddBtnContainer>
             <VehicleList />
             <Pagination totalPages={10} onPageChange={handlePageChange} />
-        </div>
+        </Container>
     );
 }
+
+const Container = styled.div`
+    width: 850px;
+`;
 
 const SearchBoxContainer = styled.div`
     width: 100%;
