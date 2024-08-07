@@ -4,7 +4,6 @@ import Login from './pages/auth/LoginPage';
 import UserPage from './pages/user/UserPage';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminTest from './components/admin/basic/AdminTest';
-import HomePage from './pages/admin/HomePage';
 import VehicleStepPage from './pages/admin/vehicle/VehicleStepPage';
 import RentReportPage from './pages/admin/vehicle-step/RentReportPage';
 import ReturnReportPage from './pages/admin/vehicle-step/ReturnReportPage';
@@ -30,9 +29,8 @@ export default function App() {
                 {role ? (
                     role === 'admin' ? (
                         <Routes>
-                            <Route path='/' element={<HomePage />} />
-                            <Route path='/admin' element={<AdminLayout />}>
-                                <Route path='' element={<AdminHomePage />} />
+                            <Route path='/admin' element={<AdminHomePage />} />
+                            <Route path='/admin/*' element={<AdminLayout />}>
                                 <Route path='admin-test' element={<AdminTest />} />
                                 <Route path='vehicle-step' element={<VehicleStepPage />} />
                                 <Route path='vehicle-step/rent/:id' element={<RentReportPage />} />
