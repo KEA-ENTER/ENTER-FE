@@ -54,7 +54,7 @@ export default function LotteryResult() {
     return (
         <Container>
             <Img alt="sadIcon" src={sad} />
-            <Message>차량 추첨에 당첨됐어요!</Message>
+            <Message>차량 추첨에 미당첨되었어요..</Message>
             <Button>다음 신청일 확인</Button>
         </Container>
     );

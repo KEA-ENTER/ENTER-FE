@@ -4,6 +4,7 @@ import AddLicensePage from './License/AddLicensePage';
 import ApplicationFormPage from './Apply/ApplicationFormPage';
 import CompletedApplicationForm from './Apply/CompletedApplicationForm';
 import LotteryResult from './LotteryResult/LotteryResult';
+import MyPage from './MyPage/MyPage';
 
 const UserRoutes = () => {
     return (
@@ -13,7 +14,7 @@ const UserRoutes = () => {
                 <Route path="application" element={<ApplicationFormPage />} />
                 <Route path="detail" element={<CompletedApplicationForm />} />
                 <Route path="lottery-result" element={<LotteryResult />} />
-
+                <Route path="mypage" element={<MyPage />} />
             </Route>
         </Routes>
     );
