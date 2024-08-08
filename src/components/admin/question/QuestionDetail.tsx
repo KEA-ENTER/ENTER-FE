@@ -35,7 +35,9 @@ export default function QuestionDetail() {
     );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+    width: 850px;
+`;
 
 const TitleStyle = styled(Title)`
     margin: 10px 0px;

@@ -33,7 +33,6 @@ const LotteryDetailList: React.FC = () => {
 
 export default LotteryDetailList;
 
-// Style
 const Container = styled.div`
     padding: 10px 0px 20px 0px;
     border-radius: 0px;

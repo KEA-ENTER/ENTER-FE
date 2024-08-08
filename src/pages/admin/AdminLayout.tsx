@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import BreadcrumbsMenu from './BreadCrumbsMenu';
 
 const AdminLayout: React.FC = () => {
     return (
         <LayoutContainer>
             <HeaderLayout />
             <Content>
+                <BreadcrumbsMenu />
                 <Outlet />
             </Content>
         </LayoutContainer>

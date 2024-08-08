@@ -68,7 +68,6 @@ const Menu = styled.div<{ isSelected: boolean }>`
   cursor: pointer;
   font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
   &:hover {
-    font-weight: bold;
-    color: #232D63;
+    color: #303570;
   }
 `;

@@ -59,7 +59,7 @@ export default function VehicleCreate() {
     };
 
     return (
-        <div>
+        <Container>
             <Title imageSrc="/img/car.png" title="차량 추가" />
             <VehicleForm
                 formData={formData}
@@ -89,12 +89,16 @@ export default function VehicleCreate() {
                     onClose={closeModal}
                 />
             )}
-        </div>
+        </Container>
     );
 }
 
+const Container = styled.div`
+    width: 850px;
+`;
+
 const ButtonContainer = styled.div`
-    margin: 20px;
+    margin: 10px;
     display: flex;
     justify-content: flex-end;
 `;

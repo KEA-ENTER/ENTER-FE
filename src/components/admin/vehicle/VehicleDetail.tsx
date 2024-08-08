@@ -38,16 +38,20 @@ export default function VehicleDetail() {
     }
 
     return(
-        <div>
+        <Container>
             <Title imageSrc="/img/car.png" title="123가 5678" />
             <VehicleDetailInfo vehicleData={vehicleData} />
             <VehicleDetailReport reportData={reportData} />
             <ButtonContainer>
                 <Button text="확인" onClick={confirmBtn} />
             </ButtonContainer>
-        </div>
+        </Container>
     );
 }
+
+const Container = styled.div`
+    width: 850px;
+`;
 
 const ButtonContainer = styled.div`
     margin: 20px;
