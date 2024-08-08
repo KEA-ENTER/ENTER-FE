@@ -23,8 +23,8 @@ export default function LotteryDetail () {
     }
     return(
         <Container>
-            <Title imageSrc="/img/vehicle-step.png" title="신청 내역" />
-            <DetailTitle>{round}회차 / {DateString(date)} / {id}</DetailTitle>
+            <Title imageSrc="/img/vehicle-step.png" title="추첨 관리" />
+            <DetailTitle>{`신청 내역: ${round}회차 / ${DateString(date)} / ${id}`}</DetailTitle>
             <SearchBoxContainer>
                 <SearchBox
                     menuItems={['아이디', '신청자명', '결과']}
@@ -38,6 +38,7 @@ export default function LotteryDetail () {
 }
 
 const Container = styled.div`
+    width: 850px;
 `;
 
 const DetailTitle = styled.div`

@@ -30,7 +30,7 @@ export default CarMenu;
 
 const DropdownList = styled.div`
     position: absolute;
-    transform: translate(20%, -40%);
+    transform: translate(20%, -60%);
     width: 100px;
     list-style: none;
     border: 1px solid #68686868;

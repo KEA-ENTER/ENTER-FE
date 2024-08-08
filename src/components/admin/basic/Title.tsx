@@ -19,12 +19,12 @@ export default Title;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px 0px 10px 0px;
+  padding: 8px 0px 8px 0px;
 `;
 
 const Image = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   margin-right: 10px;
 `;
 

@@ -31,6 +31,7 @@ export default function Lottery () {
 }
 
 const Container = styled.div`
+    width: 850px;
 `;
 
 const TitleStyle = styled(Title)`

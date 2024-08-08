@@ -59,8 +59,8 @@ export default function VehicleModify() {
     };
 
     return (
-        <div>
-            <Title imageSrc="/img/car.png" title="123가 9876" />
+        <Container>
+            <Title imageSrc="/img/car.png" title="차량 수정하기" />
             <VehicleForm
                 formData={formData}
                 handleInputChange={handleInputChange}
@@ -89,12 +89,16 @@ export default function VehicleModify() {
                     onClose={closeModal}
                 />
             )}
-        </div>
+        </Container>
     );
 }
 
+const Container = styled.div`
+    width: 850px;
+`;
+
 const ButtonContainer = styled.div`
-    margin: 20px;
+    margin: 10px;
     display: flex;
     justify-content: flex-end;
 `;

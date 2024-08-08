@@ -21,16 +21,20 @@ export default function RentReport() {
     }
 
     return(
-        <div>
+        <Container>
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <ReportInfo vehicleInfo={vehicleData}/>
             <Penalty />
             <ButtonContainer>
-                <Button onClick={goStep} text={"확인"} />
+                <Button onClick={goStep} text={"목록"} />
             </ButtonContainer>
-        </div>
+        </Container>
     );
 }
+
+const Container = styled.div`
+    width: 850px;
+`;
 
 const ButtonContainer = styled.div`
     margin: 20px;
