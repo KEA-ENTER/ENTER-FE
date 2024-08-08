@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import useUserStore from '../../stores/userStore';
 
 interface LoginProps {
     onLoginSuccess: (role: string) => void;
@@ -9,21 +11,36 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
-        const response = await fetch('http://your-server-url/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+    const setUser = useUserStore((state) => state.setUser);
 
-        if (response.ok) {
-            const { token } = await response.json();
-            localStorage.setItem('jwt', token);
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            onLoginSuccess(payload.role);
-        } else {
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(
+                'https://moaboa.shop/auth/login',
+                {
+                    email: username,
+                    password: password,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
+
+            if (response.status === 200) {
+                console.log(response);
+                const { accessToken, refreshToken, name } = response.data;
+                sessionStorage.setItem('accessToken', accessToken);
+                document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+                const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
+                const role = decodedToken.role;
+                setUser(name, accessToken, role);
+                onLoginSuccess(role);
+            } else {
+                alert('Login failed');
+            }
+        } catch (error) {
             alert('Login failed');
         }
     };
@@ -34,7 +51,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                 <SubTitle>회사 법인차량,</SubTitle>
                 <MainTitle>탈까?</MainTitle>
             </TitleContainer>
-            <Body>
+            <Article>
                 <Input
                     value={username}
                     type="text"
@@ -48,7 +65,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button onClick={handleLogin}>로그인</Button>
-            </Body>
+            </Article>
             <Disc>· 이메일, 비밀번호를 입력해주세요</Disc>
         </Container>
     );
@@ -57,7 +74,6 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 const Container = styled.div`
     height: 100vh;
     max-width: 500px;
-    // border: 1px solid red;
     margin: 0 auto;
     padding: 0 24px;
     padding-top: 20vh;
@@ -69,19 +85,21 @@ const Container = styled.div`
 const TitleContainer = styled.div`
     width: 100%;
 `;
+
 const SubTitle = styled.h2`
     width: 100%;
-    decoration: none;
     font-weight: 300;
     color: gray;
 `;
+
 const MainTitle = styled.h1`
-    // width: 90%;
     font-size: 60px;
 `;
 
-const Body = styled.div`
+
+const Article = styled.article`
     // border: 1px solid red;
+
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -114,6 +132,5 @@ const Disc = styled.div`
     color: gray;
     font-weight: 200;
     width: 100%;
-
     padding-left: 10px;
 `;
