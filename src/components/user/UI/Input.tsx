@@ -20,10 +20,10 @@ export default Input;
 
 const StyledInput = styled.input`
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 200;
     border: 1px solid black;
     border-radius: 8px;
-    padding: 15px;
+    padding: 8px;
     margin-bottom: 20px;
 `;

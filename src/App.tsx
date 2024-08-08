@@ -15,7 +15,7 @@ export default function App() {
         <Router>
             <div>
                 {role ? (
-                    role === 'admin' ? (
+                    role === 'user' ? (
                         <AdminRoutes />
                     ) : (
                         <UserRoutes />

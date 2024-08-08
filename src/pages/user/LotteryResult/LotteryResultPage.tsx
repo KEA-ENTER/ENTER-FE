@@ -11,7 +11,7 @@ interface Response {
     waitting: number | null;
 }
 
-export default function LotteryResult() {
+export default function LotteryResultPage() {
     const [state, setState] = useState<number>();
     const [watting, setWatting] = useState<number | null>(3);
 
