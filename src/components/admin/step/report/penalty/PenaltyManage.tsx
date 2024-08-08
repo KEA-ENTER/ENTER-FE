@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import Button from '../../../basic/Button';
 import Modal from '../../../basic/Modal';
+import ConfirmModal from '../../../basic/ConfirmModal';
 import PenaltyMenu from './PenaltyMenu';
 
 const PenaltyManage: React.FC = () => {
@@ -10,6 +11,8 @@ const PenaltyManage: React.FC = () => {
     const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
+    const [alertModal, setAlertModal] = useState(false);
+    const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
     const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
     const [openLevelIndex, setOpenLevelIndex] = useState<number | null>(null);
 
@@ -39,8 +42,21 @@ const PenaltyManage: React.FC = () => {
         setErrorModal(false);
     };
 
+    const openAlertModal = () => {
+        setAlertModal(true);
+    };
+
+    const closeAlertModal = () => {
+        setAlertModal(false);
+    };
+
     const closeConfirmModal = () => {
         setConfirmModal(false);
+    }
+
+    const closeConfirmDeleteModal = () => {
+        clearPenalties();
+        setConfirmDeleteModal(false);
     };
 
     return (
@@ -74,7 +90,7 @@ const PenaltyManage: React.FC = () => {
             <AddPenaltyText onClick={addPenalty}>페널티 추가하기</AddPenaltyText>
             <ButtonContainer>
                 <ButtonWrapper>
-                    <Button onClick={clearPenalties} text={"모두 삭제"} />
+                    <Button onClick={openAlertModal} text={"모두 삭제"} />
                 </ButtonWrapper>
                 <ButtonWrapper>
                     <Button text="확인" onClick={uploadPenalties} />
@@ -94,6 +110,21 @@ const PenaltyManage: React.FC = () => {
                     onClose={closeConfirmModal} 
                 />
             }
+            {alertModal &&(
+                <ConfirmModal
+                    title="정말 삭제하시겠습니까?"
+                    description={''}
+                    onClose={closeAlertModal}
+                    setIsConfirmed = {setConfirmDeleteModal}
+                />
+            )}
+            {confirmDeleteModal && (
+                <Modal 
+                    title="삭제되었습니다."
+                    description=""
+                    onClose={closeConfirmDeleteModal}
+                />
+            )}
         </PenaltyContainer>
     );
 };
