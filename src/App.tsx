@@ -5,7 +5,7 @@ import UserRoutes from './pages/user/UserRoutes';
 import AdminRoutes from './pages/admin/AdminRoutes';
 
 export default function App() {
-    const [role, setRole] = useState<string | null>('admin');
+    const [role, setRole] = useState<string | null>('user');
 
     const handleLoginSuccess = (role: string) => {
         setRole(role);

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import AdminHomePage from './AdminHomePage';
 import AdminLayout from './AdminLayout';
 import AdminTest from '../../components/admin/basic/AdminTest';
@@ -15,9 +15,11 @@ import QuestionPage from './question/QuestionPage';
 import QuestionDetailPage from './question/QuestionDetailPage';
 
 const AdminRoutes = () => {
+    
     return (
         <Routes>
             <Route path='/admin' element={<AdminHomePage />} />
+            <Route path="/user/*" element={<Navigate to="/" />} />
             <Route path='/admin/*' element={<AdminLayout />}>
                 <Route path='admin-test' element={<AdminTest />} />
                 <Route path='vehicle-step' element={<VehicleStepPage />} />
