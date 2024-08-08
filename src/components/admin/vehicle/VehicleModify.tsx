@@ -60,7 +60,7 @@ export default function VehicleModify() {
 
     return (
         <div>
-            <Title imageSrc="/img/car.png" title="123가 9876" />
+            <Title imageSrc="/img/car.png" title="차량 수정하기" />
             <VehicleForm
                 formData={formData}
                 handleInputChange={handleInputChange}
