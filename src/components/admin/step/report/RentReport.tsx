@@ -26,7 +26,7 @@ export default function RentReport() {
             <ReportInfo vehicleInfo={vehicleData}/>
             <Penalty />
             <ButtonContainer>
-                <Button onClick={goStep} text={"확인"} />
+                <Button onClick={goStep} text={"목록"} />
             </ButtonContainer>
         </Container>
     );

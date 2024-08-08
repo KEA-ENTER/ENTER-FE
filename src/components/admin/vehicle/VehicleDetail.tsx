@@ -43,7 +43,7 @@ export default function VehicleDetail() {
             <VehicleDetailInfo vehicleData={vehicleData} />
             <VehicleDetailReport reportData={reportData} />
             <ButtonContainer>
-                <Button text="확인" onClick={confirmBtn} />
+                <Button text="목록" onClick={confirmBtn} />
             </ButtonContainer>
         </Container>
     );
