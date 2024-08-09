@@ -6,6 +6,8 @@ import CompletedApplicationForm from './Apply/CompletedApplicationForm';
 import LotteryResultPage from './LotteryResult/LotteryResultPage';
 import MyPage from './MyPage/MyPage';
 import QuestionListPage from './Question/QuestionListPage';
+import QuestionWritePage from './Question/QuestionWritePage';
+import QuestionDetailPage from './Question/QuestionDetailPage';
 
 const UserRoutes = () => {
     return (
@@ -17,6 +19,8 @@ const UserRoutes = () => {
                 <Route path="lottery-result" element={<LotteryResultPage />} />
                 <Route path="mypage" element={<MyPage />} />
                 <Route path="question" element={<QuestionListPage />} />
+                <Route path="write" element={<QuestionWritePage />} />
+                <Route path="questiondetail" element={<QuestionDetailPage />} />
             </Route>
         </Routes>
     );
