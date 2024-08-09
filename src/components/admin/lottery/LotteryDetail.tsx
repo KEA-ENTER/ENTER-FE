@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import DateString from "../basic/DateString";
@@ -12,15 +12,11 @@ export default function LotteryDetail () {
     const { round } = useParams<{ round: string }>();
     const { date } = useParams<{ date: string }>();
     const { id } = useParams<{ id: string }>();
-    const [page, setPage] = useState(1);
+
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
     }
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
-    }
+
     return(
         <Container>
             <Title imageSrc="/img/vehicle-step.png" title="추첨 관리" />
@@ -32,7 +28,7 @@ export default function LotteryDetail () {
                 />
             </SearchBoxContainer>
             <LotteryDetailList />
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <Pagination totalPages={10} />
         </Container>
     );
 }

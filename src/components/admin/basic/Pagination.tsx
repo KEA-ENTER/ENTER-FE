@@ -4,14 +4,13 @@ import styled from 'styled-components';
 
 interface PaginationProps {
     totalPages: number;
-    onPageChange: (page: number) => void;
 }
 
 function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const query = Query();
@@ -23,7 +22,6 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => 
         navigate({
             search: query.toString(),
         });
-        onPageChange(page);
     };
 
     const renderPages = () => {

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Title from "../basic/Title";
 import Pagination from "../basic/Pagination";
@@ -6,15 +5,10 @@ import SearchBox from "../../common/SearchBox";
 import StepList from "./StepList";
 
 export default function Step() {
-    const [page, setPage] = useState(1);
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
     }
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
-    }
+
     return(
         <Container>
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
@@ -25,7 +19,7 @@ export default function Step() {
                 />
             </SearchBoxContainer>
             <StepList />
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <Pagination totalPages={10} />
         </Container>
     );
 }

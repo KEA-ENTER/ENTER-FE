@@ -21,14 +21,7 @@ function AdminTest() {
     const closeModal = () => {
       setIsModalOpen(false);
     };
-
-    const [page, setPage] = useState(1);
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
-    }
-
+    
     return(
         <div>
             <Header />
@@ -52,7 +45,7 @@ function AdminTest() {
             <Image imageUrl="https://example.com/valid-image.jpg" />
 
 
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <Pagination totalPages={10}/>
         </div>
     );
 }

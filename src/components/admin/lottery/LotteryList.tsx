@@ -1,13 +1,32 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DateString from '../basic/DateString';
 import lotteryData from '../../../data/admin/lottery/lottery.json'
+import { useEffect } from 'react';
+import LotteryListModel from './model/LotteryListModel';
+
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const LotteryList: React.FC = () => {
     const navigate = useNavigate();
     const goLotteryDetail = (round: number, date: string, vehicleModel: string) => {
         navigate(`/admin/lottery/detail/${round}/${date}/${vehicleModel}`)
     }
+    const query = Query();
+
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+
+    useEffect(() => {
+        LotteryListModel(word, type, page).then(res => {
+            if (res) {
+                console.log(res);
+            }
+        });
+    }, [type, word, page]);
 
     return (
         <Container>

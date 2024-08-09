@@ -20,7 +20,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const query = Query();
 
     const handleSearch = () => {
-        query.set(selectedItem, searchText);
+        query.set("type", selectedItem);
+        query.set("q", searchText);
         navigate({
             search: query.toString(),
         });

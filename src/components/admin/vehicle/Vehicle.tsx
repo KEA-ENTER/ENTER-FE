@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../basic/Title";
@@ -8,16 +7,10 @@ import Button from "../basic/Button";
 import VehicleList from "./VehicleList";
 
 export default function Vehicle() {
-    const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
-    }
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
     }
 
     const goVehicleCreate = () => {
@@ -37,7 +30,7 @@ export default function Vehicle() {
                 <Button text="차량 추가하기" onClick={goVehicleCreate}/> 
             </AddBtnContainer>
             <VehicleList />
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <Pagination totalPages={10} />
         </Container>
     );
 }
