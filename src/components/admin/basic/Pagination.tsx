@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface PaginationProps {
@@ -6,12 +7,22 @@ interface PaginationProps {
     onPageChange: (page: number) => void;
 }
 
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
+
 const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => {
     const [currentPage, setCurrentPage] = useState(1);
-
+    const navigate = useNavigate();
+    const query = Query();
+    
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
+        query.set("page", page.toString());
+        navigate({
+            search: query.toString(),
+        });
         onPageChange(page);
     };
 

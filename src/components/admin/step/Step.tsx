@@ -20,7 +20,7 @@ export default function Step() {
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['차량 정보', '인수자명', '상태']}
+                    menuItems={['차량정보', '인수자명', '상태']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>

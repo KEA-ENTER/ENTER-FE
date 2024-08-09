@@ -20,7 +20,7 @@ export default function Lottery () {
             <TitleStyle imageSrc="/img/lottery.png" title="추첨 관리" />
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['회차', '차량 정보']}
+                    menuItems={['회차', '차량정보']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>

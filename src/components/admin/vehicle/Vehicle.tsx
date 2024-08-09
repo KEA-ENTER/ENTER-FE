@@ -29,7 +29,7 @@ export default function Vehicle() {
             <Title imageSrc="/img/car.png" title="차량 관리" />
             <SearchBoxContainer>
                 <SearchBox 
-                    menuItems={['모델', '차량 번호', '상태']}
+                    menuItems={['모델', '차량번호', '상태']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>

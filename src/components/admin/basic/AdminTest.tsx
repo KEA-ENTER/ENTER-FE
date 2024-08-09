@@ -34,7 +34,7 @@ function AdminTest() {
             <Header />
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBox 
-                menuItems={['Option 1', 'Option 2', 'Option 3']}
+                menuItems={['Option1', 'Option2', 'Option3']}
                 onSearch={handleSearch}
             />
             <Button text="열기" onClick={openModal} />
