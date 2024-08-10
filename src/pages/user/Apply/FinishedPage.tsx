@@ -3,7 +3,7 @@ import congratulation from '../../../img/icon/congratulation.png';
 import Button from '../../../components/user/UI/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function Finished() {
+export default function FinishedPage() {
     const navigate = useNavigate();
 
     const handleButtonClick = () => {

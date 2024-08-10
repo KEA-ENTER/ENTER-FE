@@ -7,7 +7,7 @@ import Button from '../../../components/user/UI/Button';
 import { useNavigate } from 'react-router-dom';
 import CheckBoxOption from './CheckBoxOption';
 import CarOption from './CarOption';
-import Finished from './Finished';
+import FinishedPage from './FinishedPage';
 
 interface Car {
     id: number;
@@ -128,7 +128,7 @@ export default function ApplicationFormPage() {
     if (!isDataLoaded) {
         return <div>로딩 중...</div>;
     } else if (finished) {
-        return <Finished />;
+        return <FinishedPage />;
     }
 
     return (
