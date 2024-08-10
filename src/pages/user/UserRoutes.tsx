@@ -9,6 +9,7 @@ import QuestionListPage from './Question/QuestionListPage';
 import QuestionWritePage from './Question/QuestionWritePage';
 import QuestionDetailPage from './Question/QuestionDetailPage';
 import RentPage from './RentReturn/RentPage';
+import ReturnPage from './RentReturn/ReturnPage';
 
 const UserRoutes = () => {
     return (
@@ -22,7 +23,8 @@ const UserRoutes = () => {
                 <Route path="question" element={<QuestionListPage />} />
                 <Route path="write" element={<QuestionWritePage />} />
                 <Route path="questiondetail" element={<QuestionDetailPage />} />
-                <Route path="rent/:page" element={<RentPage />} /> {/* 동적 경로 설정 */}
+                <Route path="rent/:page" element={<RentPage />} />
+                <Route path="return/:page" element={<ReturnPage />} />
             </Route>
         </Routes>
     );

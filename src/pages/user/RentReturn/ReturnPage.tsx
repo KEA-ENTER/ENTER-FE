@@ -10,8 +10,9 @@ import VehiclePhotoUpload from '../../../components/user/RentReturn/VehiclePhoto
 import DashboardPhotoUpload from '../../../components/user/RentReturn/DashboardPhotoUpload';
 import SpecialNotes from '../../../components/user/RentReturn/SpecialNotes';
 import Complite from '../../../components/user/RentReturn/Complite';
+import ParkingInput from '../../../components/user/RentReturn/ParkingInput';
 
-export default function RentPage() {
+export default function ReturnPage() {
     const navigate = useNavigate();
     const { page } = useParams<{ page: string }>();
     const currentPage = parseInt(page || '1', 10);
@@ -53,6 +54,10 @@ export default function RentPage() {
         setNotes(e.target.value);
     };
 
+    const handleParkingInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNotes(e.target.value);
+    };
+
     const handleSubmit = async () => {
         const formData = new FormData();
 
@@ -73,7 +78,7 @@ export default function RentPage() {
             });
 
             if (response.status === 200) {
-                navigate(`/rent/${currentPage + 1}`);
+                navigate(`/return/${currentPage + 1}`);
             } else {
                 console.error('서버 오류:', response.statusText);
                 alert('데이터 전송에 실패했습니다.');
@@ -88,20 +93,20 @@ export default function RentPage() {
         if (currentPage === 4) {
             handleSubmit();
         } else if (currentPage < 5) {
-            navigate(`/rent/${currentPage + 1}`);
+            navigate(`/return/${currentPage + 1}`);
         }
     };
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
-            navigate(`/rent/${currentPage - 1}`);
+            navigate(`/return/${currentPage - 1}`);
         }
     };
 
     const renderContent = () => {
         switch (currentPage) {
             case 1:
-                return <Guidelines />;
+                return <Guidelines type="return" />;
             case 2:
                 return (
                     <VehiclePhotoUpload
@@ -121,19 +126,20 @@ export default function RentPage() {
             case 4:
                 return <SpecialNotes value={notes} onChange={handleNotesChange} />;
             case 5:
-                return <Complite />;
+                return <ParkingInput value={notes} onChange={handleParkingInputChange} />;
+
             default:
                 return <SubTitle subTitle="잘못된 접근입니다." />;
         }
     };
 
-    if (currentPage === 5) {
-        return <Complite />;
+    if (currentPage === 6) {
+        return <Complite type="return" />;
     }
 
     return (
         <Container>
-            <Title title="차량 대여" />
+            <Title title="차량 반납" />
             {renderContent()}
             <ButtonContainer>
                 <Button onClick={handlePreviousPage} disabled={currentPage === 1}>

@@ -1,17 +1,24 @@
 import styled from 'styled-components';
 import Check from '../../../img/icon/Check.png';
 import Button from '../UI/Button';
+import React from 'react';
 
-export default function Complite() {
+interface CompliteProps {
+    type: 'rent' | 'return';
+}
+
+const Complite: React.FC<CompliteProps> = ({ type }) => {
     return (
         <CompliteContainer>
             <Img src={Check} />
-            <SubTitle>주행 준비가 완료되었어요.</SubTitle>
-            <Disc>탈까와 함께 행복한 운전 하세요!</Disc>
-            <Button>신청내역 확인</Button>
+            <SubTitle>{type === 'rent' ? '주행 준비가 완료되었어요' : '차량 반납이 완료되었어요'}</SubTitle>
+            <Disc>{type === 'rent' ? '탈까와 함께 행복한 운전 하세요!' : '행복한 주행이었길 바라요!'}</Disc>
+            {type === 'rent' ? <Button>신청내역 확인</Button> : null}
         </CompliteContainer>
     );
-}
+};
+
+export default Complite;
 
 const CompliteContainer = styled.div`
     width: 100%;

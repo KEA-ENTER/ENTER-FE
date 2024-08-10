@@ -100,7 +100,7 @@ export default function RentPage() {
     const renderContent = () => {
         switch (currentPage) {
             case 1:
-                return <Guidelines />;
+                return <Guidelines type="rent" />;
             case 2:
                 return (
                     <VehiclePhotoUpload
@@ -119,15 +119,13 @@ export default function RentPage() {
                 return <DashboardPhotoUpload uploaded={uploaded.dashboard} onUpload={handleDashboardUpload} />;
             case 4:
                 return <SpecialNotes value={notes} onChange={handleNotesChange} />;
-            case 5:
-                return <Complite />;
             default:
                 return <SubTitle subTitle="잘못된 접근입니다." />;
         }
     };
 
     if (currentPage === 5) {
-        return <Complite />;
+        return <Complite type="rent" />;
     }
 
     return (
