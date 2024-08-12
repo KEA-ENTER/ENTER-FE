@@ -1,22 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
-import data from '../../../../../data/admin/step/penalty.json';
+import PenaltyListModel from '../../model/PenaltyListModel';
+import DateString from '../../../basic/DateString';
+import PenaltyDeleteModel from '../../model/PenaltyDeleteModel';
 
-const PenaltyList: React.FC = () => {
+interface PenaltyItem{
+    penaltyId: number,
+    createdAt: string,
+    reason: string,
+    level: string,
+    etc: string
+}
+
+interface IdProps {
+    memberId: number;
+}
+
+const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);
+    const [penaltyList, setPenaltyList] = useState<PenaltyItem[]>([]);
+    const [selectedPenaltyId, setSelectedPenaltyId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchPenaltyData = async () => {
+            const res = await PenaltyListModel(memberId);
+            if (res) {
+                setPenaltyList(res);
+            }
+        };
+        fetchPenaltyData();
+    }, [memberId]);
+
+    const fetchPenaltyDeleteData = async (penaltyId: number | null) => {
+        const res = await PenaltyDeleteModel(memberId, penaltyId);
+        if (!res) {
+            window.alert("실패");
+        }
+    };
 
     const openAlertModal = (id: number, category: string, level: string) => {
-        console.log(id)
         setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
+        setSelectedPenaltyId(id);
         setAlertModal(true);
     };
 
     const closeAlertModal = () => {
+        if (selectedPenalty) {
+            fetchPenaltyDeleteData(selectedPenaltyId);
+        }
         setAlertModal(false);
+        setSelectedPenaltyId(null);
         setSelectedPenalty(null);
     };
 
@@ -38,14 +75,14 @@ const PenaltyList: React.FC = () => {
             </TableRow>
             </thead>
             <tbody>
-            {data.map((item) => (
-                <TableRow key={item.id}>
-                <TableCell>{item.category}</TableCell>
+            {penaltyList.map((item, idx) => (
+                <TableRow key={idx}>
+                <TableCell>{item.reason}</TableCell>
                 <TableCell>{item.level}</TableCell>
-                <TableCell>{item.date}</TableCell>
-                <TableCellDetail>{item.detail}</TableCellDetail>
+                <TableCell>{DateString(item.createdAt)}</TableCell>
+                <TableCellDetail>{item.etc}</TableCellDetail>
                 <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(item.id, item.category, item.level)}>삭제</DeleteButton>
+                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level)}>삭제</DeleteButton>
                 </TableCell>
                 </TableRow>
             ))}

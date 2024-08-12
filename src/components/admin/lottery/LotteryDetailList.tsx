@@ -1,8 +1,44 @@
 import styled from 'styled-components';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import DateString from '../basic/DateString';
-import data from '../../../data/admin/lottery/lotteryDetail.json';
+import IdString from '../basic/IdString';
+import { useEffect, useState } from 'react';
+import LotteryDetailListModel from './model/LotteryDetailListModel';
+import Pagination from '../basic/Pagination';
+
+interface LotteryDetailItem {
+    email: string;
+    name: string;
+    purpose: string;
+    isWinning: boolean;
+    applyTime: string;
+}
+
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const LotteryDetailList: React.FC = () => {
+    const [lotteryDetailData, setLotteryData] = useState<LotteryDetailItem[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const query = Query();
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+    const { applyRound } = useParams<{ id: string }>();
+   
+    useEffect(() => {
+        const pageNum = parseInt(page) - 1;
+
+        LotteryDetailListModel(word, type, pageNum, applyRound).then(res => {
+            if (res) {
+                setLotteryData(res.applicantList); 
+                setTotalPage(res.totalPages);
+            }
+        });
+    }, [type, word, page]);
+
     return (
         <Container>
             <Table>
@@ -16,17 +52,18 @@ const LotteryDetailList: React.FC = () => {
                     </TableRow>
                 </thead>
                 <tbody>
-                    {data.map((item) => (
-                        <TableRow key={item.id}>
-                            <TableCell>{item.userId}</TableCell>
-                            <TableCell>{item.userName}</TableCell>
+                    {lotteryDetailData.map((item, idx) => (
+                        <TableRow key={idx}>  
+                            <TableCell>{IdString(item.email)}</TableCell>
+                            <TableCell>{item.name}</TableCell>
                             <TableCell>{item.purpose}</TableCell>
-                            <TableCell>{item.result}</TableCell>
-                            <TableCell>{DateString(item.date)}</TableCell>
+                            <TableCell>{item.isWinning ? '당첨' : '미당첨'}</TableCell>                            
+                            <TableCell>{DateString(item.applyTime)}</TableCell>
                         </TableRow>
                     ))}
                 </tbody>
             </Table>
+            <Pagination totalPages={totalPage} />
     </Container>
   );
 };

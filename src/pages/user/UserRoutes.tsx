@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from '../../components/user/Layout/Layout';
 import AddLicensePage from './License/AddLicensePage';
@@ -12,6 +13,10 @@ import RentPage from './RentReturn/RentPage';
 import ReturnPage from './RentReturn/ReturnPage';
 
 const UserRoutes = () => {
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <Routes>
             <Route path="/" element={<Layout />}>

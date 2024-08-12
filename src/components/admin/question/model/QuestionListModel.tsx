@@ -1,17 +1,20 @@
 import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
 // name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
-const LotteryListModel = async (name: string, type: string, page: number) => {
+const QuestionListModel = async (name: string, type: string, page: number) => {
     setAuthorizationToken();
 
     // 프론트에서 사용하는 한글로 된 검색 키워드를 서버용으로 변환
     let typeEng = "ALL";
     switch (type) {
-        case "회차":
-            typeEng = "ROUND";
+        case "카테고리":
+            typeEng = "CATEGORY";
             break;
-        case "차량정보":
-            typeEng = "VEHICLE";
+        case "상태":
+            typeEng = "STATE";
+            break;
+        case "작성자":
+            typeEng = "WRITER";
             break;
         default:
             break;
@@ -21,12 +24,10 @@ const LotteryListModel = async (name: string, type: string, page: number) => {
     // import.meta.env.VITE_SERVER_URL: 우리 서버 url
     // api.get => api: 다현이가 작성한 axios 모듈(안에 디폴트로 토큰이 들어가 있음) / get: http 메소드 종류 - post, patch 등으로 변경 가능
     try {
-        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/lotteries`, {
+        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/questions/list/${page}`, {
             params: {
               keyword: name,
               searchType: typeEng,
-              page: page,
-              size: 8,
             },
         });
         
@@ -38,4 +39,4 @@ const LotteryListModel = async (name: string, type: string, page: number) => {
     }
 };
 
-export default LotteryListModel;
+export default QuestionListModel;

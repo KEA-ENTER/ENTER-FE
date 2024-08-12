@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import 차량신청 from '../../../img/icon/car.png';
 import 통계 from '../../../img/icon/chart.png';
 import 차량인수 from '../../../img/icon/key.png';
@@ -6,8 +7,12 @@ import 문의 from '../../../img/icon/message.png';
 import 내정보 from '../../../img/icon/user.png';
 
 export default function NavBar() {
+    const location = useLocation();
+
+    const isLicensePage = location.pathname === '/license';
+
     return (
-        <Nav>
+        <Nav isHidden={isLicensePage}>
             <Button>
                 <Img alt="차량신청 아이콘" src={차량신청} />
                 <Title>차량신청</Title>
@@ -34,10 +39,11 @@ export default function NavBar() {
     );
 }
 
-const Nav = styled.nav`
+// Nav 컴포넌트의 display 속성을 isHidden prop에 따라 설정합니다.
+const Nav = styled.nav<{ isHidden: boolean }>`
     width: 100%;
     height: 90px;
-    display: flex;
+    display: ${({ isHidden }) => (isHidden ? 'none' : 'flex')};
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 80px;

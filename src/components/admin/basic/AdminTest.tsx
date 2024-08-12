@@ -21,20 +21,13 @@ function AdminTest() {
     const closeModal = () => {
       setIsModalOpen(false);
     };
-
-    const [page, setPage] = useState(1);
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
-    }
-
+    
     return(
         <div>
             <Header />
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBox 
-                menuItems={['Option 1', 'Option 2', 'Option 3']}
+                menuItems={['Option1', 'Option2', 'Option3']}
                 onSearch={handleSearch}
             />
             <Button text="열기" onClick={openModal} />
@@ -52,7 +45,7 @@ function AdminTest() {
             <Image imageUrl="https://example.com/valid-image.jpg" />
 
 
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <Pagination totalPages={10}/>
         </div>
     );
 }
