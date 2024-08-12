@@ -5,7 +5,11 @@ import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
 import PenaltyMenu from './PenaltyMenu';
 
-const PenaltyManage: React.FC = () => {
+interface IdProps {
+    memberId: number;
+}
+
+const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
     const menuItems = ['미인수', '사용불량', '사용잘함', '사용사용'];
     const levelItems = ['작은페널티', '적당페널티', '개큰페널티'];
     const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);

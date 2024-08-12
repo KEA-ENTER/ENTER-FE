@@ -1,45 +1,27 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from '../../basic/Image';
 import DateString from '../../basic/DateString';
-import RentReportModel from '../model/RentReportModel';
-import { useParams } from 'react-router-dom';
 
 interface VehicleInfo {
-    reportId: number;
-    memberId: number;
-    takeDate: string;
-    returnDate: string;
-    reportTime: string;
-    memberName: string;
-    reportImageList: {
-        dashboardImg: string;
-        frontImg: string;
-        backImg: string;
-        leftImg: string;
-        rightImg: string;
-    };
-    vehicleNote: string;
+    rentData: {
+        reportId: number;
+        memberId: number;
+        takeDate: string;
+        returnDate: string;
+        reportTime: string;
+        memberName: string;
+        reportImageList: {
+            dashboardImg: string;
+            frontImg: string;
+            backImg: string;
+            leftImg: string;
+            rightImg: string;
+        };
+        vehicleNote: string;
+    }
 }
 
-const RentInfo: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [rentData, setRentData] = useState<VehicleInfo | undefined>(undefined);
-
-    useEffect(() => {
-        const fetchRentData = async () => {
-            const res = await RentReportModel(id || '-1');
-            if (res) {
-                setRentData(res);
-            }
-        };
-        fetchRentData();
-    }, [id]);
-
-    if (!rentData) {
-        return <Container>보고서가 존재하지 않습니다.</Container>;
-    }
-
+const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
     return (
         <Container>
             <InfoWrapper>

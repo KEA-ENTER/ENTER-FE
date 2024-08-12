@@ -4,7 +4,11 @@ import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
 import data from '../../../../../data/admin/step/penalty.json';
 
-const PenaltyList: React.FC = () => {
+interface IdProps {
+    memberId: number;
+}
+
+const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);

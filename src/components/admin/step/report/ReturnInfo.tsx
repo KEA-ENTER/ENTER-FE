@@ -1,46 +1,28 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from '../../basic/Image';
 import DateString from '../../basic/DateString';
-import { useParams } from 'react-router-dom';
-import ReturnReportModel from '../model/ReturnReportModel';
 
 interface VehicleInfo {
-    reportId: number;
-    memberId: number;
-    takeDate: string;
-    returnDate: string;
-    reportTime: string;
-    parkingLoc: string;
-    memberName: string;
-    reportImageList: {
-        dashboardImg: string;
-        frontImg: string;
-        backImg: string;
-        leftImg: string;
-        rightImg: string;
-    };
-    vehicleNote: string;
+    returnData: {
+        reportId: number;
+        memberId: number;
+        takeDate: string;
+        returnDate: string;
+        reportTime: string;
+        parkingLoc: string;
+        memberName: string;
+        reportImageList: {
+            dashboardImg: string;
+            frontImg: string;
+            backImg: string;
+            leftImg: string;
+            rightImg: string;
+        };
+        vehicleNote: string;
+    }
 }
 
-const ReturnInfo: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [returnData, setReturnData] = useState<VehicleInfo | undefined>(undefined);
-
-    useEffect(() => {
-        const fetchReturnData = async () => {
-            const res = await ReturnReportModel(id || '-1');
-            if (res) {
-                setReturnData(res);
-            }
-        };
-        fetchReturnData();
-    }, [id]);
-
-    if (!returnData) {
-        return <Container>보고서가 존재하지 않습니다.</Container>;
-    }
-
+const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
     return (
         <Container>
             <InfoWrapper>
