@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import login from '../../API/auth';
 import useUserStore from '../../stores/userStore';
 
 interface LoginProps {
@@ -15,31 +15,15 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post(
-                'https://moaboa.shop/auth/login',
-                {
-                    email: username,
-                    password: password,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                },
-            );
+            const data = await login(username, password);
+            const { accessToken, refreshToken, memberName, memberRole } = data;
 
-            if (response.status === 200) {
-                console.log(response);
-                const { accessToken, refreshToken, name } = response.data;
-                sessionStorage.setItem('accessToken', accessToken);
-                document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
-                const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
-                const role = decodedToken.role;
-                setUser(name, accessToken, role);
-                onLoginSuccess(role);
-            } else {
-                alert('Login failed');
-            }
+            // 세션 및 쿠키에 토큰 저장
+            sessionStorage.setItem('accessToken', accessToken);
+            document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+
+            setUser(memberName, memberRole, accessToken);
+            onLoginSuccess(memberRole);
         } catch (error) {
             alert('Login failed');
         }
@@ -71,6 +55,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     );
 }
 
+// 스타일 컴포넌트
 const Container = styled.div`
     height: 100vh;
     max-width: 500px;
@@ -96,10 +81,7 @@ const MainTitle = styled.h1`
     font-size: 60px;
 `;
 
-
 const Article = styled.article`
-    // border: 1px solid red;
-
     width: 100%;
     display: flex;
     flex-direction: column;

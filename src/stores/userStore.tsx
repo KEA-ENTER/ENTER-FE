@@ -1,19 +1,24 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface UserState {
-    username: string;
-    token: string;
+    name: string;
     role: string;
-    setUser: (username: string, token: string, role: string) => void;
+    accessToken: string;
+    setUser: (name: string, role: string, accessToken: string) => void;
     clearUser: () => void;
 }
 
 const useUserStore = create<UserState>((set) => ({
-    username: '',
-    token: '',
+    name: '',
     role: '',
-    setUser: (username, token, role) => set({ username, token, role }),
-    clearUser: () => set({ username: '', token: '', role: '' }),
+    accessToken: '',
+    setUser: (name, role, accessToken) =>
+        set({
+            name,
+            role,
+            accessToken,
+        }),
+    clearUser: () => set({ name: '', role: '', accessToken: '' }),
 }));
 
 export default useUserStore;
