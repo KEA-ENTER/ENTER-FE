@@ -30,7 +30,6 @@ const LotteryDetailList: React.FC = () => {
    
     useEffect(() => {
         const pageNum = parseInt(page) - 1;
-        console.log("왜여긴안되냐", applyRound);
 
         LotteryDetailListModel(word, type, pageNum, applyRound).then(res => {
             if (res) {
