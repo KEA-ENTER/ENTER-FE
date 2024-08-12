@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import LotteryList from "./LotteryList";
 
@@ -19,7 +18,6 @@ export default function Lottery () {
                 />
             </SearchBoxContainer>
             <LotteryList />
-            <Pagination totalPages={10} />
         </Container>
     );
 }
