@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://moaboa.shop/';
+const BASE_URL = 'https://moaboa.shop';
 
 interface LoginResponse {
     accessToken: string;

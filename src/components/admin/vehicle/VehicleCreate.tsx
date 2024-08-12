@@ -46,6 +46,7 @@ export default function VehicleCreate() {
             setErrorModal(true);
         } else {
             setConfirmModal(true);
+            console.log(formData.image);
         }
     };
 

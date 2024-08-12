@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 interface SearchBoxProps {
@@ -6,13 +7,31 @@ interface SearchBoxProps {
     onSearch: (selectedItem: string, searchText: string) => void;
 }
 
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
+
 const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
     const [searchText, setSearchText] = useState("");
     const [isopen, setIsopen] = useState(false);
 
+    const navigate = useNavigate();
+    const query = Query();
+
     const handleSearch = () => {
+        query.set("type", selectedItem);
+        query.set("q", searchText);
+        navigate({
+            search: query.toString(),
+        });
         onSearch(selectedItem, searchText);
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
     }
 
     const toggleDropdown = () => {
@@ -50,6 +69,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                     type="text" 
                     value={searchText} 
                     onChange={(e) => setSearchText(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
                 <Button onClick={handleSearch} src="/img/search.png" alt="Search"/>
             </InputComp>

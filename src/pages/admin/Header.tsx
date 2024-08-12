@@ -18,7 +18,6 @@ const Header: React.FC = () => {
     }
 
     const isMenuSelected = (base: string) => {
-        console.log(selectedPath, base)
         return selectedPath === base;
     }
 

@@ -6,7 +6,6 @@ const BreadcrumbsMenu: React.FC = () => {
     const location = useLocation();
     const pathnames = location.pathname.split(/[/?]/).filter(x => x);
 
-    // 최대 3개의 경로 부분을 표시
     const displayPathnames = pathnames.slice(0, 3);
 
     return (
