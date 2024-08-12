@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DateString from '../basic/DateString';
-import lotteryData from '../../../data/admin/lottery/lottery.json'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LotteryListModel from './model/LotteryListModel';
 
 function Query() {
@@ -10,23 +9,29 @@ function Query() {
 }
 
 const LotteryList: React.FC = () => {
-    const navigate = useNavigate();
-    const goLotteryDetail = (round: number, date: string, vehicleModel: string) => {
-        navigate(`/admin/lottery/detail/${round}/${date}/${vehicleModel}`)
-    }
-    const query = Query();
+    const [lotteryData, setLotteryData] = useState([]);
 
+    const navigate = useNavigate();
+    
+    const query = Query();
     const type = query.get("type") ?? "ALL";
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
 
     useEffect(() => {
-        LotteryListModel(word, type, page).then(res => {
+        const pageNum = parseInt(page) - 1
+
+        LotteryListModel(word, type, pageNum).then(res => {
             if (res) {
                 console.log(res);
+                setLotteryData(res);
             }
         });
     }, [type, word, page]);
+
+    const goLotteryDetail = (round: number, date: string, vehicleModel: string) => {
+        navigate(`/admin/lottery/detail/${round}/${date}/${vehicleModel}`)
+    }
 
     return (
         <Container>
