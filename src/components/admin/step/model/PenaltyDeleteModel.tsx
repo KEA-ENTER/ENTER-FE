@@ -1,18 +1,10 @@
 import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
-// name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
-const PenaltyAddModel = async (id: string) => {
+const PenaltyDeleteModel = async (memberId: number, penaltyId: number | null) => {
     setAuthorizationToken();
-
-    // api 불러오는 부분
-    // import.meta.env.VITE_SERVER_URL: 우리 서버 url
-    // api.get => api: 다현이가 작성한 axios 모듈(안에 디폴트로 토큰이 들어가 있음) / get: http 메소드 종류 - post, patch 등으로 변경 가능
+    console.log(memberId, penaltyId)
     try {
-        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/takes/reports/take`, {
-            params: {
-                winningId: id
-            },
-        });
+        const response = await api.delete(`${import.meta.env.VITE_SERVER_URL}/admin/penalties/members/${memberId}/${penaltyId}`);
         
         console.log("데이터:", response.data);
         return response.data;
@@ -22,4 +14,4 @@ const PenaltyAddModel = async (id: string) => {
     }
 };
 
-export default PenaltyAddModel;
+export default PenaltyDeleteModel;

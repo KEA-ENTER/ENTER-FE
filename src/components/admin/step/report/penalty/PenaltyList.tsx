@@ -4,6 +4,7 @@ import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
 import PenaltyListModel from '../../model/PenaltyListModel';
 import DateString from '../../../basic/DateString';
+import PenaltyDeleteModel from '../../model/PenaltyDeleteModel';
 
 interface PenaltyItem{
     penaltyId: number,
@@ -22,6 +23,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [confirmModal, setConfirmModal] = useState(false);
     const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);
     const [penaltyList, setPenaltyList] = useState<PenaltyItem[]>([]);
+    const [selectedPenaltyId, setSelectedPenaltyId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchPenaltyData = async () => {
@@ -33,14 +35,25 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         fetchPenaltyData();
     }, [memberId]);
 
+    const fetchPenaltyDeleteData = async (penaltyId: number | null) => {
+        const res = await PenaltyDeleteModel(memberId, penaltyId);
+        if (!res) {
+            window.alert("실패");
+        }
+    };
+
     const openAlertModal = (id: number, category: string, level: string) => {
-        console.log(id)
         setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
+        setSelectedPenaltyId(id);
         setAlertModal(true);
     };
 
     const closeAlertModal = () => {
+        if (selectedPenalty) {
+            fetchPenaltyDeleteData(selectedPenaltyId);
+        }
         setAlertModal(false);
+        setSelectedPenaltyId(null);
         setSelectedPenalty(null);
     };
 
@@ -69,7 +82,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
                 <TableCell>{DateString(item.createdAt)}</TableCell>
                 <TableCellDetail>{item.etc}</TableCellDetail>
                 <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(idx, item.reason, item.level)}>삭제</DeleteButton>
+                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level)}>삭제</DeleteButton>
                 </TableCell>
                 </TableRow>
             ))}

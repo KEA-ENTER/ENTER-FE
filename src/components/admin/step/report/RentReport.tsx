@@ -35,13 +35,13 @@ export default function RentReport() {
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
-        const fetchReturnData = async () => {
+        const fetchRentData = async () => {
             const res = await RentReportModel(id || '-1');
             if (res) {
                 setRentData(res);
             }
         };
-        fetchReturnData();
+        fetchRentData();
     }, [id]);
     
     return(
