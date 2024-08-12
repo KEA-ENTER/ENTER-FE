@@ -7,7 +7,6 @@ const api = axios.create({
 
 export const setAuthorizationToken = () => {
     const accessToken = sessionStorage.getItem('accessToken');
-    console.log(accessToken)
     if (accessToken) {
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     } else {
