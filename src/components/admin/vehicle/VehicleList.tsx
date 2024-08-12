@@ -7,7 +7,6 @@ import CarMenu from './CarMenu';
 import ConfirmModal from '../basic/ConfirmModal';
 import Modal from '../basic/Modal';
 
-
 interface VehicleItem {
     id: number;
     createdAt: string;

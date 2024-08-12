@@ -5,22 +5,31 @@ import Title from '../basic/Title';
 import Button from '../basic/Button';
 import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
+import VehicleAddModel from './model/VehicleAddModel';
 
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
     const [formData, setFormData] = useState({
-        model: '',
-        manufacturer: '',
         vehicleNumber: '',
-        fuel: '',
+        manufacturer: '',
+        model: '',
         capacity: '',
-        status: 'available',
-        image: null as File | null
+        fuel: '',
+        status: '',
+        image: File
     });
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
 
     const navigate = useNavigate();
+
+    const createVehicle = async () => {
+        // vehicleNo, company, model, seats, fuel, img, state
+        const res = await VehicleAddModel(formData.vehicleNumber, formData.manufacturer, formData.model, formData.capacity, formData.fuel, formData.image, formData.status);
+        if (!res) {
+            window.alert("실패");
+        }
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -45,8 +54,8 @@ export default function VehicleCreate() {
         if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
             setErrorModal(true);
         } else {
+            createVehicle();
             setConfirmModal(true);
-            console.log(formData.image);
         }
     };
 

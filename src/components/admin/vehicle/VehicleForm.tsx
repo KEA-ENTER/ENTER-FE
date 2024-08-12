@@ -8,8 +8,8 @@ interface VehicleFormProps {
         manufacturer: string;
         vehicleNumber: string;
         fuel: string;
-        capacity: string;
-        status: string;
+        capacity: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+        status: 'AVAILABLE' | 'INACTIVE';
         image: File | null;
     };
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -81,8 +81,8 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                         <input
                             type="radio"
                             name="status"
-                            value="available"
-                            checked={formData.status === "available"}
+                            value="AVAILABLE"
+                            checked={formData.status === "AVAILABLE"}
                             onChange={handleInputChange}
                         />
                         사용 가능
@@ -91,8 +91,8 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                         <input
                             type="radio"
                             name="status"
-                            value="unavailable"
-                            checked={formData.status === "unavailable"}
+                            value="INACTIVE"
+                            checked={formData.status === "INACTIVE"}
                             onChange={handleInputChange}
                         />
                         사용 불가능
