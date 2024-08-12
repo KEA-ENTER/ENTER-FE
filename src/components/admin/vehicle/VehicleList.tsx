@@ -1,10 +1,29 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Modal from '../basic/Modal';
-import ConfirmModal from '../basic/ConfirmModal';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import VehicleListModel from './model/VehicleListModel';
+import Pagination from '../basic/Pagination';
 import CarMenu from './CarMenu';
-import data from '../../../data/admin/step/vehicle.json';
+import ConfirmModal from '../basic/ConfirmModal';
+import Modal from '../basic/Modal';
+
+
+interface VehicleItem {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    vehicleNo: string;
+    company: string;
+    model: string;
+    seats: number;
+    fuel: string;
+    img: string;
+    state: string;
+}
+
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const VehicleList: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,18 +31,37 @@ const VehicleList: React.FC = () => {
     const navigate = useNavigate();
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
-    const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);
+    const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
+
+    const [vehicleData, setVehicleData] = useState<VehicleItem[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const query = Query();
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+
+    useEffect(() => {
+        const pageNum = parseInt(page) - 1;
+
+        VehicleListModel(word, type, pageNum).then(res => {
+            if (res) {
+                setVehicleData(res.vehicleList); 
+                setTotalPage(res.totalPages);
+            }
+        });
+    }, [type, word, page]);
 
     const openAlertModal = (id: number, model: string, number: string) => {
         closeMenu();
         console.log(id)
-        setSelectedPenalty(`선택된 차량: ${model} / ${number}`);
+        setSelectedVehicle(`선택된 차량: ${model} / ${number}`);
         setAlertModal(true);
     };
 
     const closeAlertModal = () => {
         setAlertModal(false);
-        setSelectedPenalty(null);
+        setSelectedVehicle(null);
     };
 
     const closeConfirmModal = () => {
@@ -44,6 +82,17 @@ const VehicleList: React.FC = () => {
         navigate(`detail/${id}`);
     }
 
+    const getStatusText = (state: string) => {
+        if (state === 'AVAILABLE')
+            return '사용 가능';
+        else if (state === 'ON_RENT')
+            return '인수중';
+        else if (state == 'UNAVAILABLE')
+            return '사용 불가능';
+        else
+            return '';
+    }
+
     return (
         <Container onClick={closeAlertModal}>
             <Table>
@@ -58,22 +107,22 @@ const VehicleList: React.FC = () => {
                     </TableRow>
                 </thead>
                 <tbody>
-                    {data.map((item) => (
+                    {vehicleData.map((item) => (
                         <TableRow key={item.id} onClick={() => goDetailPage(item.id)}>
                             <TableCell>
-                                <CarImg src={item.image} />
+                                <CarImg src={item.img} />
                             </TableCell>
                             <TableCell>{item.model}</TableCell>
-                            <TableCell>{item.number}</TableCell>
-                            <TableCell>{item.personnel}명</TableCell>
-                            <TableCell>{item.state}</TableCell>
+                            <TableCell>{item.vehicleNo}</TableCell>
+                            <TableCell>{item.seats}명</TableCell>
+                            <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCell onClick={(e) => e.stopPropagation()}>
                                 <MoreBtn src='/img/more.png' onClick={() => openMenu(item.id)}/>
                                 {isMenuOpen && selectedId === item.id && (
                                     <CarMenu
                                         key={selectedId}
                                         onCloseMenu={closeMenu}
-                                        onOpenModal={() => openAlertModal(item.id, item.model, item.number)}
+                                        onOpenModal={() => openAlertModal(item.id, item.model, item.vehicleNo)}
                                         id={selectedId} 
                                     />
                                 )}
@@ -82,10 +131,10 @@ const VehicleList: React.FC = () => {
                     ))}
                 </tbody>
             </Table>
-            {alertModal && selectedPenalty !== null &&(
+            {alertModal && selectedVehicle !== null &&(
                 <ConfirmModal
                     title="정말 삭제하시겠습니까?"
-                    description={selectedPenalty}
+                    description={selectedVehicle}
                     onClose={closeAlertModal}
                     setIsConfirmed = {setConfirmModal}
                 />
@@ -97,6 +146,7 @@ const VehicleList: React.FC = () => {
                     onClose={closeConfirmModal}
                 />
             )}
+            <Pagination totalPages={totalPage} />
         </Container>
     );
 };

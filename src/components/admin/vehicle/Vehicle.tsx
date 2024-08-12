@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import Button from "../basic/Button";
 import VehicleList from "./VehicleList";
@@ -30,7 +29,6 @@ export default function Vehicle() {
                 <Button text="차량 추가하기" onClick={goVehicleCreate}/> 
             </AddBtnContainer>
             <VehicleList />
-            <Pagination totalPages={10} />
         </Container>
     );
 }

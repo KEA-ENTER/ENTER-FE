@@ -1,29 +1,31 @@
 import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
 // name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
-const StepListModel = async (name: string, type: string, page: number) => {
+const VehicleListModel = async (name: string, type: string, page: number) => {
     setAuthorizationToken();
 
     // 프론트에서 사용하는 한글로 된 검색 키워드를 서버용으로 변환
     let typeEng = "ALL";
     switch (type) {
-        case "차량정보":
+        case "차량번호":
             typeEng = "VEHICLE";
             break;
-        case "인수자명":
-            typeEng = "MEMBER";
+        case "모델":
+            typeEng = "MODEL";
+            break;
+        case "상태":
+            typeEng = "STATE";
             break;
         default:
             break;
     }
 
     try {
-        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/takes/reports`, {
+        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, {
             params: {
-              keyword: name,
-              searchType: typeEng,
-              page: page,
-              size: 8,
+              word: name,
+              searchCategory: typeEng,
+              page: page
             },
         });
         
@@ -35,4 +37,4 @@ const StepListModel = async (name: string, type: string, page: number) => {
     }
 };
 
-export default StepListModel;
+export default VehicleListModel;
