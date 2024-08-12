@@ -19,10 +19,12 @@ export default function App() {
         }
     }, []);
 
+    const accessToken = sessionStorage.getItem('accessToken');
+
     return (
         <Router>
             <div>
-                {role ? ( //role이 정의되지 않았으면 로그인 페이지로 이동
+                {role && accessToken ? ( //role이 정의되지 않았으면 로그인 페이지로 이동
                     role === 'USER' ? ( //role이 USRE 이면 <UserRoutes />, 아니면 <AdminRoutes /> 페이지로 이동
                         <UserRoutes />
                     ) : (

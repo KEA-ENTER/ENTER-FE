@@ -20,6 +20,7 @@ export default Input;
 
 const StyledInput = styled.input`
     width: 100%;
+    height: 55px;
     font-size: 18px;
     font-weight: 200;
     border: 1px solid black;
