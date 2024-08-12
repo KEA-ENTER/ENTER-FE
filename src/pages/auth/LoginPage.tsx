@@ -20,7 +20,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 
             sessionStorage.setItem('accessToken', accessToken);
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
-            setUser(memberName, memberRole, accessToken);
+            setUser(memberName, memberRole, accessToken, '');
             onLoginSuccess(memberRole);
         } catch (error) {
             alert('Login failed');

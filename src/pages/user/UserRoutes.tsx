@@ -1,5 +1,8 @@
+//라이브러리
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import useUserStore from '../../stores/userStore'; //zustand 전역 state
+//페이지
 import Layout from '../../components/user/Layout/Layout';
 import AddLicensePage from './License/AddLicensePage';
 import ApplicationFormPage from './Apply/ApplicationFormPage';
@@ -11,12 +14,20 @@ import QuestionWritePage from './Question/QuestionWritePage';
 import QuestionDetailPage from './Question/QuestionDetailPage';
 import RentPage from './RentReturn/RentPage';
 import ReturnPage from './RentReturn/ReturnPage';
+//API
 import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
-import autoRouting from '../../API/user/autoRoutting';
+import autoRouting from '../../API/user/autoRouting';
 
 const UserRoutes = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); //라우팅 초기 설정
+
+    const { name, role, accessToken } = useUserStore((state) => ({
+        name: state.name,
+        role: state.role,
+        accessToken: state.accessToken,
+    }));
+    const setUser = useUserStore((state) => state.setUser);
 
     useEffect(() => {
         const fetchRouting = async () => {
@@ -36,6 +47,7 @@ const UserRoutes = () => {
                     }
                 } else if (userStatusResponse) {
                     const autoRoutingResponse = await autoRouting();
+                    setUser(name, role, accessToken, autoRoutingResponse.userState);
                     console.log(autoRoutingResponse.routingId);
                     console.log(autoRoutingResponse.userState);
                     if (autoRoutingResponse.routingId === 1) {
