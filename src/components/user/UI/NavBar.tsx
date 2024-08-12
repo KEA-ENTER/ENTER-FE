@@ -12,7 +12,7 @@ export default function NavBar() {
     const isLicensePage = location.pathname === '/license';
 
     return (
-        <Nav isHidden={isLicensePage}>
+        <Nav $isHidden={isLicensePage}>
             <Button>
                 <Img alt="차량신청 아이콘" src={차량신청} />
                 <Title>차량신청</Title>
@@ -23,27 +23,27 @@ export default function NavBar() {
             </Button>
             <Button>
                 <KeyImg>
-                    <Img alt="hello" src={차량인수} />
+                    <Img alt="차량인수 아이콘" src={차량인수} />
                 </KeyImg>
                 <Title>차량인수</Title>
             </Button>
             <Button>
-                <Img alt="차량인수 아이콘" src={문의} />
+                <Img alt="문의 아이콘" src={문의} />
                 <Title>문의</Title>
             </Button>
             <Button>
-                <Img alt="차량인수 아이콘" src={내정보} />
+                <Img alt="내 정보 아이콘" src={내정보} />
                 <Title>내 정보</Title>
             </Button>
         </Nav>
     );
 }
 
-// Nav 컴포넌트의 display 속성을 isHidden prop에 따라 설정합니다.
-const Nav = styled.nav<{ isHidden: boolean }>`
+// Nav 컴포넌트의 display 속성을 $isHidden prop에 따라 설정합니다.
+const Nav = styled.nav<{ $isHidden: boolean }>`
     width: 100%;
     height: 90px;
-    display: ${({ isHidden }) => (isHidden ? 'none' : 'flex')};
+    display: ${({ $isHidden }) => ($isHidden ? 'none' : 'flex')};
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 80px;
@@ -56,7 +56,6 @@ const Nav = styled.nav<{ isHidden: boolean }>`
 const Button = styled.div`
     display: flex;
     flex-direction: column;
-    // justify-contents: center;
     align-items: center;
 `;
 

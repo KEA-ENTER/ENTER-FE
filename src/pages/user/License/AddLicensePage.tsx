@@ -6,7 +6,7 @@ import SubTitle from '../../../components/user/UI/SubTitle';
 import Section from '../../../components/user/UI/Section';
 import Button from '../../../components/user/UI/Button';
 import { useNavigate } from 'react-router-dom';
-import addLicense from '../../../API/addLicense';
+import addLicense from '../../../API/user/addLicense';
 
 export default function AddLicensePage() {
     const [licenseCode, setLicenseCode] = useState<string>('');

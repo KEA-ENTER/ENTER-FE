@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import login from '../../API/auth';
+import login from '../../API/user/login';
 import useUserStore from '../../stores/userStore';
 
 interface LoginProps {
@@ -17,11 +17,9 @@ export default function Login({ onLoginSuccess }: LoginProps) {
         try {
             const data = await login(username, password);
             const { accessToken, refreshToken, memberName, memberRole } = data;
-41
-            // 세션 및 쿠키에 토큰 저장
+
             sessionStorage.setItem('accessToken', accessToken);
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
-
             setUser(memberName, memberRole, accessToken);
             onLoginSuccess(memberRole);
         } catch (error) {
