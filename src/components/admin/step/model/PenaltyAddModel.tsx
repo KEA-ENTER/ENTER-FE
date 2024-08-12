@@ -50,8 +50,6 @@ const PenaltyAddModel = async (id: number, reason: string, level: string, etc: s
             level: levelEng,
             etc: etc
         });
-
-        console.log("데이터:", response.data);
         return response.data;
     } catch (error) {
         window.alert('Error:' + error);
