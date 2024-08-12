@@ -55,8 +55,8 @@ const LotteryList: React.FC = () => {
     }, [type, word, page]);
     // 여기까지 api 관련
 
-    const goLotteryDetail = (round: number, date: string, vehicleModel: string) => {
-        navigate(`/admin/lottery/detail/${round}/${date}/${vehicleModel}`)
+    const goLotteryDetail = (round: number, date: string, vehicleModel: string, applyRoundId: string) => {
+        navigate(`/admin/lottery/detail/${applyRoundId}/${round}/${date}/${vehicleModel}`)
     }
 
     // 1. 여기 밑에서 lotteryData.map 하고 뒤에 아이템들이 있는데, 현재 상태는 이다현이 만든 더미데이터의 이름들임.
@@ -78,8 +78,8 @@ const LotteryList: React.FC = () => {
                 </thead>
                 <tbody>
                     {lotteryData.map((item, idx) => (
-                        <TableRow key={idx} onClick={() => goLotteryDetail(item.applyRoundId, item.takeDate, item.vehicleModel)}>
-                            <TableCell>{item.applyRoundId}회차</TableCell>
+                        <TableRow key={idx} onClick={() => goLotteryDetail(item.round, item.takeDate, item.vehicleModel, item.applyRoundId.toString())}>
+                            <TableCell>{item.round}회차</TableCell>
                             <TableCellDetail>{DateString(item.takeDate)}{" ~ "}{DateString(item.returnDate)}</TableCellDetail>
                             <TableCellDetail>{item.vehicleModel} - {item.vehicleNo}</TableCellDetail>
                             <TableCell>{item.applyCnt}명</TableCell>
