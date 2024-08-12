@@ -20,7 +20,6 @@ export default function VehicleCreate() {
         image: File
     });
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
-
     const navigate = useNavigate();
 
     const createVehicle = async () => {
