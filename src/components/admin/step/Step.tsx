@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import StepList from "./StepList";
 
@@ -14,12 +13,11 @@ export default function Step() {
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['차량정보', '인수자명', '상태']}
+                    menuItems={['차량정보', '인수자명']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>
             <StepList />
-            <Pagination totalPages={10} />
         </Container>
     );
 }
