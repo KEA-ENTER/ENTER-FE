@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Title from "../../basic/Title";
 import Button from "../../basic/Button";
 import Penalty from "./penalty/Penalty";
-import ReportInfo from "./ReportInfo";
+import RentInfo from "./RentInfo";
 
 export default function RentReport() {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function RentReport() {
     return(
         <Container>
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
-            <ReportInfo />
+            <RentInfo />
             <Penalty />
             <ButtonContainer>
                 <Button onClick={goStep} text={"목록"} />

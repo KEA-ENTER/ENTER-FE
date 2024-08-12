@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from '../../basic/Image';
 import DateString from '../../basic/DateString';
-import RentReportModel from '../model/RentReportModel';
 import { useParams } from 'react-router-dom';
+import ReturnReportModel from '../model/ReturnReportModel';
 
 interface VehicleInfo {
     reportId: number;
@@ -11,6 +11,7 @@ interface VehicleInfo {
     takeDate: string;
     returnDate: string;
     reportTime: string;
+    parkingLoc: string;
     memberName: string;
     reportImageList: {
         dashboardImg: string;
@@ -22,21 +23,21 @@ interface VehicleInfo {
     vehicleNote: string;
 }
 
-const ReportInfo: React.FC = () => {
+const ReturnInfo: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [rentData, setRentData] = useState<VehicleInfo | undefined>(undefined);
+    const [returnData, setReturnData] = useState<VehicleInfo | undefined>(undefined);
 
     useEffect(() => {
-        const fetchRentData = async () => {
-            const res = await RentReportModel(id || '-1');
+        const fetchReturnData = async () => {
+            const res = await ReturnReportModel(id || '-1');
             if (res) {
-                setRentData(res);
+                setReturnData(res);
             }
         };
-        fetchRentData();
+        fetchReturnData();
     }, [id]);
 
-    if (!rentData) {
+    if (!returnData) {
         return <Container>보고서가 존재하지 않습니다.</Container>;
     }
 
@@ -44,19 +45,19 @@ const ReportInfo: React.FC = () => {
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`사용 일자: ${DateString(rentData.reportTime)} ~ ${DateString(rentData.returnDate)}`}</InfoItem>
-                    <InfoItem>{`사용자 이름: ${rentData.memberName}`}</InfoItem>
+                    <InfoItem>{`사용 일자: ${DateString(returnData.reportTime)} ~ ${DateString(returnData.returnDate)}`}</InfoItem>
+                    <InfoItem>{`사용자 이름: ${returnData.memberName}`}</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`보고 시간: ${DateString(rentData.reportTime)}`}</InfoItem>
-                    <InfoItem>{`주차 위치: ${rentData.memberName}`}</InfoItem>   
+                    <InfoItem>{`보고 시간: ${DateString(returnData.reportTime)}`}</InfoItem>
+                    <InfoItem>{`주차 위치: ${returnData.parkingLoc}`}</InfoItem>   
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
                     <InfoItem>계기판 사진</InfoItem>  
                     <ImageContainer>
-                        <Image imageUrl={rentData.reportImageList.dashboardImg} />
+                        <Image imageUrl={returnData.reportImageList.dashboardImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -69,13 +70,13 @@ const ReportInfo: React.FC = () => {
                 <HalfWrapper>
                     <InfoItem>전면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl={rentData.reportImageList.frontImg} />
+                        <Image imageUrl={returnData.reportImageList.frontImg} />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                     <InfoItem>후면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl={rentData.reportImageList.backImg} />
+                        <Image imageUrl={returnData.reportImageList.backImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -87,12 +88,12 @@ const ReportInfo: React.FC = () => {
             <InfoWrapper>
                 <HalfWrapper>
                     <ImageContainer>
-                        <Image imageUrl={rentData.reportImageList.leftImg} />
+                        <Image imageUrl={returnData.reportImageList.leftImg} />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                     <ImageContainer>
-                        <Image imageUrl={rentData.reportImageList.rightImg} />
+                        <Image imageUrl={returnData.reportImageList.rightImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -100,7 +101,7 @@ const ReportInfo: React.FC = () => {
     );
 };
 
-export default ReportInfo;
+export default ReturnInfo;
 
 const Container = styled.div`
     background: rgba(238, 238, 238, 0.6);
