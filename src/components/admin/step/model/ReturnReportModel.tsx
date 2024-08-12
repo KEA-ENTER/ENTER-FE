@@ -1,7 +1,7 @@
 import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
 // name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
-const LotteryListModel = async (name: string, type: string, page: number) => {
+const ReturnReportModel = async (name: string, type: string, page: number) => {
     setAuthorizationToken();
 
     // 프론트에서 사용하는 한글로 된 검색 키워드를 서버용으로 변환
@@ -38,4 +38,4 @@ const LotteryListModel = async (name: string, type: string, page: number) => {
     }
 };
 
-export default LotteryListModel;
+export default ReturnReportModel;

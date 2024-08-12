@@ -1,36 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from '../../basic/Image';
 import DateString from '../../basic/DateString';
+import RentReportModel from '../model/RentReportModel';
+import { useParams } from 'react-router-dom';
 
-interface VehicleInfoProps {
-    vehicleInfo: {
-        imageUrl: string,
-        date: string,
-        reportDate: string,
-        name: string,
-        carLocation: string
+interface VehicleInfo {
+    reportId: number;
+    memberId: number;
+    takeDate: string;
+    returnDate: string;
+    reportTime: string;
+    memberName: string;
+    reportImageList: {
+        dashboardImg: string;
+        frontImg: string;
+        backImg: string;
+        leftImg: string;
+        rightImg: string;
     };
+    vehicleNote: string;
 }
 
-const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
+const ReportInfo: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const [rentData, setRentData] = useState<VehicleInfo | undefined>(undefined);
+
+    useEffect(() => {
+        const fetchRentData = async () => {
+            const res = await RentReportModel(id || '-1');
+            if (res) {
+                setRentData(res);
+            }
+        };
+        fetchRentData();
+    }, [id]);
+
+    if (!rentData) {
+        return <Container>보고서가 존재하지 않습니다.</Container>;
+    }
+
     return (
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`사용 일자: ${DateString(vehicleInfo.date)} ~ ${DateString(vehicleInfo.date)}`}</InfoItem>
-                    <InfoItem>{`사용자 이름: ${vehicleInfo.name}`}</InfoItem>
+                    <InfoItem>{`사용 일자: ${DateString(rentData.reportTime)} ~ ${DateString(rentData.returnDate)}`}</InfoItem>
+                    <InfoItem>{`사용자 이름: ${rentData.memberName}`}</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`보고 시간: ${DateString(vehicleInfo.reportDate)}`}</InfoItem>
-                    <InfoItem>{`주차 위치: ${vehicleInfo.carLocation}`}</InfoItem>   
+                    <InfoItem>{`보고 시간: ${DateString(rentData.reportTime)}`}</InfoItem>
+                    <InfoItem>{`주차 위치: ${rentData.memberName}`}</InfoItem>   
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
                     <InfoItem>계기판 사진</InfoItem>  
                     <ImageContainer>
-                        <Image imageUrl='' />
+                        <Image imageUrl={rentData.reportImageList.dashboardImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -43,13 +69,13 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
                 <HalfWrapper>
                     <InfoItem>전면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='' />
+                        <Image imageUrl={rentData.reportImageList.frontImg} />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
                     <InfoItem>후면부</InfoItem>
                     <ImageContainer>
-                        <Image imageUrl='' />
+                        <Image imageUrl={rentData.reportImageList.backImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -60,13 +86,13 @@ const ReportInfo: React.FC<VehicleInfoProps> = ({ vehicleInfo }) => {
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
-                <ImageContainer>
-                        <Image imageUrl='' />
+                    <ImageContainer>
+                        <Image imageUrl={rentData.reportImageList.leftImg} />
                     </ImageContainer>
                 </HalfWrapper>
                 <HalfWrapper>
-                <ImageContainer>
-                        <Image imageUrl='' />
+                    <ImageContainer>
+                        <Image imageUrl={rentData.reportImageList.rightImg} />
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
@@ -91,7 +117,6 @@ const InfoWrapper = styled.div`
     margin: 0px 0px 0px 0px;
     display: flex;
     width: 100%;
-
 `;
 
 const InfoItem = styled.div`
