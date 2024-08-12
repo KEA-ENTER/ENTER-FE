@@ -4,15 +4,16 @@ import Button from '../../../basic/Button';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
 import PenaltyMenu from './PenaltyMenu';
+import PenaltyAddModel from '../../model/PenaltyAddModel';
 
 interface IdProps {
     memberId: number;
 }
 
 const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
-    const menuItems = ['미인수', '사용불량', '사용잘함', '사용사용'];
-    const levelItems = ['작은페널티', '적당페널티', '개큰페널티'];
-    const [penalties, setPenalties] = useState<{ reason: string, remark: string }[]>([{ reason: menuItems[0], remark: '' }]);
+    const menuItems = ['인수', '반납', '연료', '파손', '기타'];
+    const levelItems = ['매우 낮음', '낮음', '보통', '높음', '블랙리스트'];
+    const [penalties, setPenalties] = useState<{ reason: string, level: string, etc: string }[]>([{ reason: menuItems[0], level: levelItems[0], etc: '' }]);
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [alertModal, setAlertModal] = useState(false);
@@ -20,27 +21,44 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
     const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
     const [openLevelIndex, setOpenLevelIndex] = useState<number | null>(null);
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            uploadPenalties();
+        }
+    }
+
     const addPenalty = () => {
-        setPenalties([...penalties, { reason: menuItems[0], remark: '' }]);
+        setPenalties([...penalties, { reason: menuItems[0], level: levelItems[0], etc: '' }]);
     };
 
-    const updatePenalty = (index: number, updatedPenalty: { reason: string, remark: string }) => {
+    const updatePenalty = (index: number, updatedPenalty: { reason: string, level: string, etc: string }) => {
         const updatedPenalties = penalties.map((penalty, i) => i === index ? updatedPenalty : penalty);
         setPenalties(updatedPenalties);
     };
 
     const clearPenalties = () => {
-        setPenalties([{ reason: menuItems[0], remark: '' }]);
+        setPenalties([{ reason: menuItems[0], level: levelItems[0], etc: '' }]);
     };
 
-    const uploadPenalties = () => {
-        const hasEmptyRemark = penalties.some(penalty => penalty.remark === '');
-        if (hasEmptyRemark) {
+    const uploadPenalties = async () => {
+        const hasEmptyEtc = penalties.some(penalty => penalty.etc === '');
+        if (hasEmptyEtc) {
             setErrorModal(true);
-        } else {
-            setConfirmModal(true);
+            return;
         }
-    };
+    
+        for (const penalty of penalties) {
+            const { reason, level, etc } = penalty;
+    
+            const result = await PenaltyAddModel(memberId, reason, level, etc);
+    
+            if (!result) {
+                window.alert('업로드 실패');
+                return;
+            }
+        }
+        setConfirmModal(true);
+    };    
 
     const closeErrorModal = () => {
         setErrorModal(false);
@@ -82,12 +100,13 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
                         menuItems={levelItems}
                         isOpen={openLevelIndex === index}
                         onToggle={() => setOpenLevelIndex(openLevelIndex === index ? null : index)}
-                        onSearch={(selectedItem) => updatePenalty(index, { ...penalty, reason: selectedItem })}
+                        onSearch={(selectedItem) => updatePenalty(index, { ...penalty, level: selectedItem })}
                     />
-                    <RemarkInput
-                        value={penalty.remark}
-                        onChange={(e) => updatePenalty(index, { ...penalty, remark: e.target.value })}
+                    <EtcInput
+                        value={penalty.etc}
+                        onChange={(e) => updatePenalty(index, { ...penalty, etc: e.target.value })}
                         placeholder="비고"
+                        onKeyDown={handleKeyDown}
                     />
                 </PenaltyRow>
             ))}
@@ -97,7 +116,7 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
                     <Button onClick={openAlertModal} text={"모두 삭제"} />
                 </ButtonWrapper>
                 <ButtonWrapper>
-                    <Button text="확인" onClick={uploadPenalties} />
+                    <Button text="추가" onClick={uploadPenalties} />
                 </ButtonWrapper>
             </ButtonContainer>
             {errorModal && 
@@ -172,7 +191,7 @@ const PenaltyRow = styled.div`
     align-items: center;
 `;
 
-const RemarkInput = styled.input`
+const EtcInput = styled.input`
     flex: 2;
     height: 35px;
     padding: 0 10px;
@@ -189,6 +208,7 @@ const AddPenaltyText = styled.div`
     margin-top: 10px;
     cursor: pointer;
     color: black;
+    font-size: 12px;
 `;
 
 const ButtonContainer = styled.div`
