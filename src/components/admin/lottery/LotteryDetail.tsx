@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import DateString from "../basic/DateString";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import LotteryDetailList from "./LotteryDetailList";
 
@@ -23,12 +22,11 @@ export default function LotteryDetail () {
             <DetailTitle>{`신청 내역: ${round}회차 / ${DateString(date)} / ${id}`}</DetailTitle>
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['아이디', '신청자명', '결과']}
+                    menuItems={['아이디', '신청자명']}
                     onSearch={handleSearch}
                 />
             </SearchBoxContainer>
             <LotteryDetailList />
-            <Pagination totalPages={10} />
         </Container>
     );
 }
