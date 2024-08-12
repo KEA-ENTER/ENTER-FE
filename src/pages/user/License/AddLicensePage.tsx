@@ -1,41 +1,32 @@
 import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import Input from '../../../components/user/UI/Input';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Section from '../../../components/user/UI/Section';
 import Button from '../../../components/user/UI/Button';
 import { useNavigate } from 'react-router-dom';
+import addLicense from '../../../API/addLicense';
 
 export default function AddLicensePage() {
-    const [licenseCode, setLicenseCode] = useState<number | ''>('');
-    const [licensePassword, setLicensePassword] = useState<number | ''>('');
+    const [licenseCode, setLicenseCode] = useState<string>('');
+    const [licensePassword, setLicensePassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
     const navigate = useNavigate();
 
     const handleLicenseCode = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        if (/^\d*$/.test(value)) {
-            setLicenseCode(value === '' ? '' : parseInt(value, 10));
-        }
+        setLicenseCode(event.target.value);
     };
 
     const handleLicensePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        if (/^\d*$/.test(value)) {
-            setLicensePassword(value === '' ? '' : parseInt(value, 10));
-        }
+        setLicensePassword(event.target.value);
     };
 
     const handleButtonClick = async () => {
         try {
-            const response = await axios.post('/api/license', {
-                licenseCode,
-                licensePassword,
-            });
+            const response = await addLicense(licenseCode, licensePassword);
 
-            if (response.data.success) {
+            if (response.success) {
                 navigate('/next-page');
             } else {
                 setErrorMessage('입력한 정보를 다시 확인해주세요.');
@@ -52,23 +43,18 @@ export default function AddLicensePage() {
             <Title title="면허증 등록" />
             <SubTitle subTitle="면허증 등록이 필요해요." />
             <Section>
+                <Input value={licenseCode} onChange={handleLicenseCode} type="text" placeholder="면허증 일련번호" />
                 <Input
-                    value={licenseCode === '' ? '' : licenseCode}
-                    onChange={handleLicenseCode}
-                    type="number"
-                    placeholder="면허증 일련번호"
-                />
-                <Input
-                    value={licensePassword === '' ? '' : licensePassword}
+                    value={licensePassword}
                     onChange={handleLicensePassword}
-                    type="number"
+                    type="text"
                     placeholder="암호 일련번호"
                 />
+                {errorMessage && <Error>{errorMessage}</Error>}
                 <ButtonContainer>
                     <Button onClick={handleButtonClick} disabled={isButtonDisabled}>
                         다음
                     </Button>
-                    {errorMessage && <Error>{errorMessage}</Error>}
                 </ButtonContainer>
             </Section>
         </Container>
@@ -76,10 +62,9 @@ export default function AddLicensePage() {
 }
 
 const Container = styled.div`
-    // border: 1px solid red;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: flex-end;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
 `;
 
 const ButtonContainer = styled.div`
@@ -89,6 +74,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Error = styled.div`
+    font-weight: 300;
+    font-size: 15px;
     color: red;
-    margin-top: 10px;
 `;
