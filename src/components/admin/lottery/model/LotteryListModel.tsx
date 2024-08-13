@@ -1,17 +1,17 @@
-import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
+import api, { setAuthorizationToken } from '../../../../API/AxiosInstance';
 
 // name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
 const LotteryListModel = async (name: string, type: string, page: number) => {
     setAuthorizationToken();
 
     // 프론트에서 사용하는 한글로 된 검색 키워드를 서버용으로 변환
-    let typeEng = "ALL";
+    let typeEng = 'ALL';
     switch (type) {
-        case "회차":
-            typeEng = "ROUND";
+        case '회차':
+            typeEng = 'ROUND';
             break;
-        case "차량정보":
-            typeEng = "VEHICLE";
+        case '차량정보':
+            typeEng = 'VEHICLE';
             break;
         default:
             break;
@@ -23,17 +23,16 @@ const LotteryListModel = async (name: string, type: string, page: number) => {
     try {
         const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/lotteries`, {
             params: {
-              keyword: name,
-              searchType: typeEng,
-              page: page,
-              size: 8,
+                keyword: name,
+                searchType: typeEng,
+                page: page,
+                size: 8,
             },
         });
-        
         return response.data;
     } catch (error) {
         window.alert('Error:' + error);
-        return []; 
+        return [];
     }
 };
 

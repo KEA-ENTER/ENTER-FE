@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import login from '../../API/auth';
+import login from '../../API/user/login';
 import useUserStore from '../../stores/userStore';
 
-interface LoginProps {
-    onLoginSuccess: (role: string) => void;
-}
-
-export default function Login({ onLoginSuccess }: LoginProps) {
+export default function Login({ stateHandler }: { stateHandler: (role: string, accessToken: string) => void }) {
+    //사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,17 +12,22 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 
     const handleLogin = async () => {
         try {
-            const data = await login(username, password);
-            const { accessToken, refreshToken, memberName, memberRole } = data;
-41
-            // 세션 및 쿠키에 토큰 저장
-            sessionStorage.setItem('accessToken', accessToken);
-            document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+            const loginResponse = await login(username, password); // 로그인 API 호출
+            const { accessToken, refreshToken, memberName, memberRole } = loginResponse; // 응답 값 저장
 
-            setUser(memberName, memberRole, accessToken);
-            onLoginSuccess(memberRole);
+            //리프레시토큰 쿠키에 저장
+            document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+            //각 데이터 전역 state에 저장
+            setUser(memberName, '');
+
+            // 세션 스토리지에 저장
+            sessionStorage.setItem('accessToken', accessToken);
+            sessionStorage.setItem('role', memberRole);
+
+            // App 컴포넌트의 상태 업데이트
+            stateHandler(memberRole, accessToken);
         } catch (error) {
-            alert('Login failed');
+            alert('아이디 또는 비밀번호를 확인해주세요');
         }
     };
 
