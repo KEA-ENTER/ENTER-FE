@@ -1,17 +1,8 @@
 import styled from "styled-components";
 import DateString from "../basic/DateString";
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import QuestionDetailModel from "./model/QuestionDetailModel";
-
-// const questionData = {
-//     id: 1,
-//     category: "차량 문의",
-//     contentSummary: "저는 악성유저니까 빨리 답변",
-//     date: "2020-02-02",
-//     userName: "이다현",
-//     contents:  "저는 악성유저니까 빨리 답변 부탁드려요\n\n2024년 7월 31일에 개큰 페널티를 받았습니다.\n왜 저에게 페널티가 부여됐는지 도저히 모르겠어서 문의 드립니다.\n편하신 시간에 천천하지만 신속하고 빠르게 답변 부탁드립니다."
-// };
 
 interface QuestionItem {
     name: string;
@@ -22,25 +13,21 @@ interface QuestionItem {
     answerCreatedAt: string;
 }
 
-function Query() {
-    return new URLSearchParams(useLocation().search);
-}
-
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
 
-    const query = Query();
-    const questionId = query.get("id") ?? "";
-
+    // const query = Query();
+    // const questionId = query.get("id") ?? "";
+    const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
+    
     useEffect(() => {
-        const questionIdNum = parseInt(questionId);
+        const questionIdNum = parseInt(id ?? "0");
         QuestionDetailModel(questionIdNum).then(res => {
             if (res) {
-                // 여기 밑에 두 줄만 수정하면 됨
-                setQuestionData(res.data);
+                setQuestionData(res);
             }
         });
-    }, [questionId]);
+    }, []);
 
     const getCategoryText = (category: string) => {
         if (category === 'USER')
@@ -55,21 +42,12 @@ export default function QuestionDetailContents () {
             return '';
     }
 
-    const getStatusText = (state: string) => {
-        if (state === 'COMPLETE')
-            return '답변 완료';
-        else if (state === 'WAIT')
-            return '대기';
-        else
-            return '';
-    }
-
     return(
         <Container>
             {questionData && (
                 <>
                     <Title>
-                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent.substring(0, 50)}...`}
+                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent.substring(0, 10)}...`}
                     </Title>
                     <DetailInfo>{`${DateString(questionData.questionCreatedAt)} ${questionData.name}`}</DetailInfo>
                     <ContentBox>{questionData.questionContent}</ContentBox>
