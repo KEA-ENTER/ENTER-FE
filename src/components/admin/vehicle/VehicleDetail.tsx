@@ -1,34 +1,31 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../basic/Title";
 import Button from "../basic/Button";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
+import VehicleDetailModel from './model/VehicleDetailModel';
 
-const vehicleData = {
-    imageUrl: "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
-    status: "사용 가능",
-    manufacturer: "현대",
-    model: "model",
-    fuel: "연료",
-    capacity: 5,
-    registrationDate: "2023-05-01"
-};
 
-const reportData = [
-    {
-        id: 1,
-        name: "이다현",
-        date: "2024-04-04",
-        contents: "차가 너무 더럽습니다"
-    },
-    {
-        id: 2,
-        name: "이다현",
-        date: "2024-04-05",
-        contents: "The love..."
-    }
-]
+interface VehicleDetailProps {
+    vehicleId: number;
+    vehicleNo: string;
+    company: string;
+    model: string;
+    seats: string;
+    fuel: string;
+    img: string;
+    createdAt: string;
+    updatedAt: string;
+    state: string;
+}
+
+interface VehicleReportProps {
+    names: string[];
+    reportCreatedAts: string[];
+    contents: string[];
+}
 
 export default function VehicleDetail() {
     const navigate = useNavigate();
@@ -36,12 +33,30 @@ export default function VehicleDetail() {
     const confirmBtn = () => {
         navigate('/admin/vehicle')
     }
+    const [vehicleInfo, setVehicleInfo] = useState<VehicleDetailProps>();
+    const [reportInfo, setReportInfo] = useState<VehicleReportProps>();
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        const fetchVehicleData = async () => {
+            const res = await VehicleDetailModel(id);
+            if (res) {
+                setVehicleInfo(res);
+                setReportInfo(res);
+            }
+        };
+        fetchVehicleData();
+    }, [id]);
+
+    if (!vehicleInfo || !reportInfo) {
+        return <div>Loading...</div>;
+    }
 
     return(
         <Container>
-            <Title imageSrc="/img/car.png" title="123가 5678" />
-            <VehicleDetailInfo vehicleData={vehicleData} />
-            <VehicleDetailReport reportData={reportData} />
+            <Title imageSrc="/img/car.png" title={vehicleInfo.vehicleNo} />
+            <VehicleDetailInfo vehicleInfo={vehicleInfo} />
+            <VehicleDetailReport reportInfo={reportInfo} />
             <ButtonContainer>
                 <Button text="목록" onClick={confirmBtn} />
             </ButtonContainer>

@@ -6,7 +6,8 @@ import Pagination from '../basic/Pagination';
 import CarMenu from './CarMenu';
 import ConfirmModal from '../basic/ConfirmModal';
 import Modal from '../basic/Modal';
-
+import VehicleDeleteModel from './model/VehicleDeleteModel';
+import Loading from '../basic/Loading';
 
 interface VehicleItem {
     id: number;
@@ -31,8 +32,9 @@ const VehicleList: React.FC = () => {
     const navigate = useNavigate();
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
+    const [confirm, setConfirm] = useState(false);
     const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
-
+    const [loading, setLoading] = useState(false);
     const [vehicleData, setVehicleData] = useState<VehicleItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
 
@@ -52,21 +54,41 @@ const VehicleList: React.FC = () => {
         });
     }, [type, word, page]);
 
+    const deleteVehicle = async (id: string) => {
+        setLoading(true);
+        const res = await VehicleDeleteModel(id);
+        setLoading(false);
+        return res;
+    };
+
     const openAlertModal = (id: number, model: string, number: string) => {
         closeMenu();
-        console.log(id)
+        setSelectedId(id);
         setSelectedVehicle(`선택된 차량: ${model} / ${number}`);
         setAlertModal(true);
     };
 
-    const closeAlertModal = () => {
-        setAlertModal(false);
-        setSelectedVehicle(null);
+    const handleDelete = async (confirmed: boolean) => {
+        console.log(confirm)
+        if (confirmed) {
+            const res = await deleteVehicle(String(selectedId));
+            if (res) {
+                setAlertModal(false);
+                setConfirmModal(true);
+            } else {
+                setAlertModal(false);
+            }
+            setSelectedId(null);
+            setSelectedVehicle(null);
+        } else {
+            setAlertModal(false);
+            setSelectedId(null);
+        }
     };
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
-    }
+    };
 
     const openMenu = (id: number) => {
         setSelectedId(id);
@@ -76,25 +98,25 @@ const VehicleList: React.FC = () => {
     const closeMenu = () => {
         setIsMenuOpen(false);
         setSelectedId(null);
-    }
+    };
 
     const goDetailPage = (id: number) => {
         navigate(`detail/${id}`);
-    }
+    };
 
     const getStatusText = (state: string) => {
         if (state === 'AVAILABLE')
             return '사용 가능';
         else if (state === 'ON_RENT')
             return '인수중';
-        else if (state == 'UNAVAILABLE')
+        else if (state === 'UNAVAILABLE')
             return '사용 불가능';
         else
             return '';
-    }
+    };
 
     return (
-        <Container onClick={closeAlertModal}>
+        <Container>
             <Table>
                 <thead>
                     <TableRow>  
@@ -131,12 +153,12 @@ const VehicleList: React.FC = () => {
                     ))}
                 </tbody>
             </Table>
-            {alertModal && selectedVehicle !== null &&(
+            {alertModal && selectedVehicle !== null && (
                 <ConfirmModal
                     title="정말 삭제하시겠습니까?"
                     description={selectedVehicle}
-                    onClose={closeAlertModal}
-                    setIsConfirmed = {setConfirmModal}
+                    onClose={handleDelete}
+                    setIsConfirmed={setConfirm}
                 />
             )}
             {confirmModal && (
@@ -145,6 +167,9 @@ const VehicleList: React.FC = () => {
                     description=""
                     onClose={closeConfirmModal}
                 />
+            )}
+            {loading && (
+                <Loading />
             )}
             <Pagination totalPages={totalPage} />
         </Container>
