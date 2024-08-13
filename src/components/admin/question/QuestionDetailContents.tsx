@@ -16,8 +16,6 @@ interface QuestionItem {
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
 
-    // const query = Query();
-    // const questionId = query.get("id") ?? "";
     const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
     
     useEffect(() => {
