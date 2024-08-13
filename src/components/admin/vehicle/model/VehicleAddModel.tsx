@@ -1,34 +1,38 @@
 import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
-const VehicleAddModel = async (vehicleNo: string, company: string, model: string, seats: string, fuel: string, img: file, state: string) => {
+const VehicleAddModel = async (vehicleNo: string, company: string, model: string, seats: string, fuel: string, img: File | null, state: string) => {
     setAuthorizationToken();
-    
+
+    const jsonData = {
+        vehicleNo: vehicleNo,
+        company: company,
+        model: model,
+        seats: seats,
+        fuel: fuel,
+        state: state,
+    };
+
     const formData = new FormData();
-    formData.append('vehicleNo', vehicleNo);
-    formData.append('company', company);
-    formData.append('model', model);
-    formData.append('seats', seats);
-    formData.append('fuel', fuel);
-    formData.append('state', state);
-    
+    const json = JSON.stringify(jsonData);
+    const blob = new Blob([json], { type: "application/json" });
+    formData.append("data", blob);
+
     if (img) {
-        formData.append('multipartFile', img);
+        formData.append('image', img, img.name);
     }
 
-    console.log(typeof img)
-    console.log(formData)
-
     try {
-        const response = await api.post(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        
+        const response = await api.post(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData);
         return response.data;
     } catch (error) {
-        window.alert('Error: ' + error);
-        return null; 
+        if (error instanceof Error) {
+            console.error('Error:', error.message);
+            window.alert('Error: ' + error.message);
+        } else {
+            console.error('Unknown error:', error);
+            window.alert('An unknown error occurred');
+        }
+        return null;
     }
 };
 

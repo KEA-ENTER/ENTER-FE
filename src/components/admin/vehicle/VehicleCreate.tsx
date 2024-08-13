@@ -7,23 +7,32 @@ import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
 import VehicleAddModel from './model/VehicleAddModel';
 
+interface FormDataType {
+    model: string;
+    manufacturer: string;
+    vehicleNumber: string;
+    fuel: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+    capacity: string;
+    status: 'AVAILABLE' | 'INACTIVE';
+    image: File | null;
+}
+
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
-    const [formData, setFormData] = useState({
-        vehicleNumber: '',
-        manufacturer: '',
-        model: '',
-        capacity: '',
-        fuel: '',
-        status: '',
-        image: File
+    const [formData, setFormData] = useState<FormDataType>({
+        model: "",
+        manufacturer: "",
+        vehicleNumber: "",
+        fuel: 'DIESEL',
+        capacity: "",
+        status: 'AVAILABLE',
+        image: null
     });
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
     const navigate = useNavigate();
 
     const createVehicle = async () => {
-        // vehicleNo, company, model, seats, fuel, img, state
         const res = await VehicleAddModel(formData.vehicleNumber, formData.manufacturer, formData.model, formData.capacity, formData.fuel, formData.image, formData.status);
         if (!res) {
             window.alert("실패");
@@ -46,7 +55,7 @@ export default function VehicleCreate() {
             };
             reader.readAsDataURL(file);
         }
-    };
+    };    
 
     const handleCreate = () => {
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;

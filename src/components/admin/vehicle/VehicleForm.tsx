@@ -7,8 +7,8 @@ interface VehicleFormProps {
         model: string;
         manufacturer: string;
         vehicleNumber: string;
-        fuel: string;
-        capacity: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+        fuel: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+        capacity: string;
         status: 'AVAILABLE' | 'INACTIVE';
         image: File | null;
     };

@@ -10,7 +10,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ title, description, onClose }) => {
     const handleClose =()=> {
         onClose()
-        window.location.reload();
+        //window.location.reload();
     }
     return (
         <Overlay onClick={onClose}>
