@@ -20,11 +20,10 @@ export default function QuestionDetailAnswer () {
             setErrorModal(true);
         }
         else {
-            setConfirmModal(true);
             const questionIdNum = parseInt(id ?? "0");
             QuestionAnswerModel(questionIdNum, contentData).then(res => {
                 if (res) {
-                    console.log("테스트: ", res);
+                    setConfirmModal(true);
                 }
             });
         }

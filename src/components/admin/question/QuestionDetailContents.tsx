@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import DateString from "../basic/DateString";
 import { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import QuestionDetailModel from "./model/QuestionDetailModel";
+import Button from "../basic/Button";
+import QuestionDetailAnswer from "./QuestionDetailAnswer";
 
 interface QuestionItem {
     name: string;
@@ -15,8 +17,16 @@ interface QuestionItem {
 
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
-
     const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
+    const navigate = useNavigate();
+    const [openAnswer, setOpenAnswer] = useState(false);
+
+    const goQuestionPage = () => {
+        navigate("/admin/question");
+    };
+    const changeAnswerState = () => {
+        setOpenAnswer(!openAnswer);
+    };
     
     useEffect(() => {
         const questionIdNum = parseInt(id ?? "0");
@@ -51,6 +61,23 @@ export default function QuestionDetailContents () {
                     <ContentBox>{questionData.questionContent}</ContentBox>
                 </>
             )}
+            {questionData?.answerContent && (
+                <>
+                    <ContentBox>{questionData?.answerContent}</ContentBox>
+                </>
+            )}
+            <ButtonContainer>
+                <ButtonWrapper>
+                    <Button text="목록" onClick={goQuestionPage} />
+                </ButtonWrapper>
+                {/* 답변이 없을 때만 답변 작성 버튼 등장 */}
+                {questionData?.answerContent == null && (
+                    <ButtonWrapper>
+                        <Button text="답변 작성하기" onClick={changeAnswerState} />
+                    </ButtonWrapper>
+                )}
+            </ButtonContainer>
+            {openAnswer && <QuestionDetailAnswer />}
         </Container>
     );
 }
@@ -76,4 +103,13 @@ const ContentBox = styled.div`
     border-radius: 10px;
     margin: 20px 0px;
     white-space: pre-wrap;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;
+
+const ButtonWrapper = styled.div`
+    margin: 10px;
 `;
