@@ -87,7 +87,7 @@ const VehicleList: React.FC = () => {
             return '사용 가능';
         else if (state === 'ON_RENT')
             return '인수중';
-        else if (state == 'UNAVAILABLE')
+        else if (state === 'UNAVAILABLE')
             return '사용 불가능';
         else
             return '';

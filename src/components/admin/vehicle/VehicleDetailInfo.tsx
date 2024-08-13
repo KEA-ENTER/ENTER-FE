@@ -3,41 +3,66 @@ import Image from '../basic/Image';
 import DateString from '../basic/DateString';
 
 interface VehicleDetailProps {
-    vehicleData: {
-        imageUrl: string;
-        status: string;
-        manufacturer: string;
+    vehicleInfo: {
+        vehicleId: number;
+        vehicleNo: string;
+        company: string;
         model: string;
+        seats: string;
         fuel: string;
-        capacity: number;
-        registrationDate: string;
-    };
+        img: string;
+        createdAt: string;
+        updatedAt: string;
+        state: string;
+    }
 }
 
-const VehicleDetailInfo: React.FC<VehicleDetailProps> = ({ vehicleData }) => {
+const VehicleDetailInfo: React.FC<VehicleDetailProps> = ({ vehicleInfo }) => {
+    const getStatusText = (state: string) => {
+        if (state === 'AVAILABLE')
+            return '사용 가능';
+        else if (state === 'ON_RENT')
+            return '인수중';
+        else if (state == 'UNAVAILABLE')
+            return '사용 불가능';
+        else
+            return '';
+    }
+
+    const getFuelText = (fuel: string) => {
+        if (fuel === 'DIESEL')
+            return '경유';
+        else if (fuel === 'GASOLINE')
+            return '휘발유';
+        else if (fuel == 'ELECTRICITY')
+            return '전기';
+        else
+            return '';
+    }
+
     return (
         <Container>
             <ImageWrapper>
-                <Image imageUrl={vehicleData.imageUrl} />
+                <Image imageUrl={vehicleInfo.img} />
             </ImageWrapper>
             <InfoWrapper>
                 <InfoItem>
-                    <strong>현재 차량 상태: </strong>{vehicleData.status}
+                    <strong>현재 차량 상태: </strong>{getStatusText(vehicleInfo.state)}
                 </InfoItem>
                 <InfoItem>
-                    <strong>제조회사: </strong>{vehicleData.manufacturer}
+                    <strong>제조회사: </strong>{vehicleInfo.company}
                 </InfoItem>
                 <InfoItem>
-                    <strong>모델: </strong>{vehicleData.model}
+                    <strong>모델: </strong>{vehicleInfo.model}
                 </InfoItem>
                 <InfoItem>
-                    <strong>연료 종류: </strong>{vehicleData.fuel}
+                    <strong>연료 종류: </strong>{getFuelText(vehicleInfo.fuel)}
                 </InfoItem>
                 <InfoItem>
-                    <strong>탑승 인원: </strong>{vehicleData.capacity}
+                    <strong>탑승 인원: </strong>{vehicleInfo.seats}
                 </InfoItem>
                 <InfoItem>
-                    <strong>차량 등록일: </strong>{DateString(vehicleData.registrationDate)}
+                    <strong>차량 등록일: </strong>{DateString(vehicleInfo.createdAt)}
                 </InfoItem>
             </InfoWrapper>
         </Container>
