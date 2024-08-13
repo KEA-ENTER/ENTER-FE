@@ -14,16 +14,12 @@ import QuestionWritePage from './Question/QuestionWritePage';
 import QuestionDetailPage from './Question/QuestionDetailPage';
 import RentPage from './RentReturn/RentPage';
 import ReturnPage from './RentReturn/ReturnPage';
-// import VehiecleRoutes from './VehiecleRoutes';
-//API
 import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 import autoRouting from '../../API/user/autoRouting';
 
 const UserRoutes = () => {
-    console.log('userRoutes');
-
-    const navigate = useNavigate(); //라우팅 초기 설정
+    const navigate = useNavigate();
 
     const { name } = useUserStore((state) => ({
         name: state.name,
@@ -33,31 +29,39 @@ const UserRoutes = () => {
     useEffect(() => {
         const fetchRouting = async () => {
             try {
-                const userStatusResponse = await checkUserStatus();
+                const userStatusResponse = await checkUserStatus(); //사용자 서비스 이용 가능여부 확인
 
+                //분기 1. 신청기간이 아닐 경우
                 if (userStatusResponse.message === '1') {
-                    navigate('/'); //신청일자 이동(아직 구현 안함)
+                    navigate('/'); //신청일자 안내 페이지 이동(아직 구현 안함)
+
+                    //분기 2. 면허 데이터가 존재하지 않을 경우
                 } else if (userStatusResponse.message === '2') {
                     navigate('/license'); //면허증 등록 이동
+
+                    //분기 3. DB에 해당 사용자 면허 데이터는 등록되어 있으나, 면허증이 유효한지 확인해야 하는 경우
                 } else if (userStatusResponse.message === '3') {
-                    const checkLicenseValidationResponse = await checkLicenseValidation();
+                    const checkLicenseValidationResponse = await checkLicenseValidation(); //실제 면허증 유효성 API
+                    console.log('checkLicenseValidationResponse: ');
+                    console.log(checkLicenseValidationResponse);
+                    //면허증 유효하지 않을 때
                     if (checkLicenseValidationResponse != 'SUCCESS') {
-                        //면허증 진위여부 확인 안되는 경우
-                        navigate('/license');
+                        navigate('/license'); //면허증 등록 페이지
                     }
+
+                    //분기 4. 사용자 서비스 이용 가능할 경우
                 } else if (userStatusResponse) {
-                    //여기서 VehicleRoutes 로 가게 ㄱㄱㄱㄱ
                     const autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
-                    if (autoRoutingPage) {
-                        console.log('비어있음');
+                    if (autoRoutingPage === null) {
                         const autoRoutingResponse = await autoRouting();
+                        console.log(autoRoutingResponse);
                         setUser(name, autoRoutingResponse.userState);
                         if (autoRoutingResponse.routingId === 1) {
-                            navigate('/application');
+                            navigate('/application'); //차량 신청 페이지
                         } else if (autoRoutingResponse.routingId === 2) {
-                            navigate('/detail');
+                            navigate('/detail'); //신청서 조회 페이지
                         } else if (autoRoutingResponse.routingId === 3) {
-                            navigate('/detail');
+                            navigate('/detail'); //
                         } else if (autoRoutingResponse.routingId === 4) {
                             navigate('/lottery-result');
                         }
@@ -77,7 +81,7 @@ const UserRoutes = () => {
             <Route path="/" element={<Layout />}>
                 <Route path="license" element={<AddLicensePage />} /> {/*면허증 등록*/}
                 <Route path="application" element={<ApplicationFormPage />} /> {/*차량 신청*/}
-                <Route path="detail" element={<CompletedApplicationForm />} /> {/*차량 신청 조회*/}
+                <Route path="detail" element={<CompletedApplicationForm />} /> {/*차량 신청 내역*/}
                 <Route path="lottery-result" element={<LotteryResultPage />} /> {/*추첨 결과*/}
                 <Route path="mypage" element={<MyPage />} /> {/*내 정보*/}
                 <Route path="question" element={<QuestionListPage />} /> {/*문의*/}

@@ -6,13 +6,12 @@ const checkLicenseValidation = async () => {
     const accessToken = sessionStorage.getItem('accessToken');
 
     if (!accessToken) {
-        console.error('Access Token이 없습니다. 로그인하세요.');
         return;
     }
 
     try {
         const response = await axios.patch(
-            `${BASE_URL}/members/license`,
+            `${BASE_URL}/members/valid-license`,
             {},
             {
                 headers: {

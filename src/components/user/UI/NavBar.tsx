@@ -11,7 +11,8 @@ import 내정보 from '../../../img/icon/user.png';
 
 export default function NavBar() {
     const location = useLocation();
-    const navigate = useNavigate(); // useNavigate 훅 사용
+    const navigate = useNavigate();
+
     const state = useUserStore((state) => state.state);
 
     const [activePage, setActivePage] = useState<string | null>(null);
@@ -38,16 +39,28 @@ export default function NavBar() {
         setActivePage(pageMapping[location.pathname] || null);
     }, [state, location.pathname]);
 
-    // 사용자 페이지 네비게이션 바 숨겨야 하는 페이지
     const isLicensePage = location.pathname === '/license';
 
     const handleNavigation = (path: string) => {
         navigate(path);
     };
 
+    const autoRouting = () => {
+        const autoRouting = sessionStorage.getItem('autoRoutingPage');
+        if (autoRouting === '1') {
+            navigate('/application'); //차량 신청 페이지
+        } else if (autoRouting === '2') {
+            navigate('/detail'); //
+        } else if (autoRouting === '3') {
+            navigate('/detail');
+        } else if (autoRouting === '4') {
+            navigate('/lottery-result');
+        }
+    }
+
     return (
         <Nav $isHidden={isLicensePage}>
-            <Button onClick={() => handleNavigation('/application')}>
+            <Button onClick={() => autoRouting()}>
                 <Img alt="차량신청 아이콘" src={차량신청} />
                 <Title $isHighlighted={activePage === 'vehicle'}>차량신청</Title>
             </Button>
@@ -97,16 +110,17 @@ const Title = styled.div<{ $isHighlighted?: boolean }>`
     color: black;
     font-size: 15px;
     font-weight: 400;
-    padding: 0px 10px;
+    padding: 2px 10px 0px 10px;
     border-radius: 50px;
     background-color: ${({ $isHighlighted }) => ($isHighlighted ? '#fee500' : 'transparent')};
 `;
 
-const Button = styled.div`
+const Button = styled.button`
+    border: none;
+    background: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer; // 클릭 가능한 요소임을 나타내기 위해 추가
 `;
 
 const KeyImg = styled.div`
