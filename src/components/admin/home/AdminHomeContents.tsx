@@ -172,12 +172,13 @@ const DateItem = styled.div`
 const StateData = styled.div`
     margin: 30px auto;
     align-items: center;
+    font-size: 18px;
 `;
 
 const StateContents = styled.div`
     margin: 20px 0px 0px 0px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 `;
 
 const StateItem = styled.div`

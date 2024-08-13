@@ -1,11 +1,13 @@
-import axios from "axios";
+import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
 
 const HomeAppliesModel = async () => {
+    setAuthorizationToken();
     try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/applies`);
+        const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/applies`);
         return response.data
     } catch (error) {
         window.alert('Error:' + error);
+        console.log(error.response.data);
         return []; 
     }
 }
