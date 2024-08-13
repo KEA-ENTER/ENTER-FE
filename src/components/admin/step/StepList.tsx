@@ -55,7 +55,7 @@ const StepList: React.FC = () => {
             return '반납 완료';
         else if (state === 'TAKE')
             return '인수중';
-        else if (state == 'BEFORE_TAKE')
+        else if (state === 'BEFORE_TAKE')
             return '인수 대기';
         else
             return '';
