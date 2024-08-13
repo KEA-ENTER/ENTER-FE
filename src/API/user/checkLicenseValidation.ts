@@ -1,21 +1,19 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://moaboa.shop';
+const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-const addLicense = async (licenseCode: string, licensePassword: string) => {
+const checkLicenseValidation = async () => {
     const accessToken = sessionStorage.getItem('accessToken');
-    console.log('licenseCode: ' + licenseCode);
-    console.log('licensePassword: ' + licensePassword);
+
+    if (!accessToken) {
+        console.error('Access Token이 없습니다. 로그인하세요.');
+        return;
+    }
 
     try {
-        const response = await axios.post(
+        const response = await axios.patch(
             `${BASE_URL}/members/license`,
-            {
-                memberId: 0,
-                licenseId: licenseCode,
-                licensePassword: licensePassword,
-                isAgreeTerms: true,
-            },
+            {},
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -23,7 +21,6 @@ const addLicense = async (licenseCode: string, licensePassword: string) => {
                 },
             },
         );
-
         return response.data;
     } catch (error) {
         console.error('API 요청 실패:', error);
@@ -31,4 +28,4 @@ const addLicense = async (licenseCode: string, licensePassword: string) => {
     }
 };
 
-export default addLicense;
+export default checkLicenseValidation;
