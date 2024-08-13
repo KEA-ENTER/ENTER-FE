@@ -1,28 +1,55 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Title from '../basic/Title';
 import Button from '../basic/Button';
 import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
+import Loading from '../basic/Loading';
+import VehicleModifyModel from './model/VehicleModifyModel';
+
+interface FormDataType {
+    model: string;
+    manufacturer: string;
+    vehicleNumber: string;
+    fuel: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+    capacity: string;
+    status: 'AVAILABLE' | 'INACTIVE';
+    image: File | null;
+}
 
 export default function VehicleModify() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
-    const [formData, setFormData] = useState({
-        model: '',
-        manufacturer: '',
-        vehicleNumber: '',
-        fuel: '',
-        capacity: '',
-        status: 'available',
-        image: null as File | null
+    const [loading, setLoading] = useState(false);
+    const { id } = useParams<{ id: string }>();
+    const [formData, setFormData] = useState<FormDataType>({
+        model: "",
+        manufacturer: "",
+        vehicleNumber: "",
+        fuel: 'DIESEL',
+        capacity: "",
+        status: 'AVAILABLE',
+        image: null
     });
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
-
     const navigate = useNavigate();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const createVehicle = async () => {
+        const res = await VehicleModifyModel(
+            id,
+            formData.vehicleNumber, 
+            formData.manufacturer, 
+            formData.model, 
+            formData.capacity, 
+            formData.fuel, 
+            formData.image, 
+            formData.status
+        );
+        return res;
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
@@ -40,18 +67,27 @@ export default function VehicleModify() {
         }
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
+        setLoading(true);
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
         if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
+            setLoading(false)
             setErrorModal(true);
         } else {
-            setConfirmModal(true);
+            const res = await createVehicle();
+            if (res) {
+                setLoading(false)
+                setConfirmModal(true);
+            } else {
+                setLoading(false)
+            }
         }
     };
 
     const closeModal = () => {
         setConfirmModal(false);
         setErrorModal(false);
+        navigate('/admin/vehicle')
     };
 
     const goVehicleCreate = () => {
@@ -77,7 +113,7 @@ export default function VehicleModify() {
             </ButtonContainer>
             {confirmModal && (
                 <Modal
-                    title="등록되었습니다."
+                    title="수정되었습니다."
                     description=""
                     onClose={closeModal}
                 />
@@ -88,6 +124,9 @@ export default function VehicleModify() {
                     description=""
                     onClose={closeModal}
                 />
+            )}
+            {loading && (
+                <Loading />
             )}
         </Container>
     );
