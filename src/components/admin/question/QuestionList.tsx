@@ -24,7 +24,7 @@ export default function QuestionList () {
 
     // 여기서부터 api 관련
     // 1. lotteryData로 되어 있는데 상황에 맞게 변수명만 변경해서 사용하면 됨, 그리고 <위에서만든인터페이스이름[]>으로 수정
-    const [questionData, setLotteryData] = useState<QuestionItem[]>([]);
+    const [questionData, setQuestionData] = useState<QuestionItem[]>([]);
     // 2. 얘는 그냥 복붙
     const [totalPage, setTotalPage] = useState(0);
 
@@ -65,7 +65,7 @@ export default function QuestionList () {
         QuestionListModel(word, type, pageNum).then(res => {
             if (res) {
                 // 여기 밑에 두 줄만 수정하면 됨
-                setLotteryData(res.questions);
+                setQuestionData(res.questions);
                 setTotalPage(res.totalPages); // totalPages 저장 (서버에서 보내준 총 페이지 수)
             }
         });
