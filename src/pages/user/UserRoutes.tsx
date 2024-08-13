@@ -15,7 +15,7 @@ import QuestionDetailPage from './Question/QuestionDetailPage';
 import RentPage from './RentReturn/RentPage';
 import ReturnPage from './RentReturn/ReturnPage';
 import NotApplicationDatePage from './ApplicationDate/NotApplicationDatePage'
-
+import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage'
 
 import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
@@ -85,6 +85,7 @@ const UserRoutes = () => {
                 <Route path="license" element={<AddLicensePage />} /> {/*면허증 등록*/}
                 <Route path="application" element={<ApplicationFormPage />} /> {/*차량 신청*/}
                 <Route path="not-apply" element={<NotApplicationDatePage />} /> {/*신청기간 경고*/}
+                <Route path="date-info" element={<ApplicationDateInfoPage />} /> {/*신청기간 경고*/}
                 <Route path="detail" element={<CompletedApplicationForm />} /> {/*차량 신청 내역*/}
                 <Route path="lottery-result" element={<LotteryResultPage />} /> {/*추첨 결과*/}
                 <Route path="mypage" element={<MyPage />} /> {/*내 정보*/}

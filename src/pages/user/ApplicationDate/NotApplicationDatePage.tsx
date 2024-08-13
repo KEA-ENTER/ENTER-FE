@@ -14,7 +14,7 @@ export default function NotApplicationDatePage() {
             <div>자세한 신청 일정를 확인하고 싶으면?</div>
             <Button
                 onClick={() => {
-                    navigate('/');
+                    navigate('/date-info');
                 }}
             >
                 신청일자 확인하기
