@@ -11,7 +11,7 @@ export default function AdminHome() {
 
     return (
         <Container>
-            <TitleText>{"탈까말까탈까말까탈말 탈까?"}</TitleText>
+            <TitleText>{"탈까?"}</TitleText>
             <Description>{"관리자 홈"}</Description>
             <AdminHomeContents />
             <Navigation>
@@ -42,7 +42,7 @@ const Container = styled.div`
     margin: 0 auto;
     position: relative;
     align-items: center;
-    background-color: #eeeeee40;
+    // background-color: #eeeeee40;
     padding: 30px;
 `;
 

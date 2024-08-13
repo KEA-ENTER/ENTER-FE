@@ -1,17 +1,46 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import HomeAppliesModel from './model/HomeAppliesModel';
+import HomeTakesModel from './model/HomeTakesModel';
+
+interface Takes {
+    applyRound: number;
+    applyCnt: number;
+    takeCnt: number;
+    noShowCnt: number;
+}
+
+interface Applies {
+    round: number;
+    applyCnt: number;
+    winningCnt: number;
+    cancelCnt: number;
+}
 
 export default function AdminHomeContents() {
     const [todayDate, setTodayDate] = useState('');
     const [todayState, setTodayState] = useState('');
     const [rentDate, setRentDate] = useState('0');
     const [returnDate, setReturnDate] = useState('0');
-
+    const [takesData, setTakesData] = useState<Takes | null>(null);
+    const [appliesData, setAppliesData] = useState<Applies | null>(null);
 
     useEffect(() => {
         getDate();
     }, [])
-    
+
+    useEffect(() => {
+        HomeAppliesModel().then(res => {
+            if (res) {
+                setAppliesData(res);
+            }
+        });
+        HomeTakesModel().then(res => {
+            if (res) {
+                setTakesData(res);
+            }
+        });
+    }, []);
 
     const getDate = () => {
         const d = new Date();
@@ -92,9 +121,21 @@ export default function AdminHomeContents() {
             </DateContainer>
             <StateData>
                 응모 현황
+                <StateContents>
+                    <StateItem>{`${appliesData?.round}회차`}</StateItem>
+                    <StateItem>{`${appliesData?.applyCnt}명 신청`}</StateItem>
+                    <StateItem>{`${appliesData?.winningCnt}명 배정`}</StateItem>
+                    <StateItem>{`${appliesData?.cancelCnt}명 취소`}</StateItem>
+                </StateContents>
             </StateData>
             <StateData>
                 인수 현황
+                <StateContents>
+                    <StateItem>{`${takesData?.applyRound}회차`}</StateItem>
+                    <StateItem>{`${takesData?.applyCnt}명 신청`}</StateItem>
+                    <StateItem>{`${takesData?.takeCnt}명 인수`}</StateItem>
+                    <StateItem>{`${takesData?.noShowCnt}명 미인수`}</StateItem>
+                </StateContents>
             </StateData>
         </Container>
     );
@@ -131,4 +172,13 @@ const DateItem = styled.div`
 const StateData = styled.div`
     margin: 30px auto;
     align-items: center;
+`;
+
+const StateContents = styled.div`
+    margin: 20px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const StateItem = styled.div`
 `;
