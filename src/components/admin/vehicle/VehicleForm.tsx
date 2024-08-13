@@ -12,7 +12,7 @@ interface VehicleFormProps {
         status: 'AVAILABLE' | 'INACTIVE';
         image: File | null;
     };
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
     imagePreview: string | ArrayBuffer | null;
 }
@@ -57,13 +57,16 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     width="50%"
                 />
                 <InputTitle>연료</InputTitle>
-                <Input
+                <Select
                     name="fuel"
-                    placeholder="연료"
                     value={formData.fuel}
                     onChange={handleInputChange}
                     width="50%"
-                />
+                >
+                    <option value="DIESEL">디젤</option>
+                    <option value="GASOLINE">가솔린</option>
+                    <option value="ELECTRICITY">전기</option>
+                </Select>
             </Row>
             <Row>
                 <InputTitle>수용 가능 인원</InputTitle>
@@ -135,12 +138,19 @@ const InputTitle = styled.div`
     margin: 0 10px;
 `;
 
+const Select = styled.select<{width: string}>`
+    border-radius: 10px;
+    padding: 8px;
+    border: 1px solid transparent;
+    width: ${(props) => props.width || '100%'};
+    outline: none;
+`;
+
 const StatusContainer = styled.div`
     display: flex;
     align-items: center;
-    // border: 1px solid red;
     width: 50%;
-        padding: 8px;
+    padding: 8px;
 
     label {
         margin-right: 10px;

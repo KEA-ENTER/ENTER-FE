@@ -6,6 +6,7 @@ import Button from '../basic/Button';
 import Modal from '../basic/Modal';
 import VehicleForm from './VehicleForm';
 import VehicleAddModel from './model/VehicleAddModel';
+import Loading from '../basic/Loading';
 
 interface FormDataType {
     model: string;
@@ -20,6 +21,7 @@ interface FormDataType {
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<FormDataType>({
         model: "",
         manufacturer: "",
@@ -33,13 +35,19 @@ export default function VehicleCreate() {
     const navigate = useNavigate();
 
     const createVehicle = async () => {
-        const res = await VehicleAddModel(formData.vehicleNumber, formData.manufacturer, formData.model, formData.capacity, formData.fuel, formData.image, formData.status);
-        if (!res) {
-            window.alert("실패");
-        }
+        const res = await VehicleAddModel(
+            formData.vehicleNumber, 
+            formData.manufacturer, 
+            formData.model, 
+            formData.capacity, 
+            formData.fuel, 
+            formData.image, 
+            formData.status
+        );
+        return res;
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
@@ -55,21 +63,29 @@ export default function VehicleCreate() {
             };
             reader.readAsDataURL(file);
         }
-    };    
+    };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
+        setLoading(true);
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
         if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
+            setLoading(false)
             setErrorModal(true);
         } else {
-            createVehicle();
-            setConfirmModal(true);
+            const res = await createVehicle();
+            if (res) {
+                setLoading(false)
+                setConfirmModal(true);
+            } else {
+                setLoading(false)
+            }
         }
     };
 
     const closeModal = () => {
         setConfirmModal(false);
         setErrorModal(false);
+        navigate('/admin/vehicle')
     };
 
     const goVehicleCreate = () => {
@@ -106,6 +122,9 @@ export default function VehicleCreate() {
                     description=""
                     onClose={closeModal}
                 />
+            )}
+            {loading && (
+                <Loading />
             )}
         </Container>
     );

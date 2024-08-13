@@ -16,21 +16,18 @@ const VehicleAddModel = async (vehicleNo: string, company: string, model: string
     const json = JSON.stringify(jsonData);
     const blob = new Blob([json], { type: "application/json" });
     formData.append("data", blob);
-
-    if (img) {
-        formData.append('image', img, img.name);
-    }
+    if (img) { formData.append('image', img, img.name); }
 
     try {
         const response = await api.post(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData);
         return response.data;
     } catch (error) {
         if (error instanceof Error) {
-            console.error('Error:', error.message);
-            window.alert('Error: ' + error.message);
+            console.error(error.message);
+            window.alert(error.message);
         } else {
-            console.error('Unknown error:', error);
-            window.alert('An unknown error occurred');
+            console.error(error);
+            window.alert(error);
         }
         return null;
     }
