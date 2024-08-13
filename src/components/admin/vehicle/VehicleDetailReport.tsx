@@ -2,15 +2,14 @@ import styled from "styled-components";
 import DateString from "../basic/DateString";
 
 interface VehicleReportProps {
-    reportData: {
-        id: number;
-        name: string;
-        date: string;
-        contents: string;
-    }[];
+    reportInfo: {
+        names: string[];
+        reportCreatedAts: string[];
+        contents: string[];
+    }
 }
-const VehicleDetailReport: React.FC<VehicleReportProps> = ({ reportData }) => {
 
+const VehicleDetailReport: React.FC<VehicleReportProps> = ({ reportInfo }) => {
     return(
         <Container>
             <Title>특이사항</Title>
@@ -23,11 +22,11 @@ const VehicleDetailReport: React.FC<VehicleReportProps> = ({ reportData }) => {
                 </TableRow>
                 </thead>
                 <tbody>
-                {reportData.map((item) => (
-                    <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{DateString(item.date)}</TableCell>
-                    <TableCellDetail>{item.contents}</TableCellDetail>
+                {reportInfo.names.map((name, index) => (
+                    <TableRow key={index}>
+                        <TableCell>{name}</TableCell>
+                        <TableCell>{DateString(reportInfo.reportCreatedAts[index])}</TableCell>
+                        <TableCellDetail>{reportInfo.contents[index]}</TableCellDetail>
                     </TableRow>
                 ))}
                 </tbody>

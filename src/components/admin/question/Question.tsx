@@ -19,7 +19,6 @@ export default function Question () {
                 />
             </SearchBoxContainer>
             <QuestionList />
-            <Pagination totalPages={10} />
         </Container>
     );
 }

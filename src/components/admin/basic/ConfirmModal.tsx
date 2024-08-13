@@ -12,7 +12,7 @@ interface ConfirmModalProps {
 const ConfirmModal: React.FC<ConfirmModalProps> = ({ title, description, onClose, setIsConfirmed }) => {
     const handleFalseClose = () => {
         setIsConfirmed(false);
-        onClose(true);
+        onClose(false);
     }
     const handleTrueClose = () => {
         setIsConfirmed(true);

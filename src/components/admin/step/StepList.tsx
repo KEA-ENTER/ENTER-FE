@@ -1,9 +1,46 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DateString from '../basic/DateString';
-import data from '../../../data/admin/step/step.json';
+import { useEffect, useState } from 'react';
+import StepListModel from './model/StepListModel';
+import Pagination from '../basic/Pagination';
+
+interface StepItem {
+    winningId: number;
+    vehicleModel: string;
+    vehicleNo: string;
+    takeDate: string;
+    returnDate: string;
+    memberName: string;
+    state: string;
+    hasTakeReport: boolean;
+    hasReturnReport: boolean;
+}
+
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const StepList: React.FC = () => {
+    const [stepData, setStepData] = useState<StepItem[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const query = Query();
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+
+    useEffect(() => {
+        const pageNum = parseInt(page) - 1;
+
+        StepListModel(word, type, pageNum).then(res => {
+            if (res) {
+                setStepData(res.reportList); 
+                setTotalPage(res.totalPages);
+            }
+        });
+    }, [type, word, page]);
+
     const navigate = useNavigate();
 
     const goRentReport = (id: number) => {
@@ -14,11 +51,11 @@ const StepList: React.FC = () => {
     }
 
     const getStatusText = (state: string) => {
-        if (state === 'return')
+        if (state === 'RETURN')
             return '반납 완료';
-        else if (state === 'take-over')
+        else if (state === 'TAKE')
             return '인수중';
-        else if (state == 'waiting')
+        else if (state === 'BEFORE_TAKE')
             return '인수 대기';
         else
             return '';
@@ -37,24 +74,24 @@ const StepList: React.FC = () => {
                     </TableRow>
                 </thead>
                 <tbody>
-                    {data.map((item) => (
-                        <TableRow key={item.id}>
-                            <TableCellDetail>{item.model} - {item.number}</TableCellDetail>
-                            <TableCellDetail>{DateString(item.startDate)}{" ~ "}{DateString(item.endDate)}</TableCellDetail>
-                            <TableCell>{item.receiver}</TableCell>
+                    {stepData.map((item, idx) => (
+                        <TableRow key={idx}>
+                            <TableCellDetail>{item.vehicleModel} - {item.vehicleNo}</TableCellDetail>
+                            <TableCellDetail>{DateString(item.takeDate)}{" ~ "}{DateString(item.returnDate)}</TableCellDetail>
+                            <TableCell>{item.memberName}</TableCell>
                             <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCellDetail>
                                 <ReportBtn 
-                                    onClick={() => goRentReport(item.id)} 
-                                    disabled={item.state === 'waiting'} 
-                                    isDisabled={item.state === 'waiting'}
+                                    onClick={() => goRentReport(item.winningId)} 
+                                    disabled={item.state === 'BEFORE_TAKE'} 
+                                    isDisabled={item.state === 'BEFORE_TAKE'}
                                     >
                                     인수 보고서
                                 </ReportBtn>
                                 <ReportBtn 
-                                    onClick={() => goReturnReport(item.id)} 
-                                    disabled={item.state !== 'return'} 
-                                    isDisabled={item.state !== 'return'}
+                                    onClick={() => goReturnReport(item.winningId)} 
+                                    disabled={item.state !== 'RETURN'} 
+                                    isDisabled={item.state !== 'RETURN'}
                                     >
                                     반납 보고서
                                 </ReportBtn>
@@ -63,6 +100,8 @@ const StepList: React.FC = () => {
                     ))}
                 </tbody>
             </Table>
+            <Pagination totalPages={totalPage} />
+
         </Container>
     );
 };

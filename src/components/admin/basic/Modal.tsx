@@ -8,13 +8,17 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ title, description, onClose }) => {
+    const handleClose =()=> {
+        onClose()
+        window.location.reload();
+    }
     return (
         <Overlay onClick={onClose}>
             <ModalContainer onClick={(e) => e.stopPropagation()}>
                 <Title>{title}</Title>
                 <Description>{description}</Description>
                 <ButtonContainer>
-                    <Button text="확인" onClick={onClose} />
+                    <Button text="확인" onClick={handleClose} />
                 </ButtonContainer>
             </ModalContainer>
         </Overlay>
