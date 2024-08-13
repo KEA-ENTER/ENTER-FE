@@ -113,7 +113,7 @@ export default function VehicleModify() {
             </ButtonContainer>
             {confirmModal && (
                 <Modal
-                    title="등록되었습니다."
+                    title="수정되었습니다."
                     description=""
                     onClose={closeModal}
                 />
