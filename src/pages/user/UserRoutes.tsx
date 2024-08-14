@@ -20,6 +20,7 @@ import autoRouting from '../../API/user/autoRouting';
 import navigateBasedOnRoutingId from '../../utils/navigateOnRoutingId';
 import NotApplicationDatePage from './ApplicationDate/NotApplicationDatePage';
 import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
+import StatisticsPage from './Statistics/StatisticsPage';
 
 const UserRoutes = () => {
     const navigate = useNavigate();
@@ -88,6 +89,7 @@ const UserRoutes = () => {
                 <Route path="questiondetail" element={<QuestionDetailPage />} /> {/*문의 세부*/}
                 <Route path="rent/:page" element={<RentPage />} /> {/*차량 인수*/}
                 <Route path="return/:page" element={<ReturnPage />} /> {/*차량 반납*/}
+                <Route path="statistics" element={<StatisticsPage />} /> {/*통계*/}
             </Route>
         </Routes>
     );
