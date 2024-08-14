@@ -1,12 +1,19 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../components/user/UI/Button';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Title from '../../../components/user/UI/Title';
+
 import getDetail from '../../../API/user/getDetail';
+import deleteApplication from '../../../API/user/deleteApplication';
+import autoRouting from '../../../API/user/autoRouting';
+import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
 
 export default function CompletedApplicationForm() {
+    const navigate = useNavigate();
+
     const [date, setDate] = useState<string>('');
     const [purpose, setPurpose] = useState<string>('');
     const [selectedCar, setSelectedCar] = useState<string>('');
@@ -16,8 +23,6 @@ export default function CompletedApplicationForm() {
         const fetchData = async () => {
             try {
                 const getDetailResponse = await getDetail();
-                console.log(getDetailResponse);
-
                 setApplyId(getDetailResponse.applyId);
                 setDate(getDetailResponse.takeDate);
                 setPurpose(getDetailResponse.purpose);
@@ -29,6 +34,21 @@ export default function CompletedApplicationForm() {
 
         fetchData();
     }, []);
+
+    const deleteHandler = async () => {
+        console.log('deleteHandler');
+        if (applyId != null) {
+            try {
+                const deleteResponse = await deleteApplication(applyId);
+                console.log(deleteResponse);
+                const autoRoutingResponse = await autoRouting();
+                sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
+                navigateBasedOnRoutingId(Number(sessionStorage.getItem('autoRoutingPage')), navigate);
+            } catch (error) {
+                console.error('삭제 실패:', error);
+            }
+        }
+    };
 
     return (
         <Container>
@@ -44,7 +64,7 @@ export default function CompletedApplicationForm() {
 
             <ButtonContainer>
                 <Button>신청 수정</Button>
-                <Button>신청 취소</Button>
+                <Button onClick={deleteHandler}>신청 취소</Button>
             </ButtonContainer>
         </Container>
     );
