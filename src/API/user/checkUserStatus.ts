@@ -9,7 +9,6 @@ interface userStatus {
 
 const checkUserStatus = async (): Promise<userStatus> => {
     const accessToken = sessionStorage.getItem('accessToken');
-
     try {
         const response = await axios.get<userStatus>(`${BASE_URL}/members/license`, {
             headers: {
