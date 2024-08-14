@@ -39,30 +39,6 @@ export default function NavBar() {
         setActivePage(pageMapping[location.pathname] || null);
     }, [state, location.pathname]);
 
-    const [activePage, setActivePage] = useState<string | null>(null);
-    const [showRRButton, setShowRRButton] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (state === 'WINNER') {
-            setShowRRButton(true);
-        }
-
-        const pageMapping: { [key: string]: string } = {
-            '/application': 'vehicle',
-            '/detail': 'vehicle',
-            '/lottery-result': 'vehicle',
-            '/statistics': 'statistics',
-            '/rent': 'rr',
-            '/return': 'rr',
-            '/question': 'question',
-            '/write': 'question',
-            '/questiondetail': 'question',
-            '/mypage': 'mypage',
-        };
-
-        setActivePage(pageMapping[location.pathname] || null);
-    }, [state, location.pathname]);
-
     // 사용자 페이지 네비게이션 바 숨겨야 하는 페이지
     const isLicensePage = location.pathname === '/license';
 
