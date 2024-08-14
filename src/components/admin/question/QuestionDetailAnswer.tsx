@@ -2,11 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import Button from "../basic/Button";
 import Modal from "../basic/Modal";
+import QuestionAnswerModel from "./model/QuestionAnswerModel";
+import { useParams } from "react-router-dom";
 
 export default function QuestionDetailAnswer () {
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [contentData, setContentData] = useState<string | null>(null)
+    const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
 
     const closeErrorModal = () => {
         setErrorModal(false);
@@ -17,7 +20,12 @@ export default function QuestionDetailAnswer () {
             setErrorModal(true);
         }
         else {
-            setConfirmModal(true);
+            const questionIdNum = parseInt(id ?? "0");
+            QuestionAnswerModel(questionIdNum, contentData).then(res => {
+                if (res) {
+                    setConfirmModal(true);
+                }
+            });
         }
     };
 
