@@ -1,13 +1,34 @@
 import styled from 'styled-components';
-import { useState, ChangeEvent } from 'react';
-
+import { useState, useEffect, ChangeEvent } from 'react';
 import Button from '../../../components/user/UI/Button';
 import Title from '../../../components/user/UI/Title';
 import Input from '../../../components/user/UI/Input';
 
+import questionsList from '../../../API/user/questionsList';
+
+interface QuestionItem {
+    date: string;
+    content: string;
+    author: string;
+}
+
 export default function QuestionListPage() {
     const [category, setCategory] = useState<string>('내용');
     const [userInput, setUserInput] = useState<string>('');
+    const [questions, setQuestions] = useState<QuestionItem[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await questionsList(1); //페이지에 맞게 파라미터 작성
+                setQuestions(data);
+            } catch (error) {
+                console.error('Failed to fetch questions:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
@@ -34,20 +55,17 @@ export default function QuestionListPage() {
                         placeholder="키워드를 입력하세요"
                         value={userInput}
                         onChange={handleUserInputChange}
-                    ></Input>
+                    />
                 </InputContainer>
             </UserInputContainer>
             <ListContainer>
-                <TextBox>
-                    <div>작성일</div>
-                    <div>내용</div>
-                    <div>이름</div>
-                </TextBox>
-                <TextBox>
-                    <div>작성일</div>
-                    <div>내용</div>
-                    <div>이름</div>
-                </TextBox>
+                {questions.map((question, index) => (
+                    <TextBox key={index}>
+                        <div>{question.date}</div>
+                        <div>{question.content}</div>
+                        <div>{question.author}</div>
+                    </TextBox>
+                ))}
             </ListContainer>
             <ButtonContainer>
                 <Button>문의하기</Button>
@@ -57,26 +75,22 @@ export default function QuestionListPage() {
 }
 
 const Container = styled.div`
-    // border: 1px solid red;
     width: 100%;
 `;
 
 const UserInputContainer = styled.div`
-    // border: 1px solid red;
     display: flex;
     align-items: center;
 `;
 
 const SelectContainer = styled.div`
-    // border: 1px solid red;
     flex: 2;
-    padding: 10px 5px 10px 5px;
+    padding: 10px 5px;
 `;
 
 const InputContainer = styled.div`
-    // border: 1px solid red;
     flex: 3;
-    padding: 10px 5px 10px 5px;
+    padding: 10px 5px;
 `;
 
 const Select = styled.select`
@@ -92,7 +106,6 @@ const Select = styled.select`
 
 const ListContainer = styled.div`
     border-radius: 8px;
-    // background-color: #eeeeee;
     padding: 10px;
 `;
 

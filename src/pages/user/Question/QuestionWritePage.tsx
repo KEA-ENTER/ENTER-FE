@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import Title from '../../../components/user/UI/Title';
-import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 추가
+import Button from '../../../components/user/UI/Button';
 
 export default function QuestionWritePage() {
     const [category, setCategory] = useState<string>('차량이용');
@@ -17,10 +17,9 @@ export default function QuestionWritePage() {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        // 입력된 데이터 처리 로직 추가
+
         console.log('Category:', category);
         console.log('Content:', content);
-        // 여기에서 서버로 데이터를 전송하거나 다른 로직을 추가할 수 있습니다.
     };
 
     return (
@@ -66,5 +65,4 @@ const Input = styled.textarea`
 
 const ButtonContainer = styled.div`
     width: 100%;
-    
 `;
