@@ -1,34 +1,70 @@
 import styled from 'styled-components';
 import { useState, useEffect, ChangeEvent } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from '../../../components/user/UI/Button';
 import Title from '../../../components/user/UI/Title';
 import Input from '../../../components/user/UI/Input';
-
+import DateString from '../../../components/admin/basic/DateString';
+import Pagination from '../../../components/admin/basic/Pagination';
 import questionsList from '../../../API/user/questionsList';
 
 interface QuestionItem {
-    date: string;
-    content: string;
-    author: string;
+    questionId: number;
+    name: string;
+    questionContent: string;
+    category: string;
+    questionCreatedAt: string;
+    state: string;
+    totalPages: Int16Array;
+    hasNextPage: boolean;
+}
+
+function Query() {
+    return new URLSearchParams(useLocation().search);
 }
 
 export default function QuestionListPage() {
-    const [category, setCategory] = useState<string>('내용');
-    const [userInput, setUserInput] = useState<string>('');
+    const query = Query();
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+
+    const [category, setCategory] = useState<string>(type);
+    const [userInput, setUserInput] = useState<string>(word);
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const navigate = useNavigate();    
+
+    const getCategoryText = (category: string) => {
+        if (category === 'USER')
+            return '사용자';
+        else if (category === 'SERVICE')
+            return '서비스';
+        else if (category == 'VEHICLE')
+            return '차량 문의';
+        else if (category == 'ETC')
+            return '기타';
+        else
+            return '';
+    }
+
+    const fetchData = () => {
+        const pageNum = parseInt(page);
+        questionsList(pageNum, category, userInput)
+            .then((data) => {
+                setQuestions(data.questions);
+                setTotalPage(data.totalPages);
+                console.log("data: ", data.questions);
+            })
+            .catch((error) => {
+                console.error('Failed to fetch questions:', error);
+            });
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await questionsList(1); //페이지에 맞게 파라미터 작성
-                setQuestions(data);
-            } catch (error) {
-                console.error('Failed to fetch questions:', error);
-            }
-        };
-
         fetchData();
-    }, []);
+    }, [category, userInput, page]);
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
@@ -38,6 +74,14 @@ export default function QuestionListPage() {
         setUserInput(event.target.value);
     };
 
+    const goQuestionDetail = (id: number) => {
+        navigate(`/questiondetail/${id}`)
+    }
+
+    const goQuestionWrite = () => {
+        navigate(`/write`)
+    }
+
     return (
         <Container>
             <Title title="문의 게시판" />
@@ -45,7 +89,8 @@ export default function QuestionListPage() {
                 <SelectContainer>
                     <Select value={category} onChange={handleCategoryChange}>
                         <option value="전체">전체</option>
-                        <option value="내용">내용</option>
+                        <option value="카테고리">카테고리</option>
+                        <option value="상태">상태</option>
                         <option value="작성자">작성자</option>
                     </Select>
                 </SelectContainer>
@@ -59,17 +104,19 @@ export default function QuestionListPage() {
                 </InputContainer>
             </UserInputContainer>
             <ListContainer>
-                {questions.map((question, index) => (
-                    <TextBox key={index}>
-                        <div>{question.date}</div>
-                        <div>{question.content}</div>
-                        <div>{question.author}</div>
+                {questions.map((item) => (
+                    <TextBox key={item.questionId} onClick={() => goQuestionDetail(item.questionId)}>
+                        <div>{DateString(item.questionCreatedAt)}</div>
+                        <div>{getCategoryText(item.category)}</div>
+                        <CutContent>{item.questionContent}</CutContent>
+                        <div>{item.name}</div>
                     </TextBox>
                 ))}
             </ListContainer>
             <ButtonContainer>
-                <Button>문의하기</Button>
+                <Button onClick={() => goQuestionWrite()}>문의하기</Button>
             </ButtonContainer>
+            <Pagination totalPages={totalPage} />
         </Container>
     );
 }
@@ -120,4 +167,11 @@ const TextBox = styled.div`
 
 const ButtonContainer = styled.div`
     text-align: center;
+`;
+
+const CutContent = styled.div`
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;

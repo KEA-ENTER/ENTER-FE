@@ -79,7 +79,7 @@ const UserRoutes = () => {
                 <Route path="mypage" element={<MyPage />} /> {/*내 정보*/}
                 <Route path="question" element={<QuestionListPage />} /> {/*문의*/}
                 <Route path="write" element={<QuestionWritePage />} /> {/*문의 작성*/}
-                <Route path="questiondetail" element={<QuestionDetailPage />} /> {/*문의 세부*/}
+                <Route path="questiondetail/:id" element={<QuestionDetailPage />} /> {/*문의 세부*/}
                 <Route path="rent/:page" element={<RentPage />} /> {/*차량 인수*/}
                 <Route path="return/:page" element={<ReturnPage />} /> {/*차량 반납*/}
             </Route>
