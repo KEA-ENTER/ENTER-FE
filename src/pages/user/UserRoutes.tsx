@@ -14,12 +14,10 @@ import QuestionWritePage from './Question/QuestionWritePage';
 import QuestionDetailPage from './Question/QuestionDetailPage';
 import RentPage from './RentReturn/RentPage';
 import ReturnPage from './RentReturn/ReturnPage';
-import NotApplicationDatePage from './ApplicationDate/NotApplicationDatePage'
-import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage'
-
 import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 import autoRouting from '../../API/user/autoRouting';
+import navigateBasedOnRoutingId from '../../utils/navigateOnRoutingId';
 
 const UserRoutes = () => {
     const navigate = useNavigate();
@@ -59,16 +57,8 @@ const UserRoutes = () => {
                         const autoRoutingResponse = await autoRouting();
                         console.log(autoRoutingResponse);
                         setUser(name, autoRoutingResponse.userState);
-                        if (autoRoutingResponse.routingId === 1) {
-                            navigate('/application'); //차량 신청 페이지
-                        } else if (autoRoutingResponse.routingId === 2) {
-                            navigate('/detail'); //신청서 조회 페이지
-                        } else if (autoRoutingResponse.routingId === 3) {
-                            navigate('/detail'); //
-                        } else if (autoRoutingResponse.routingId === 4) {
-                            navigate('/lottery-result');
-                        }
                         sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
+                        navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
                     }
                 }
             } catch (error) {
@@ -84,8 +74,6 @@ const UserRoutes = () => {
             <Route path="/" element={<Layout />}>
                 <Route path="license" element={<AddLicensePage />} /> {/*면허증 등록*/}
                 <Route path="application" element={<ApplicationFormPage />} /> {/*차량 신청*/}
-                <Route path="not-apply" element={<NotApplicationDatePage />} /> {/*신청기간 경고*/}
-                <Route path="date-info" element={<ApplicationDateInfoPage />} /> {/*신청기간 경고*/}
                 <Route path="detail" element={<CompletedApplicationForm />} /> {/*차량 신청 내역*/}
                 <Route path="lottery-result" element={<LotteryResultPage />} /> {/*추첨 결과*/}
                 <Route path="mypage" element={<MyPage />} /> {/*내 정보*/}
