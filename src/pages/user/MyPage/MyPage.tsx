@@ -1,8 +1,46 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 
+import participationHistory from '../../../API/user/participationHistory';
+import penaltyHistory from '../../../API/user/panaltyHistory';
+
+interface ParticipationItem {
+    round: number;
+    takeDate: string;
+    returnDate: string;
+    competitionRate: string;
+    result: string;
+}
+
+interface PenaltyItem {
+    createdAt: string;
+    reason: string;
+    level: string;
+}
+
 export default function MyPage() {
+    const [participationHistoryState, setParticipationHistory] = useState<ParticipationItem[]>([]);
+    const [penaltyHistoryState, setPenaltyHistory] = useState<PenaltyItem[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const participationData = await participationHistory();
+                setParticipationHistory(participationData);
+
+                const penaltyData = await penaltyHistory();
+                console.log(penaltyData);
+                setPenaltyHistory(penaltyData);
+            } catch (error) {
+                console.error('데이터를 가져오는 데 실패했습니다:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <Container>
             <Title title="내 정보" />
@@ -14,25 +52,18 @@ export default function MyPage() {
                     <TableHead>경쟁률</TableHead>
                     <TableHead>결과</TableHead>
                 </TableHeadContainer>
-                <ListContainer>
-                    <Items>24회차</Items>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>21:1</Items>
-                    <Items>미당첨</Items>
-                </ListContainer>
-                <ListContainer>
-                    <Items>24회차</Items>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>21:1</Items>
-                    <Items>미당첨</Items>
-                </ListContainer>
-                <ListContainer>
-                    <Items>24회차</Items>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>21:1</Items>
-                    <Items>미당첨</Items>
-                </ListContainer>
+                <ScrollableList>
+                    {participationHistoryState.map((item, index) => (
+                        <ListContainer key={index}>
+                            <Items>{item.round}</Items>
+                            <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
+                            <Items>{item.competitionRate}</Items>
+                            <Items>{item.result}</Items>
+                        </ListContainer>
+                    ))}
+                </ScrollableList>
             </TableContainer>
+
             <SubTitle subTitle="페널티 내역" />
             <TableContainer>
                 <TableHeadContainer>
@@ -40,26 +71,21 @@ export default function MyPage() {
                     <TableHead>사유</TableHead>
                     <TableHead>기간</TableHead>
                 </TableHeadContainer>
-                <ListContainer>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>지연반납</Items>
-                    <Items>2개월</Items>
-                </ListContainer>
-                <ListContainer>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>지연반납</Items>
-                    <Items>2개월</Items>
-                </ListContainer>
-                <ListContainer>
-                    <Items>24.07.31 ~ 24.08.01</Items>
-                    <Items>지연반납</Items>
-                    <Items>2개월</Items>
-                </ListContainer>
+                <ScrollableList>
+                    {penaltyHistoryState.map((item, index) => (
+                        <ListContainer key={index}>
+                            <Items>{item.createdAt}</Items>
+                            <Items>{item.reason}</Items>
+                            <Items>{item.level}</Items>
+                        </ListContainer>
+                    ))}
+                </ScrollableList>
             </TableContainer>
         </Container>
     );
 }
 
+// 스타일 컴포넌트
 const Container = styled.div`
     width: 100%;
 `;
@@ -79,6 +105,11 @@ const TableHeadContainer = styled.div`
 const TableHead = styled.div`
     font-size: 15px;
     font-weight: 700;
+`;
+
+const ScrollableList = styled.div`
+    max-height: 180px; /* 대략적인 높이로 3개 항목까지만 보이도록 설정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤바가 나타남 */
 `;
 
 const ListContainer = styled.div`
