@@ -7,7 +7,7 @@ const HomeAppliesModel = async () => {
         return response.data
     } catch (error) {
         window.alert('Error:' + error);
-        console.log(error.response.data);
+        console.log(error);
         return []; 
     }
 }
