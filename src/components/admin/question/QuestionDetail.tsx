@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Title from "../basic/Title";
 import Button from "../basic/Button";
 import QuestionDetailContents from "./QuestionDetailContents";
-
 import QuestionDetailAnswer from "./QuestionDetailAnswer";
 
 export default function QuestionDetail() {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import DateString from '../basic/DateString';
 import IdString from '../basic/IdString';
 import { useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ const LotteryDetailList: React.FC = () => {
     const type = query.get("type") ?? "ALL";
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
-    const { applyRound } = useParams<{ id: string }>();
+    const { applyRound } = useParams<{ applyRound: string }>();
    
     useEffect(() => {
         const pageNum = parseInt(page) - 1;
@@ -37,7 +37,7 @@ const LotteryDetailList: React.FC = () => {
                 setTotalPage(res.totalPages);
             }
         });
-    }, [type, word, page]);
+    }, [type, word, page, applyRound]);
 
     return (
         <Container>
