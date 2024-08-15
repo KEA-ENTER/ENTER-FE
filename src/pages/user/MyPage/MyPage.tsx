@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import getPenaltyHistory from '../../../API/user/panaltyHistory';
+import getParticipationHistory from '../../../API/user/participationHistory';
 
 interface ParticipationItem {
     round: number;
@@ -23,55 +24,98 @@ interface PenaltyItem {
 export default function MyPage() {
     const navigate = useNavigate();
 
-    const [participationHistoryState, setParticipationHistory] = useState<ParticipationItem[]>([
-        { competitionRate: 91447, result: '미당첨', returnDate: '01-12', round: 2, takeDate: '01-11' },
-        // 더미 데이터 - 실제 데이터로 교체해야 함
-    ]);
-
+    //데이터를 담는 state
+    const [participationHistoryState, setParticipationHistory] = useState<ParticipationItem[]>([]);
     const [penaltyHistoryState, setPenaltyHistory] = useState<PenaltyItem[]>([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
 
-    const observer = useRef<IntersectionObserver | null>(null);
+    //내역의 페이지 번호를 관리 state
+    const [participationPage, setParticipationPage] = useState(0);
+    const [penaltyPage, setPenaltyPage] = useState(0);
 
+    //더 불러올 데이터가 있는지 여부
+    const [participationHasMore, setParticipationHasMore] = useState(true);
+    const [penaltyHasMore, setPenaltyHasMore] = useState(true);
+
+    //로딩 상태를 관리
+    const [participationLoading, setParticipationLoading] = useState(false);
+    const [penaltyLoading, setPenaltyLoading] = useState(false);
+
+    const participationObserver = useRef<IntersectionObserver | null>(null);
+    const penaltyObserver = useRef<IntersectionObserver | null>(null);
+
+    const lastParticipationElementRef = useRef<HTMLDivElement>(null);
     const lastPenaltyElementRef = useRef<HTMLDivElement>(null);
 
     const navigateToDetailPage = (penaltyId: number) => {
         navigate(`/penalty/${penaltyId}`);
     };
 
-    useEffect(() => {
-        const fetchPenalties = async () => {
-            setLoading(true);
-            try {
-                const penaltyData = await getPenaltyHistory(page, 10, 'createdAt');
-                setPenaltyHistory((prev) => [...prev, ...penaltyData.penaltyList]);
-                setHasMore(penaltyData.penaltyList.length > 0);
-                setLoading(false);
-            } catch (error) {
-                console.error('데이터를 가져오는 데 실패했습니다:', error);
-                setLoading(false);
-            }
-        };
-
-        fetchPenalties();
-    }, [page]);
-
-    useEffect(() => {
+    const setupObserver = (
+        observerRef: React.MutableRefObject<IntersectionObserver | null>,
+        ref: React.RefObject<HTMLDivElement>,
+        setPage: React.Dispatch<React.SetStateAction<number>>,
+        hasMore: boolean,
+        loading: boolean,
+    ) => {
         if (loading) return;
-        if (observer.current) observer.current.disconnect();
+        if (observerRef.current) observerRef.current.disconnect();
 
-        observer.current = new IntersectionObserver((entries) => {
+        observerRef.current = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && hasMore) {
                 setPage((prevPage) => prevPage + 1);
             }
         });
 
-        if (lastPenaltyElementRef.current) {
-            observer.current.observe(lastPenaltyElementRef.current);
+        if (ref.current) {
+            observerRef.current.observe(ref.current);
         }
-    }, [loading, hasMore]);
+    };
+
+    useEffect(() => {
+        const fetchParticipationHistory = async () => {
+            setParticipationLoading(true);
+            try {
+                const participationData = await getParticipationHistory(participationPage);
+                setParticipationHistory((prev) => [...prev, ...participationData.lotteryListInfos]);
+                setParticipationHasMore(participationData.lotteryListInfos.length > 0);
+                setParticipationLoading(false);
+            } catch (error) {
+                console.error('참여 내역을 가져오는 데 실패했습니다:', error);
+                setParticipationLoading(false);
+            }
+        };
+        fetchParticipationHistory();
+    }, [participationPage]);
+
+    useEffect(() => {
+        const fetchPenalties = async () => {
+            setPenaltyLoading(true);
+            try {
+                const penaltyData = await getPenaltyHistory(penaltyPage);
+                setPenaltyHistory((prev) => [...prev, ...penaltyData.penaltyList]);
+                setPenaltyHasMore(penaltyData.penaltyList.length > 0);
+                setPenaltyLoading(false);
+            } catch (error) {
+                console.error('데이터를 가져오는 데 실패했습니다:', error);
+                setPenaltyLoading(false);
+            }
+        };
+        fetchPenalties();
+    }, [penaltyPage]);
+
+    useEffect(() => {
+        setupObserver(
+            participationObserver,
+            lastParticipationElementRef,
+            setParticipationPage,
+            participationHasMore,
+            participationLoading,
+        );
+    }, [participationLoading, participationHasMore]);
+
+    useEffect(() => {
+        setupObserver(penaltyObserver, lastPenaltyElementRef, setPenaltyPage, penaltyHasMore, penaltyLoading);
+    }, [penaltyLoading, penaltyHasMore]);
 
     return (
         <Container>
@@ -85,21 +129,34 @@ export default function MyPage() {
                     <TableHead>결과</TableHead>
                 </TableHeadContainer>
                 <ScrollableList>
-                    {participationHistoryState.map((item, index) => (
-                        <ListContainer key={index}>
-                            <Items>{item.round}</Items>
-                            <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
-                            <Items>{item.competitionRate}</Items>
-                            <Items>{item.result}</Items>
-                        </ListContainer>
-                    ))}
+                    {participationHistoryState.map((item, index) => {
+                        if (index === participationHistoryState.length - 1) {
+                            return (
+                                <ListContainer key={index} ref={lastParticipationElementRef}>
+                                    <Items>{item.round}</Items>
+                                    <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
+                                    <Items>{item.competitionRate}</Items>
+                                    <Items>{item.result}</Items>
+                                </ListContainer>
+                            );
+                        } else {
+                            return (
+                                <ListContainer key={index}>
+                                    <Items>{item.round}</Items>
+                                    <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
+                                    <Items>{item.competitionRate}</Items>
+                                    <Items>{item.result}</Items>
+                                </ListContainer>
+                            );
+                        }
+                    })}
                 </ScrollableList>
             </TableContainer>
 
             <SubTitle subTitle="페널티 내역" />
             <TableContainer>
                 <TableHeadContainer>
-                    <TableHead>사용기간</TableHead>
+                    <TableHead>페널티 생성일</TableHead>
                     <TableHead>사유</TableHead>
                     <TableHead>기간</TableHead>
                 </TableHeadContainer>
@@ -133,7 +190,6 @@ export default function MyPage() {
     );
 }
 
-// 스타일 컴포넌트
 const Container = styled.div`
     width: 100%;
 `;

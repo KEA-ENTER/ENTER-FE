@@ -6,24 +6,22 @@ import AdminRoutes from './pages/admin/AdminRoutes';
 
 export default function App() {
     const [role, setRole] = useState<string | null>(sessionStorage.getItem('role'));
-    const [accessToken, setAccessToken] = useState<string | null>(sessionStorage.getItem('accessToken'));
 
-    const stateHandler = (role: string, accessToken:string) => {
+    const stateHandler = (role: string) => {
         setRole(role);
-        setAccessToken(accessToken);
-    }
+    };
 
     return (
         <Router>
             <div>
-                {role && accessToken ? ( // role과 accessToken이 정의된 경우
+                {role && sessionStorage.getItem('accessToken') ? ( // role과 accessToken이 정의된 경우
                     role === 'USER' ? (
                         <UserRoutes />
                     ) : (
                         <AdminRoutes />
                     )
                 ) : (
-                    <Login stateHandler={stateHandler}/>
+                    <Login stateHandler={stateHandler} />
                 )}
             </div>
         </Router>
