@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-const getDetail = async () => {
+const participationHistory = async (page: number) => {
     const accessToken = sessionStorage.getItem('accessToken');
 
     try {
@@ -10,6 +10,9 @@ const getDetail = async () => {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
+            },
+            params: {
+                page,
             },
         });
         return response.data;
@@ -19,4 +22,4 @@ const getDetail = async () => {
     }
 };
 
-export default getDetail;
+export default participationHistory;

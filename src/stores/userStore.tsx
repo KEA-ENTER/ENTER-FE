@@ -9,8 +9,6 @@ interface UserState {
 
 const useUserStore = create<UserState>((set) => ({
     name: '',
-    role: '',
-    accessToken: '',
     state: '',
     setUser: (name, state) =>
         set({

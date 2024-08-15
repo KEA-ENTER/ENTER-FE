@@ -2,20 +2,16 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-const panaltyHistory = async (page: number = 0) => {
+const getReportType = async () => {
     const accessToken = sessionStorage.getItem('accessToken');
 
     try {
-        const response = await axios.get(`${BASE_URL}/penalties`, {
+        const response = await axios.get(`${BASE_URL}/members/report/post-type`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
-            params: {
-                page,
-            },
         });
-
         return response.data;
     } catch (error) {
         console.error('API 요청 실패:', error);
@@ -23,4 +19,4 @@ const panaltyHistory = async (page: number = 0) => {
     }
 };
 
-export default panaltyHistory;
+export default getReportType;
