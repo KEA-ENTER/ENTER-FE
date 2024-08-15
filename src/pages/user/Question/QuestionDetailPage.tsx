@@ -12,6 +12,7 @@ export default function QuestionDetailPage() {
     const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [answerContent, setAnswerContent] = useState<string>('');
+    const [myQuestion, setMyQuestion] = useState<boolean>(false); 
     const { id } = useParams();
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
@@ -57,9 +58,11 @@ export default function QuestionDetailPage() {
                     'Content-Type': 'application/json',
                 },
             });
+            console.log("테스트: ", response.data.myQuestion)
             setCategory(response.data.category)
             setContent(response.data.questionContent)
             setAnswerContent(response.data.answerContent)
+            setMyQuestion(response.data.myQuestion);
         } catch (error) {
             console.error('API 요청 실패:', error);
             throw error;
@@ -83,10 +86,12 @@ export default function QuestionDetailPage() {
                     <TextBox>{answerContent}</TextBox>
                 </>
             ) : (
-                <ButtonContainer>
-                    <Button onClick={handleModifyClick}>수정하기</Button>
-                    <Button onClick={handleDeleteClick}>삭제하기</Button>
-                </ButtonContainer>
+                myQuestion && ( // myQuestion이 true일 때만 버튼을 보여줌
+                    <ButtonContainer>
+                        <Button onClick={handleModifyClick}>수정하기</Button>
+                        <Button onClick={handleDeleteClick}>삭제하기</Button>
+                    </ButtonContainer>
+                )
             )}
         </Container>
     );
