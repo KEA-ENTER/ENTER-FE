@@ -2,15 +2,11 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-interface userStatus {
-    code: string;
-    message: string;
-}
-
-const checkUserStatus = async (): Promise<userStatus> => {
+const questionDetail = async (questionId: number) => {
     const accessToken = sessionStorage.getItem('accessToken');
+
     try {
-        const response = await axios.get<userStatus>(`${BASE_URL}/members/license`, {
+        const response = await axios.get(`${BASE_URL}/questions/${questionId}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
@@ -23,4 +19,4 @@ const checkUserStatus = async (): Promise<userStatus> => {
     }
 };
 
-export default checkUserStatus;
+export default questionDetail;
