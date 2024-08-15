@@ -80,6 +80,12 @@ const VehicleList: React.FC = () => {
             }
             setSelectedId(null);
             setSelectedVehicle(null);
+            query.delete("q");
+            query.delete("type");
+            query.delete("page");
+            navigate({
+                search: query.toString(),
+            });
         } else {
             setAlertModal(false);
             setSelectedId(null);

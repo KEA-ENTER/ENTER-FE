@@ -22,6 +22,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const handleSearch = () => {
         query.set("type", selectedItem);
         query.set("q", searchText);
+        query.delete("page");
         navigate({
             search: query.toString(),
         });
