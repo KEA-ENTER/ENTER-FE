@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import QuestionList from "./QuestionList";
 

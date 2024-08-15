@@ -17,7 +17,7 @@ interface QuestionItem {
 
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
-    const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [openAnswer, setOpenAnswer] = useState(false);
 
@@ -35,7 +35,7 @@ export default function QuestionDetailContents () {
                 setQuestionData(res);
             }
         });
-    }, []);
+    }, [id]);
 
     const getCategoryText = (category: string) => {
         if (category === 'USER')

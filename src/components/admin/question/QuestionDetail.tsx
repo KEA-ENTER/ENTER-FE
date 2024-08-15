@@ -8,8 +8,6 @@ export default function QuestionDetail() {
         <Container>
             <TitleStyle imageSrc="/img/headphone.png" title="문의 관리" />
             <QuestionDetailContents />
-            
-            
         </Container>
     );
 }

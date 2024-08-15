@@ -9,7 +9,7 @@ export default function QuestionDetailAnswer () {
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [contentData, setContentData] = useState<string | null>(null)
-    const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
+    const { id } = useParams<{ id: string }>();
 
     const closeErrorModal = () => {
         setErrorModal(false);

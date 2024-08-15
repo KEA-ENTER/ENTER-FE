@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,9 +12,18 @@ function Query() {
 
 const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentGroup, setCurrentGroup] = useState(1);
     const navigate = useNavigate();
     const query = Query();
-    
+
+    const pagesPerGroup = 10;
+    const totalGroups = Math.ceil(totalPages / pagesPerGroup);
+
+    useEffect(() => {
+        const group = Math.ceil(currentPage / pagesPerGroup);
+        setCurrentGroup(group);
+    }, [currentPage]);
+
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
@@ -24,9 +33,24 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
         });
     };
 
+    const handleGroupChange = (direction: 'prev' | 'next') => {
+        if (direction === 'prev' && currentGroup > 1) {
+            const newGroup = currentGroup - 1;
+            setCurrentGroup(newGroup);
+            handlePageChange((newGroup - 1) * pagesPerGroup + 1);
+        } else if (direction === 'next' && currentGroup < totalGroups) {
+            const newGroup = currentGroup + 1;
+            setCurrentGroup(newGroup);
+            handlePageChange((newGroup - 1) * pagesPerGroup + 1);
+        }
+    };
+
     const renderPages = () => {
         const pages = [];
-        for (let i = 1; i <= totalPages; i++) {
+        const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+        const endPage = Math.min(currentGroup * pagesPerGroup, totalPages);
+
+        for (let i = startPage; i <= endPage; i++) {
             pages.push(
                 <PageButton
                     key={i}
@@ -45,11 +69,11 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
             <NavButton onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
                 〈〈
             </NavButton>
-            <NavButton onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            <NavButton onClick={() => handleGroupChange('prev')} disabled={currentGroup === 1}>
                 〈
             </NavButton>
             {renderPages()}
-            <NavButton onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            <NavButton onClick={() => handleGroupChange('next')} disabled={currentGroup === totalGroups}>
                 〉
             </NavButton>
             <NavButton onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
