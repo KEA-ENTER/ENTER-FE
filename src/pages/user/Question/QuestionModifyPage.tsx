@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Title from '../../../components/user/UI/Title';
 import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 추가
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -11,6 +11,7 @@ export default function QuestionModifyPage() {
     const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const { id } = useParams();
+    const navigate = useNavigate();  
     const accessToken = sessionStorage.getItem('accessToken');
 
     const getCategoryText = (category: string) => {
@@ -69,6 +70,7 @@ export default function QuestionModifyPage() {
                     },
                 }
             );
+            navigate(`/questiondetail/${id}`);
         } catch (error) {
             console.error('수정 요청 실패:', error);
         }

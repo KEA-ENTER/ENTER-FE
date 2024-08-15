@@ -44,6 +44,7 @@ export default function QuestionWritePage() {
             await axios.post(`${BASE_URL}/questions`, {
                 category: getCategoryText(category), // 선택된 카테고리의 텍스트
                 content: content, // 사용자가 입력한 내용
+            }, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
@@ -104,3 +105,4 @@ const Input = styled.textarea`
 const ButtonContainer = styled.div`
     width: 100%;
 `;
+

@@ -43,7 +43,7 @@ export default function QuestionDetailPage() {
                 },
             });
             alert('삭제가 완료되었습니다.');
-            navigate('/questions'); // 질문 목록 페이지로 이동
+            navigate('/question'); // 질문 목록 페이지로 이동
         } catch (error) {
             console.error('삭제 요청 실패:', error);
             alert('삭제 요청에 실패했습니다.');
