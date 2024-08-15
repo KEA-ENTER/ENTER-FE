@@ -59,7 +59,6 @@ export default function QuestionModifyPage() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            console.log("테스트: ", category, content)
             await axios.patch(
                 `${BASE_URL}/questions/${id}`,
                 { category: category, content: content },

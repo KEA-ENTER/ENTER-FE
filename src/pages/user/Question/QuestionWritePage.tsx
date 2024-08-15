@@ -37,8 +37,6 @@ export default function QuestionWritePage() {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-
-        console.log("데이터: ", category, content)
         
         try {
             await axios.post(`${BASE_URL}/questions`, {

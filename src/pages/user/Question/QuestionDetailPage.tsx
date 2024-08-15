@@ -58,7 +58,6 @@ export default function QuestionDetailPage() {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log("테스트: ", response.data.myQuestion)
             setCategory(response.data.category)
             setContent(response.data.questionContent)
             setAnswerContent(response.data.answerContent)
