@@ -4,7 +4,6 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 const questionsList = async (pages: number, type: string, userInput: string) => {
     const accessToken = sessionStorage.getItem('accessToken');
-    console.log("테스트: ", pages, type, userInput);
 
     let typeEng = "ALL";
     switch (type) {
