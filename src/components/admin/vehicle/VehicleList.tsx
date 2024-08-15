@@ -123,61 +123,67 @@ const VehicleList: React.FC = () => {
 
     return (
         <Container>
-            <Table>
-                <thead>
-                    <TableRow>  
-                        <TableHeader></TableHeader>
-                        <TableHeader>모델</TableHeader>
-                        <TableHeader>차량 번호</TableHeader>
-                        <TableHeader>수용 가능 인원</TableHeader>
-                        <TableHeader>상태</TableHeader>
-                        <TableHeader></TableHeader>
-                    </TableRow>
-                </thead>
-                <tbody>
-                    {vehicleData.map((item) => (
-                        <TableRow key={item.id} onClick={() => goDetailPage(item.id)}>
-                            <TableCell>
-                                <CarImg src={item.img} />
-                            </TableCell>
-                            <TableCell>{item.model}</TableCell>
-                            <TableCell>{item.vehicleNo}</TableCell>
-                            <TableCell>{item.seats}명</TableCell>
-                            <TableCell>{getStatusText(item.state)}</TableCell>
-                            <TableCell onClick={(e) => e.stopPropagation()}>
-                                <MoreBtn src='/img/more.png' onClick={() => openMenu(item.id)}/>
-                                {isMenuOpen && selectedId === item.id && (
-                                    <CarMenu
-                                        key={selectedId}
-                                        onCloseMenu={closeMenu}
-                                        onOpenModal={() => openAlertModal(item.id, item.model, item.vehicleNo)}
-                                        id={selectedId} 
-                                    />
-                                )}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </tbody>
-            </Table>
-            {alertModal && selectedVehicle !== null && (
-                <ConfirmModal
-                    title="정말 삭제하시겠습니까?"
-                    description={selectedVehicle}
-                    onClose={handleDelete}
-                    setIsConfirmed={setConfirm}
-                />
+            {vehicleData.length === 0 ? (
+                <NoResultMessage>결과가 존재하지 않습니다</NoResultMessage>
+            ) : (
+                <>
+                    <Table>
+                        <thead>
+                            <TableRow>  
+                                <TableHeader></TableHeader>
+                                <TableHeader>모델</TableHeader>
+                                <TableHeader>차량 번호</TableHeader>
+                                <TableHeader>수용 가능 인원</TableHeader>
+                                <TableHeader>상태</TableHeader>
+                                <TableHeader></TableHeader>
+                            </TableRow>
+                        </thead>
+                        <tbody>
+                            {vehicleData.map((item) => (
+                                <TableRow key={item.id} onClick={() => goDetailPage(item.id)}>
+                                    <TableCell>
+                                        <CarImg src={item.img} />
+                                    </TableCell>
+                                    <TableCell>{item.model}</TableCell>
+                                    <TableCell>{item.vehicleNo}</TableCell>
+                                    <TableCell>{item.seats}명</TableCell>
+                                    <TableCell>{getStatusText(item.state)}</TableCell>
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
+                                        <MoreBtn src='/img/more.png' onClick={() => openMenu(item.id)}/>
+                                        {isMenuOpen && selectedId === item.id && (
+                                            <CarMenu
+                                                key={selectedId}
+                                                onCloseMenu={closeMenu}
+                                                onOpenModal={() => openAlertModal(item.id, item.model, item.vehicleNo)}
+                                                id={selectedId} 
+                                            />
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </tbody>
+                    </Table>
+                    {alertModal && selectedVehicle !== null && (
+                        <ConfirmModal
+                            title="정말 삭제하시겠습니까?"
+                            description={selectedVehicle}
+                            onClose={handleDelete}
+                            setIsConfirmed={setConfirm}
+                        />
+                    )}
+                    {confirmModal && (
+                        <Modal 
+                            title="삭제되었습니다."
+                            description=""
+                            onClose={closeConfirmModal}
+                        />
+                    )}
+                    {loading && (
+                        <Loading />
+                    )}
+                    <Pagination totalPages={totalPage} />
+                </>
             )}
-            {confirmModal && (
-                <Modal 
-                    title="삭제되었습니다."
-                    description=""
-                    onClose={closeConfirmModal}
-                />
-            )}
-            {loading && (
-                <Loading />
-            )}
-            <Pagination totalPages={totalPage} />
         </Container>
     );
 };
@@ -188,6 +194,13 @@ export default VehicleList;
 const Container = styled.div`
     padding: 0px;
     border-radius: 0px;
+`;
+
+const NoResultMessage = styled.div`
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #686868;
 `;
 
 const Table = styled.table`
