@@ -18,9 +18,11 @@ import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 import autoRouting from '../../API/user/autoRouting';
 import navigateBasedOnRoutingId from '../../utils/navigateOnRoutingId';
+import QuestionModifyPage from './Question/QuestionModifyPage';
 import NotApplicationDatePage from './ApplicationDate/NotApplicationDatePage';
 import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
 import StatisticsPage from './Statistics/StatisticsPage';
+
 
 const UserRoutes = () => {
     const navigate = useNavigate();
@@ -84,9 +86,10 @@ const UserRoutes = () => {
                 <Route path="detail" element={<CompletedApplicationForm />} /> {/*차량 신청 내역*/}
                 <Route path="lottery-result" element={<LotteryResultPage />} /> {/*추첨 결과*/}
                 <Route path="mypage" element={<MyPage />} /> {/*내 정보*/}
-                <Route path="question" element={<QuestionListPage />} /> {/*문의*/}
+                <Route path="question" element={<QuestionListPage />} /> {/*문의 목록*/}
                 <Route path="write" element={<QuestionWritePage />} /> {/*문의 작성*/}
-                <Route path="questiondetail" element={<QuestionDetailPage />} /> {/*문의 세부*/}
+                <Route path="questiondetail/:id" element={<QuestionDetailPage />} /> {/*문의 세부*/}
+                <Route path="questionModify/:id" element={<QuestionModifyPage />} /> {/*문의 수정*/}
                 <Route path="rent/:page" element={<RentPage />} /> {/*차량 인수*/}
                 <Route path="return/:page" element={<ReturnPage />} /> {/*차량 반납*/}
                 <Route path="statistics" element={<StatisticsPage />} /> {/*통계*/}
