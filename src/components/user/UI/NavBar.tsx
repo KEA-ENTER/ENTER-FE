@@ -2,12 +2,32 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useUserStore from '../../../stores/userStore';
+import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
 
 import 차량신청 from '../../../img/icon/car.png';
 import 통계 from '../../../img/icon/chart.png';
 import 차량인수 from '../../../img/icon/key.png';
 import 문의 from '../../../img/icon/message.png';
 import 내정보 from '../../../img/icon/user.png';
+
+// 예시 API 호출 함수
+const someApiCall = async () => {
+    // 실제 API 호출을 수행하고 결과를 반환
+    const response = await fetch('/api/auto-routing');
+    const data = await response.json();
+    return data; // { routingId: 1 }과 같은 형식의 데이터 반환
+};
+
+// autoRouting 함수 정의
+const autoRouting = async (): Promise<{ routingId: number }> => {
+    try {
+        const response = await someApiCall();
+        return { routingId: response.routingId };
+    } catch (error) {
+        console.error('Failed to perform auto-routing', error);
+        throw new Error('Auto-routing failed');
+    }
+};
 
 export default function NavBar() {
     const location = useLocation();
@@ -46,22 +66,25 @@ export default function NavBar() {
         navigate(path);
     };
 
-    const autoRouting = () => {
-        const autoRouting = sessionStorage.getItem('autoRoutingPage');
-        if (autoRouting === '1') {
-            navigate('/application'); //차량 신청 페이지
-        } else if (autoRouting === '2') {
-            navigate('/detail'); //
-        } else if (autoRouting === '3') {
-            navigate('/detail');
-        } else if (autoRouting === '4') {
-            navigate('/lottery-result');
+    const handleAutoRouting = async () => {
+        const autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
+
+        if (!autoRoutingPage) {
+            try {
+                const autoRoutingResponse = await autoRouting();
+                sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
+                navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
+            } catch (error) {
+                console.error('Auto-routing failed:', error);
+            }
+        } else {
+            navigateBasedOnRoutingId(Number(autoRoutingPage), navigate);
         }
-    }
+    };
 
     return (
         <Nav $isHidden={isLicensePage}>
-            <Button onClick={() => autoRouting()}>
+            <Button onClick={handleAutoRouting}>
                 <Img alt="차량신청 아이콘" src={차량신청} />
                 <Title $isHighlighted={activePage === 'vehicle'}>차량신청</Title>
             </Button>
@@ -122,7 +145,7 @@ const Button = styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer; // 클릭 가능한 요소임을 나타내기 위해 추가
+    cursor: pointer;
 `;
 
 const KeyImg = styled.div`
