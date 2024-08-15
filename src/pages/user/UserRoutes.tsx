@@ -35,8 +35,6 @@ const UserRoutes = () => {
     const setUser = useUserStore((state) => state.setUser);
 
     useEffect(() => {
-        console.log(name);
-
         const autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
 
         const fetchRouting = async () => {
