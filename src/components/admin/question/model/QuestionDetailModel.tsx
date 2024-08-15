@@ -9,7 +9,7 @@ const QuestionDetailModel = async (questionId: number) => {
         return response.data;
     } catch (error) {
         window.alert('Error:' + error);
-        return []; 
+        return null; 
     }
 };
 
