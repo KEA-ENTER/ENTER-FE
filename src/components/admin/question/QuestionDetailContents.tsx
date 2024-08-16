@@ -56,7 +56,7 @@ export default function QuestionDetailContents () {
             {questionData ? (
                 <>
                     <Title>
-                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent.substring(0, 10)}...`}
+                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent}`}
                     </Title>
                     <DetailInfo>{`${DateString(questionData.questionCreatedAt)} ${questionData.name}`}</DetailInfo>
                     <ContentBox>{questionData.questionContent}</ContentBox>
@@ -94,9 +94,13 @@ const ErrorContainer = styled.div`
 `;
 
 const Title = styled.div`
+    width: 400px;
     font-size: 20px;
     font-style: bold;
     margin: 20px 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
 const DetailInfo = styled.div`

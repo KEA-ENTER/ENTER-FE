@@ -59,6 +59,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
+        window.location
     }
 
     return (

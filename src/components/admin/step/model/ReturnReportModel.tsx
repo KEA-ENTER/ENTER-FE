@@ -12,8 +12,8 @@ const ReturnReportModel = async (id: string) => {
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
-        return null; 
+        console.error('Error fetching return report:', error);
+        return null;
     }
 };
 

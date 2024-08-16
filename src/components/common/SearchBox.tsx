@@ -22,7 +22,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const handleSearch = () => {
         query.set("type", selectedItem);
         query.set("q", searchText);
-        query.delete("page");
+        query.delete("page")
         navigate({
             search: query.toString(),
         });
@@ -58,7 +58,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                                 key={item} 
                                 onClick={() => handleSelect(item)}
                                 className={item === selectedItem ? 'selected' : ''}
-                            >
+                                >
                                 {item}
                             </DropdownItem>
                         ))}
@@ -71,7 +71,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                     value={searchText} 
                     onChange={(e) => setSearchText(e.target.value)}
                     onKeyDown={handleKeyDown}
-                />
+                    />
                 <Button onClick={handleSearch} src="/img/search.png" alt="Search"/>
             </InputComp>
         </SearchComp>

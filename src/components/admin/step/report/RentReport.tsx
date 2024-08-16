@@ -26,7 +26,7 @@ interface VehicleInfo {
 
 export default function RentReport() {
     const navigate = useNavigate();
-    const [rentData, setRentData] = useState<VehicleInfo | undefined>(undefined);
+    const [rentData, setRentData] = useState<VehicleInfo | null>(null);
 
     const goStep = () => {
         navigate('/admin/vehicle-step');
@@ -39,6 +39,8 @@ export default function RentReport() {
             const res = await RentReportModel(id || '-1');
             if (res) {
                 setRentData(res);
+            } else {
+                setRentData(null)
             }
         };
         fetchRentData();

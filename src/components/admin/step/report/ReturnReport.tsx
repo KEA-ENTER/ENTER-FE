@@ -27,7 +27,7 @@ interface VehicleInfo {
 
 export default function ReturnReport() {
     const navigate = useNavigate();
-    const [returnData, setReturnData] = useState<VehicleInfo | undefined>(undefined);
+    const [returnData, setReturnData] = useState<VehicleInfo | null>(null);
 
     const goStep = () => {
         navigate('/admin/vehicle-step');
@@ -40,6 +40,8 @@ export default function ReturnReport() {
             const res = await ReturnReportModel(id || '-1');
             if (res) {
                 setReturnData(res);
+            } else {
+                setReturnData(null);
             }
         };
         fetchReturnData();
@@ -49,7 +51,7 @@ export default function ReturnReport() {
         <Container>
             <Title imageSrc="/img/vehicle-step.png" title="반납 보고서" />
             {returnData ? <ReturnInfo returnData={returnData} /> : <InfoContainer>보고서를 불러올 수 없습니다.</InfoContainer>}
-            {returnData && <Penalty memberId={returnData.memberId}/> }
+            {returnData && <Penalty memberId={returnData.memberId} /> }
             <ButtonContainer>
                 <Button onClick={goStep} text={"목록"} />
             </ButtonContainer>
