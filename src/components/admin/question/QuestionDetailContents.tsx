@@ -95,7 +95,6 @@ const ErrorContainer = styled.div`
 
 const Title = styled.div`
     width: 400px;
-    border: 1px solid red;
     font-size: 20px;
     font-style: bold;
     margin: 20px 0px;
