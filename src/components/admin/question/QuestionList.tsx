@@ -37,7 +37,7 @@ export default function QuestionList () {
         else if (category === 'SERVICE')
             return '서비스';
         else if (category == 'VEHICLE')
-            return '차량 문의';
+            return '차량문의';
         else if (category == 'ETC')
             return '기타';
         else
@@ -46,7 +46,7 @@ export default function QuestionList () {
 
     const getStatusText = (state: string) => {
         if (state === 'COMPLETE')
-            return '답변 완료';
+            return '답변완료';
         else if (state === 'WAIT')
             return '대기';
         else
@@ -54,13 +54,32 @@ export default function QuestionList () {
     }
 
     useEffect(() => {
-        const pageNum = parseInt(page);
-        QuestionListModel(word, type, pageNum).then(res => {
-            if (res) {
-                setQuestionData(res.questions);
-                setTotalPage(res.totalPages); 
-            }
-        });
+        const validCategories = ['사용자', '서비스', '차량문의', '기타'];
+        const validStatus = ['대기', '답변완료'];
+        let isCorrectSearch = false;
+        if (type === '카테고리') {
+            isCorrectSearch = validCategories.some(category =>
+                category.startsWith(word) && word.length <= category.length
+            );
+        } else if (type === '상태') {
+            isCorrectSearch = validStatus.some(status =>
+                status.startsWith(word) && word.length <= status.length
+            );
+        } else {
+            isCorrectSearch = true;
+        }
+
+        if (isCorrectSearch) {
+            const pageNum = parseInt(page);
+            QuestionListModel(word, type, pageNum).then(res => {
+                if (res) {
+                    setQuestionData(res.questions);
+                    setTotalPage(res.totalPages);
+                }
+            });
+        } else {
+            setQuestionData([])
+        }
     }, [type, word, page]);
 
     const goQuestionDetail = (id: number) => {
