@@ -10,7 +10,7 @@ import DashboardPhotoUpload from '../../../components/user/RentReturn/DashboardP
 import SpecialNotes from '../../../components/user/RentReturn/SpecialNotes';
 import Complite from '../../../components/user/RentReturn/Complite';
 import postReport from '../../../API/user/postReport';
-import Loading from '../../../components/user/RentReturn/Loading';
+import Loading from '../../../components/user/Loading';
 
 export default function RentPage() {
     const navigate = useNavigate();
