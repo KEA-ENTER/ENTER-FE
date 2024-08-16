@@ -21,13 +21,13 @@ const LotteryDetailListModel = async (name: string, type: string, page: number, 
               keyword: name,
               searchType: typeEng,
               page: page,
-              size: 10,
+              size: 8,
             },
         });
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return null; 
     }
 };
