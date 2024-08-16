@@ -54,7 +54,7 @@ export default function QuestionList () {
     }
 
     useEffect(() => {
-        const pageNum = parseInt(page);
+        const pageNum = parseInt(page) - 1;
         QuestionListModel(word, type, pageNum).then(res => {
             if (res) {
                 setQuestionData(res.questions);
