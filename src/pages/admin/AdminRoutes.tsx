@@ -18,7 +18,7 @@ const AdminRoutes = () => {
     
     return (
         <Routes>
-            <Route path='/admin' element={<AdminHomePage />} />
+            <Route path='/' element={<AdminHomePage />} />
             <Route path="/user/*" element={<Navigate to="/" />} />
             <Route path='/admin/*' element={<AdminLayout />}>
                 <Route path='admin-test' element={<AdminTest />} />
