@@ -13,7 +13,7 @@ const ReturnReportModel = async (id: string) => {
         return response.data;
     } catch (error) {
         window.alert('Error:' + error);
-        return []; 
+        return null; 
     }
 };
 

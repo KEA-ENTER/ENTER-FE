@@ -28,7 +28,7 @@ const LotteryDetailListModel = async (name: string, type: string, page: number, 
         return response.data;
     } catch (error) {
         window.alert('Error:' + error);
-        return []; 
+        return null; 
     }
 };
 

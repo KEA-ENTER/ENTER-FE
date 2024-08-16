@@ -18,12 +18,11 @@ import checkUserStatus from '../../API/user/checkUserStatus';
 import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 import autoRouting from '../../API/user/autoRouting';
 import navigateBasedOnRoutingId from '../../utils/navigateOnRoutingId';
-
-import PenaltyDetailPage from './MyPage/PenaltyDetailPage';
-import QuestionModifyPage from './Question/QuestionModifyPage';
 import NotApplicationDatePage from './ApplicationDate/NotApplicationDatePage';
 import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
 import StatisticsPage from './Statistics/StatisticsPage';
+import PenaltyDetailPage from './MyPage/PenaltyDetailPage';
+import QuestionModifyPage from './Question/QuestionModifyPage';
 
 const UserRoutes = () => {
     const navigate = useNavigate();
@@ -40,7 +39,6 @@ const UserRoutes = () => {
         const fetchRouting = async () => {
             try {
                 const userStatusResponse = await checkUserStatus(); //사용자 서비스 이용 가능여부 확인
-
                 //분기 1. 신청기간이 아닐 경우
                 if (userStatusResponse.code === 'MEM-001') {
                     if (!autoRoutingPage) {

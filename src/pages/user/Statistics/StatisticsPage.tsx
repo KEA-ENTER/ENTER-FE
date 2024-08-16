@@ -53,5 +53,9 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
     width: 100%;
+<<<<<<< HEAD
+    height: 300px;
+=======
     height: 175px;
+>>>>>>> develop
 `;

@@ -41,31 +41,37 @@ const LotteryDetailList: React.FC = () => {
 
     return (
         <Container>
-            <Table>
-                <thead>
-                    <TableRow>
-                        <TableHeader>아이디</TableHeader>
-                        <TableHeader>신청자명</TableHeader>
-                        <TableHeader>사용목적</TableHeader>
-                        <TableHeader>결과</TableHeader>
-                        <TableHeader>신청 시간</TableHeader>
-                    </TableRow>
-                </thead>
-                <tbody>
-                    {lotteryDetailData.map((item, idx) => (
-                        <TableRow key={idx}>  
-                            <TableCell>{IdString(item.email)}</TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.purpose}</TableCell>
-                            <TableCell>{item.isWinning ? '당첨' : '미당첨'}</TableCell>                            
-                            <TableCell>{DateString(item.applyTime)}</TableCell>
-                        </TableRow>
-                    ))}
-                </tbody>
-            </Table>
-            <Pagination totalPages={totalPage} />
-    </Container>
-  );
+            {lotteryDetailData.length === 0 ? (
+                <NoResultMessage>결과가 존재하지 않습니다</NoResultMessage>
+            ) : (
+                <>
+                    <Table>
+                        <thead>
+                            <TableRow>
+                                <TableHeader>아이디</TableHeader>
+                                <TableHeader>신청자명</TableHeader>
+                                <TableHeader>사용목적</TableHeader>
+                                <TableHeader>결과</TableHeader>
+                                <TableHeader>신청 시간</TableHeader>
+                            </TableRow>
+                        </thead>
+                        <tbody>
+                            {lotteryDetailData.map((item, idx) => (
+                                <TableRow key={idx}>  
+                                    <TableCell>{IdString(item.email)}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.purpose}</TableCell>
+                                    <TableCell>{item.isWinning ? '당첨' : '미당첨'}</TableCell>                            
+                                    <TableCell>{DateString(item.applyTime)}</TableCell>
+                                </TableRow>
+                            ))}
+                        </tbody>
+                    </Table>
+                    <Pagination totalPages={totalPage} />
+                </>
+            )}
+        </Container>
+    );
 };
 
 export default LotteryDetailList;
@@ -73,6 +79,13 @@ export default LotteryDetailList;
 const Container = styled.div`
     padding: 10px 0px 20px 0px;
     border-radius: 0px;
+`;
+
+const NoResultMessage = styled.div`
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #686868;
 `;
 
 const Table = styled.table`
