@@ -77,7 +77,7 @@ const LotteryDetailList: React.FC = () => {
 export default LotteryDetailList;
 
 const Container = styled.div`
-    padding: 10px 0px 20px 0px;
+    padding: 10px 0px 10px 0px;
     border-radius: 0px;
 `;
 
@@ -97,18 +97,18 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
-    height: 55px;
+    height: 48px;
 `;
 
 const TableHeader = styled.td`
-    font-style: none;
-    padding: 10px;
+    padding: 6px;
     text-align: center;
     width: 10%;
 `;
 
 const TableCell = styled.td`
-    padding: 15px;
+    font-size: 13px;
+    padding: 12px;
     text-align: center;
     width: 10%;
     background: rgba(238, 238, 238, 0.6);

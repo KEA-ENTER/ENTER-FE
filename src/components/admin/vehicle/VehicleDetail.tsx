@@ -33,7 +33,7 @@ export default function VehicleDetail() {
     const confirmBtn = () => {
         navigate('/admin/vehicle')
     }
-    const [vehicleInfo, setVehicleInfo] = useState<VehicleDetailProps>();
+    const [vehicleInfo, setVehicleInfo] = useState<VehicleDetailProps | null>(null);
     const [reportInfo, setReportInfo] = useState<VehicleReportProps>();
     const { id } = useParams<{ id: string }>();
 
@@ -48,15 +48,14 @@ export default function VehicleDetail() {
         fetchVehicleData();
     }, [id]);
 
-    if (!vehicleInfo || !reportInfo) {
-        return <div>Loading...</div>;
-    }
-
     return(
         <Container>
-            <Title imageSrc="/img/car.png" title={vehicleInfo.vehicleNo} />
-            <VehicleDetailInfo vehicleInfo={vehicleInfo} />
-            <VehicleDetailReport reportInfo={reportInfo} />
+            { vehicleInfo && reportInfo ?
+                <>
+                    <Title imageSrc="/img/car.png" title={vehicleInfo.vehicleNo} />
+                    <VehicleDetailInfo vehicleInfo={vehicleInfo} />
+                    <VehicleDetailReport reportInfo={reportInfo} />
+                </> : <ErrorContainer>차량 정보를 불러올 수 없습니다.</ErrorContainer>}
             <ButtonContainer>
                 <Button text="목록" onClick={confirmBtn} />
             </ButtonContainer>
@@ -66,6 +65,13 @@ export default function VehicleDetail() {
 
 const Container = styled.div`
     width: 850px;
+`;
+
+const ErrorContainer = styled.div`
+    background: rgba(238, 238, 238, 0.6);
+    padding: 20px;
+    margin: 10px 0px;
+    border-radius: 0px;
 `;
 
 const ButtonContainer = styled.div`

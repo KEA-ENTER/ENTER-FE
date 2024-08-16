@@ -24,10 +24,8 @@ const VehicleAddModel = async (vehicleNo: string, company: string, model: string
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
-            window.alert(error.message);
         } else {
             console.error(error);
-            window.alert(error);
         }
         return null;
     }

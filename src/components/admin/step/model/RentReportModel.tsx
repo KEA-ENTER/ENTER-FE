@@ -12,7 +12,7 @@ const RentReportModel = async (id: string) => {
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return null; 
     }
 };

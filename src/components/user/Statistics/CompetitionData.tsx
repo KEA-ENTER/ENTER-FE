@@ -6,7 +6,7 @@ const CompetitionData = async () => {
         const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/lotteries/competition-rate`);
         return response.data
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return []; 
     }
 }

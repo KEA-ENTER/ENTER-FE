@@ -8,7 +8,7 @@ const PenaltyDeleteModel = async (memberId: number, penaltyId: number | null) =>
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return []; 
     }
 };

@@ -8,7 +8,7 @@ const PenaltyListModel = async (id: number) => {
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return []; 
     }
 };
