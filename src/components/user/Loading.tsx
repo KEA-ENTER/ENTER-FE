@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import loop from '../../../img/icon/loop.png';
+import loop from '../../img/icon/loop.png';
 
 const Loading = () => {
     return (

@@ -6,7 +6,7 @@ import useUserStore from '../../stores/userStore';
 import Layout from '../../components/user/Layout/Layout';
 import AddLicensePage from './License/AddLicensePage';
 import ApplicationFormPage from './Apply/ApplicationFormPage';
-import CompletedApplicationForm from './Apply/CompletedApplicationForm';
+import CompletedApplicationForm from './Apply/CompletedApplicationFormPage';
 import LotteryResultPage from './LotteryResult/LotteryResultPage';
 import MyPage from './MyPage/MyPage';
 import QuestionListPage from './Question/QuestionListPage';
