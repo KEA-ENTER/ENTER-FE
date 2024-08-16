@@ -1,8 +1,16 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; // useNavigate를 가져옵니다.
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
+import Button from '../../../components/user/UI/Button';
 
 export default function ApplicationDateInfoPage() {
+    const navigate = useNavigate();
+
+    const handleInquiryClick = () => {
+        navigate('/question');
+    };
+
     return (
         <Container>
             <Title title="신청 일정 확인" />
@@ -20,6 +28,9 @@ export default function ApplicationDateInfoPage() {
                 </ListItem>
                 <ListItem>질문이 있으면 아래 버튼을 통해 문의주세요</ListItem>
             </List>
+            <ButtonContainer>
+                <Button onClick={handleInquiryClick}>문의하기</Button>{' '}
+            </ButtonContainer>
         </Container>
     );
 }
@@ -35,9 +46,14 @@ const List = styled.ul`
 
 const ListItem = styled.li`
     margin-bottom: 10px;
+    overflow-wrap: break-word; /* 단어 단위로 줄 바꿈 */
 `;
 
 const Highlight = styled.span`
     font-weight: bold;
     color: #000;
+`;
+
+const ButtonContainer = styled.div`
+    text-align: center;
 `;

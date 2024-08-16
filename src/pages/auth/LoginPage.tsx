@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import login from '../../API/user/login';
 import useUserStore from '../../stores/userStore';
 
-export default function Login({ stateHandler }: { stateHandler: (role: string, accessToken: string) => void }) {
+export default function Login({ stateHandler }: { stateHandler: (role: string) => void }) {
     //사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,19 +13,21 @@ export default function Login({ stateHandler }: { stateHandler: (role: string, a
     const handleLogin = async () => {
         try {
             const loginResponse = await login(username, password); // 로그인 API 호출
+
+            //memberRole : USER / ADMIN
             const { accessToken, refreshToken, memberName, memberRole } = loginResponse; // 응답 값 저장
 
             //리프레시토큰 쿠키에 저장
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
             //각 데이터 전역 state에 저장
             setUser(memberName, '');
-
+            sessionStorage.setItem('userName', memberName);
             // 세션 스토리지에 저장
             sessionStorage.setItem('accessToken', accessToken);
+            //memberRole : USER / ADMIN
             sessionStorage.setItem('role', memberRole);
-
-            // App 컴포넌트의 상태 업데이트
-            stateHandler(memberRole, accessToken);
+            //APp.tsx 에 role 전달.
+            stateHandler(memberRole);
         } catch (error) {
             alert('아이디 또는 비밀번호를 확인해주세요');
         }

@@ -1,11 +1,31 @@
 import styled from 'styled-components';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import Title from '../../../components/user/UI/Title';
-import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 추가
+import Button from '../../../components/user/UI/Button';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export default function QuestionWritePage() {
-    const [category, setCategory] = useState<string>('차량이용');
+    const accessToken = sessionStorage.getItem('accessToken');
+
+    const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
+    const navigate = useNavigate();  
+
+    const getCategoryText = (categoryToEnglish: string) => {
+        if (categoryToEnglish === '사용자')
+            return 'USER';
+        else if (categoryToEnglish === '서비스')
+            return 'SERVICE';
+        else if (categoryToEnglish == '차량 문의')
+            return 'VEHICLE';
+        else if (categoryToEnglish == '기타')
+            return 'ETC';
+        else
+            return '';
+    }
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
@@ -15,25 +35,41 @@ export default function QuestionWritePage() {
         setContent(event.target.value);
     };
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        // 입력된 데이터 처리 로직 추가
-        console.log('Category:', category);
-        console.log('Content:', content);
-        // 여기에서 서버로 데이터를 전송하거나 다른 로직을 추가할 수 있습니다.
+        
+        try {
+            await axios.post(`${BASE_URL}/questions`, {
+                category: getCategoryText(category), // 선택된 카테고리의 텍스트
+                content: content, // 사용자가 입력한 내용
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            navigate(`/question`)
+            
+        } catch (error) {
+            console.error('There was an error submitting the question:', error);
+            alert('문의 제출 중 오류가 발생했습니다.');
+        }
+
     };
 
     return (
         <Container onSubmit={handleSubmit}>
             <Title title="문의하기" />
             <Select value={category} onChange={handleCategoryChange}>
-                <option value="전체">전체</option>
-                <option value="내용">내용</option>
-                <option value="작성자">작성자</option>
+                <option value="사용자">사용자</option>
+                <option value="서비스">서비스</option>
+                <option value="차량 문의">차량 문의</option>
+                <option value="기타">기타</option>
             </Select>
             <Input placeholder="내용을 입력하세요" value={content} onChange={handleContentChange}></Input>
             <ButtonContainer>
-                <Button>문의하기</Button>
+                <Button>제출하기</Button>
             </ButtonContainer>
         </Container>
     );
@@ -66,5 +102,5 @@ const Input = styled.textarea`
 
 const ButtonContainer = styled.div`
     width: 100%;
-    
 `;
+
