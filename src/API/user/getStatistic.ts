@@ -40,7 +40,7 @@ export const fetchPercentage = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return (response.data.scorePercentile * 100).toFixed(2);
+        return response.data.scorePercentile.toFixed();
     } catch (error) {
         console.error('확률 데이터를 가져오는 데 실패했습니다:', error);
         throw error;

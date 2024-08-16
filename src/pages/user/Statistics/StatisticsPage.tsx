@@ -4,8 +4,8 @@ import SubTitle from '../../../components/user/UI/SubTitle';
 import { useEffect, useState } from 'react';
 import CompetitionGraph from '../../../components/user/Statistics/CompetitionGraph';
 import WaitingGraph from '../../../components/user/Statistics/WaitingGraph';
-import useUserStore from '../../../stores/userStore';
 import { fetchCompetitionData, fetchWaitingData, fetchPercentage } from '../../../API/user/getStatistic';
+import Loading from '../../../components/user/Loading';
 
 interface Competition {
     round: number;
@@ -18,19 +18,46 @@ interface Waiting {
 }
 
 export default function StatisticsPage() {
-    const [compData, setCompData] = useState<Competition[]>([]); // 경쟁률 데이터
+    const [compData, setCompData] = useState<Competition[]>([]);
     const [percentage, setPercentage] = useState<string>('100');
-    const [waitData, setWaitData] = useState<Waiting[]>([]); // 대기 수 데이터
+    const [waitData, setWaitData] = useState<Waiting[]>([]);
+    const [isLoading, setIsloading] = useState<boolean>(false);
 
-    const { name } = useUserStore((state) => ({
-        name: state.name,
-    }));
+    const name = sessionStorage.getItem('userName');
 
     useEffect(() => {
-        fetchPercentage().then(setPercentage).catch(console.error);
-        fetchCompetitionData().then(setCompData).catch(console.error);
-        fetchWaitingData().then(setWaitData).catch(console.error);
+        const fetchData = async () => {
+            setIsloading(true);
+            try {
+                const percentageData = await fetchPercentage();
+                setPercentage(percentageData);
+            } catch (error) {
+                console.error('Error fetching percentage data:', error);
+            }
+
+            try {
+                const competitionData = await fetchCompetitionData();
+                setCompData(competitionData);
+            } catch (error) {
+                console.error('Error fetching competition data:', error);
+            }
+
+            try {
+                const waitingData = await fetchWaitingData();
+                setWaitData(waitingData);
+            } catch (error) {
+                console.error('Error fetching waiting data:', error);
+            } finally {
+                setIsloading(false);
+            }
+        };
+
+        fetchData();
     }, [name]);
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <Container>
@@ -53,9 +80,5 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
     width: 100%;
-<<<<<<< HEAD
-    height: 300px;
-=======
     height: 175px;
->>>>>>> develop
 `;
