@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/user/UI/Button';
 import Title from '../../../components/user/UI/Title';
 import Input from '../../../components/user/UI/Input';
@@ -25,29 +25,24 @@ function Query() {
 
 export default function QuestionListPage() {
     const query = Query();
-    const type = query.get("type") ?? "ALL";
-    const word = query.get("q") ?? "";
-    const page = query.get("page") ?? "1";
+    const type = query.get('type') ?? 'ALL';
+    const word = query.get('q') ?? '';
+    const page = query.get('page') ?? '1';
 
     const [category, setCategory] = useState<string>(type);
     const [userInput, setUserInput] = useState<string>(word);
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
 
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
 
     const getCategoryText = (category: string) => {
-        if (category === 'USER')
-            return '사용자';
-        else if (category === 'SERVICE')
-            return '서비스';
-        else if (category == 'VEHICLE')
-            return '차량 문의';
-        else if (category == 'ETC')
-            return '기타';
-        else
-            return '';
-    }
+        if (category === 'USER') return '사용자';
+        else if (category === 'SERVICE') return '서비스';
+        else if (category == 'VEHICLE') return '차량 문의';
+        else if (category == 'ETC') return '기타';
+        else return '';
+    };
 
     const fetchData = () => {
         const pageNum = parseInt(page);
@@ -55,7 +50,7 @@ export default function QuestionListPage() {
             .then((data) => {
                 setQuestions(data.questions);
                 setTotalPage(data.totalPages);
-                console.log("data: ", data.questions);
+                // console.log("data: ", data.questions);
             })
             .catch((error) => {
                 console.error('Failed to fetch questions:', error);
@@ -75,12 +70,12 @@ export default function QuestionListPage() {
     };
 
     const goQuestionDetail = (id: number) => {
-        navigate(`/questiondetail/${id}`)
-    }
+        navigate(`/questiondetail/${id}`);
+    };
 
     const goQuestionWrite = () => {
-        navigate(`/write`)
-    }
+        navigate(`/write`);
+    };
 
     return (
         <Container>

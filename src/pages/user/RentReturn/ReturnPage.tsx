@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
@@ -11,11 +10,20 @@ import DashboardPhotoUpload from '../../../components/user/RentReturn/DashboardP
 import SpecialNotes from '../../../components/user/RentReturn/SpecialNotes';
 import Complite from '../../../components/user/RentReturn/Complite';
 import ParkingInput from '../../../components/user/RentReturn/ParkingInput';
+import postReport from '../../../API/user/postReport';
+import Loading from '../../../components/user/RentReturn/Loading';
 
 export default function ReturnPage() {
     const navigate = useNavigate();
-    const { page } = useParams<{ page: string }>();
-    const currentPage = parseInt(page || '1', 10);
+    const location = useLocation();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // URL이 변경될 때마다 currentPage를 업데이트
+    useEffect(() => {
+        const page = parseInt(location.pathname.split('/').pop() || '1', 10);
+        setCurrentPage(page);
+    }, [location]);
 
     const [uploaded, setUploaded] = useState({
         front: false,
@@ -28,18 +36,14 @@ export default function ReturnPage() {
         {},
     );
     const [notes, setNotes] = useState('');
-    const [currentStep, setCurrentStep] = useState(0);
-
-    const steps: Array<'front' | 'right' | 'back' | 'left'> = ['front', 'right', 'back', 'left'];
+    const [parkingLoc, setParkingLoc] = useState('');
 
     const allVehiclePhotosUploaded = uploaded.front && uploaded.right && uploaded.back && uploaded.left;
-    const allPhotosUploaded = allVehiclePhotosUploaded && uploaded.dashboard;
 
     const handleUpload = (side: 'front' | 'right' | 'back' | 'left', file: File | null) => {
         if (file) {
             setUploaded((prevState) => ({ ...prevState, [side]: true }));
             setPhotos((prevPhotos) => ({ ...prevPhotos, [side]: file }));
-            setCurrentStep(currentStep + 1);
         }
     };
 
@@ -55,44 +59,38 @@ export default function ReturnPage() {
     };
 
     const handleParkingInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNotes(e.target.value);
+        setParkingLoc(e.target.value);
     };
 
     const handleSubmit = async () => {
-        const formData = new FormData();
-
-        Object.keys(photos).forEach((key) => {
-            if (photos[key as keyof typeof photos]) {
-                formData.append(key, photos[key as keyof typeof photos] as File);
+        if (photos.front && photos.right && photos.back && photos.left && photos.dashboard) {
+            setIsLoading(true);
+            try {
+                const response = await postReport(
+                    photos.front,
+                    photos.right,
+                    photos.back,
+                    photos.left,
+                    photos.dashboard,
+                    notes,
+                    parkingLoc,
+                    'RETURN',
+                );
+                console.log('API 호출 성공:', response);
+                navigate(`/return/6`);
+            } catch (error) {
+                console.error('데이터 제출 실패:', error);
+                alert('데이터 제출에 실패했습니다. 다시 시도해주세요.');
+            } finally {
+                setIsLoading(false);
             }
-        });
-
-        formData.append('notes', notes);
-
-        try {
-            // axios를 사용하여 POST 요청 전송
-            const response = await axios.post('/api/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (response.status === 200) {
-                navigate(`/return/${currentPage + 1}`);
-            } else {
-                console.error('서버 오류:', response.statusText);
-                alert('데이터 전송에 실패했습니다.');
-            }
-        } catch (error) {
-            console.error('네트워크 오류:', error);
-            alert('네트워크 오류가 발생했습니다.');
         }
     };
 
     const handleNextOrSubmit = () => {
-        if (currentPage === 4) {
+        if (currentPage === 5) {
             handleSubmit();
-        } else if (currentPage < 5) {
+        } else if (currentPage < 6) {
             navigate(`/return/${currentPage + 1}`);
         }
     };
@@ -110,8 +108,6 @@ export default function ReturnPage() {
             case 2:
                 return (
                     <VehiclePhotoUpload
-                        currentStep={currentStep}
-                        steps={steps}
                         uploaded={{
                             front: uploaded.front,
                             right: uploaded.right,
@@ -126,32 +122,39 @@ export default function ReturnPage() {
             case 4:
                 return <SpecialNotes value={notes} onChange={handleNotesChange} />;
             case 5:
-                return <ParkingInput value={notes} onChange={handleParkingInputChange} />;
-
+                return <ParkingInput value={parkingLoc} onChange={handleParkingInputChange} />;
+            case 6:
+                return <Complite type="return" />;
             default:
                 return <SubTitle subTitle="잘못된 접근입니다." />;
         }
     };
 
-    if (currentPage === 6) {
-        return <Complite type="return" />;
+    if (isLoading) {
+        return <Loading />;
     }
 
     return (
         <Container>
-            <Title title="차량 반납" />
+            {currentPage !== 6 && <Title title="차량 반납" />}
             {renderContent()}
-            <ButtonContainer>
-                <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                    이전
-                </Button>
-                <Button
-                    onClick={handleNextOrSubmit}
-                    disabled={(currentPage === 2 && !allPhotosUploaded) || (currentPage === 3 && !uploaded.dashboard)}
-                >
-                    {currentPage === 4 ? '제출' : '다음'}
-                </Button>
-            </ButtonContainer>
+            {currentPage !== 6 && (
+                <ButtonContainer>
+                    <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        이전
+                    </Button>
+                    <Button
+                        onClick={handleNextOrSubmit}
+                        disabled={
+                            (currentPage === 2 && !allVehiclePhotosUploaded) ||
+                            (currentPage === 3 && !uploaded.dashboard) ||
+                            (currentPage === 5 && !parkingLoc)
+                        }
+                    >
+                        {currentPage === 5 ? '제출' : '다음'}
+                    </Button>
+                </ButtonContainer>
+            )}
         </Container>
     );
 }

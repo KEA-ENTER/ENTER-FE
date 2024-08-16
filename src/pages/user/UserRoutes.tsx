@@ -80,7 +80,7 @@ const UserRoutes = () => {
         };
 
         fetchRouting();
-    }, []);
+    });
 
     return (
         <Routes>
