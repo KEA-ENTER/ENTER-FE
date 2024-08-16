@@ -59,7 +59,22 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
-        window.location
+        window.location.reload();
+    }
+
+    const showPenaltyLevel = (level: string) => {
+        if (level === 'MINIMUM')
+            return '매우 낮음';
+        else if (level === 'LOW')
+            return '낮음';
+        else if (level == 'MEDIUM')
+            return '보통';
+        else if (level == 'HIGH')
+            return '높음';
+        else if (level == 'BLACKLIST')
+            return '블랙리스트';
+        else
+            return '';
     }
 
     return (
@@ -79,7 +94,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
             {penaltyList.map((item, idx) => (
                 <TableRow key={idx}>
                 <TableCell>{item.reason}</TableCell>
-                <TableCell>{item.level}</TableCell>
+                <TableCell>{showPenaltyLevel(item.level)}</TableCell>
                 <TableCell>{DateString(item.createdAt)}</TableCell>
                 <TableCellDetail>{item.etc}</TableCellDetail>
                 <TableCell>

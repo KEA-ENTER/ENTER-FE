@@ -74,6 +74,7 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
+        window.location.reload();
     }
 
     const closeConfirmDeleteModal = () => {
