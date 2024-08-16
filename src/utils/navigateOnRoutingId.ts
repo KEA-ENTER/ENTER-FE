@@ -9,7 +9,7 @@ const navigateBasedOnRoutingId = (routingId: number, navigate: NavigateFunction)
             navigate('/detail'); // 신청서 조회 페이지
             break;
         case 3:
-            navigate('/detail'); // 신청서 조회 페이지
+            navigate('/not-apply'); // 신청일자 경고 페이지
             break;
         case 4:
             navigate('/lottery-result'); // 추첨 결과 페이지

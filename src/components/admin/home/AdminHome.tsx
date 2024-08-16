@@ -15,19 +15,19 @@ export default function AdminHome() {
             <Description>{"관리자 홈"}</Description>
             <AdminHomeContents />
             <Navigation>
-                <NavBtn onClick={() => goPage('vehicle-step')}>
+                <NavBtn onClick={() => goPage('/admin/vehicle-step')}>
                     <NavIcon src='/img/vehicle-step.png' alt="Title Image" />
                     {`인수 관리`}
                 </NavBtn>
-                <NavBtn onClick={() => goPage('lottery')}>
+                <NavBtn onClick={() => goPage('/admin/lottery')}>
                     <NavIcon src='/img/lottery.png' alt="Title Image" />
                     {`추첨 관리`}
                 </NavBtn>
-                <NavBtn onClick={() => goPage('vehicle')}>
+                <NavBtn onClick={() => goPage('/admin/vehicle')}>
                     <NavIcon src='/img/car.png' alt="Title Image" />
                     {`차량 관리`}
                 </NavBtn>
-                <NavBtn onClick={() => goPage('question')}>
+                <NavBtn onClick={() => goPage('/admin/question')}>
                     <NavIcon src='/img/headphone.png' alt="Title Image" />
                     {`문의 관리`}
                 </NavBtn>

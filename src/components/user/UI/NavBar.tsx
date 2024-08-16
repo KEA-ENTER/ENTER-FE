@@ -1,67 +1,79 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useUserStore from '../../../stores/userStore';
+import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
+import autoRouting from '../../../API/user/autoRouting';
 
 import 차량신청 from '../../../img/icon/car.png';
 import 통계 from '../../../img/icon/chart.png';
 import 차량인수 from '../../../img/icon/key.png';
 import 문의 from '../../../img/icon/message.png';
 import 내정보 from '../../../img/icon/user.png';
+import getReportType from '../../../API/user/getReportType';
 
 export default function NavBar() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const state = useUserStore((state) => state.state);
-
     const [activePage, setActivePage] = useState<string | null>(null);
-    const [showRRButton, setShowRRButton] = useState<boolean>(false);
+    const [reportType, setReportType] = useState<string | null>(null);
 
     useEffect(() => {
-        if (state === 'WINNER') {
-            setShowRRButton(true);
-        }
-
-        const pageMapping: { [key: string]: string } = {
-            '/application': 'vehicle',
-            '/detail': 'vehicle',
-            '/lottery-result': 'vehicle',
-            '/statistics': 'statistics',
-            '/rent': 'rr',
-            '/return': 'rr',
-            '/question': 'question',
-            '/write': 'question',
-            '/questiondetail': 'question',
-            '/mypage': 'mypage',
+        const fetchReportType = async () => {
+            try {
+                const reportTypeResponse = await getReportType();
+                setReportType(reportTypeResponse.reportType); // "TAKE", "RETURN", "NONE" 중 하나가 할당됨
+            } catch (error) {
+                console.error(error);
+            }
         };
 
-        setActivePage(pageMapping[location.pathname] || null);
-    }, [state, location.pathname]);
+        fetchReportType();
 
-    // 사용자 페이지 네비게이션 바 숨겨야 하는 페이지
-    const isLicensePage = location.pathname === '/license';
+        const determineActivePage = (pathname: string): string | null => {
+            const pageMapping: { [key: string]: string } = {
+                '/application': 'vehicle',
+                '/detail': 'vehicle',
+                '/lottery-result': 'vehicle',
+                '/not-apply': 'vehicle',
+                '/statistics': 'statistics',
+                '/question': 'question',
+                '/write': 'question',
+                '/questiondetail': 'question',
+                '/mypage': 'mypage',
+            };
 
-    const handleNavigation = (path: string) => {
-        navigate(path);
+            if (pathname.startsWith('/rent') || pathname.startsWith('/return')) {
+                return 'rr';
+            }
+            return pathname.startsWith('/penalty') ? 'mypage' : pageMapping[pathname] || null;
+        };
+
+        setActivePage(determineActivePage(location.pathname));
+    }, [location.pathname]);
+
+    const handleNavigation = (path: string) => navigate(path);
+
+    const handleAutoRouting = async () => {
+        let autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
+
+        if (!autoRoutingPage) {
+            try {
+                const autoRoutingResponse = await autoRouting();
+                autoRoutingPage = autoRoutingResponse.routingId.toString();
+                sessionStorage.setItem('autoRoutingPage', autoRoutingPage);
+            } catch (error) {
+                console.error('Auto-routing failed:', error);
+                return;
+            }
+        }
+
+        navigateBasedOnRoutingId(Number(autoRoutingPage), navigate);
     };
 
-    const autoRouting = () => {
-        const autoRouting = sessionStorage.getItem('autoRoutingPage');
-        if (autoRouting === '1') {
-            navigate('/application'); //차량 신청 페이지
-        } else if (autoRouting === '2') {
-            navigate('/detail'); //
-        } else if (autoRouting === '3') {
-            navigate('/detail');
-        } else if (autoRouting === '4') {
-            navigate('/lottery-result');
-        }
-    }
-
     return (
-        <Nav $isHidden={isLicensePage}>
-            <Button onClick={() => autoRouting()}>
+        <Nav $isHidden={location.pathname === '/license'}>
+            <Button onClick={handleAutoRouting}>
                 <Img alt="차량신청 아이콘" src={차량신청} />
                 <Title $isHighlighted={activePage === 'vehicle'}>차량신청</Title>
             </Button>
@@ -69,14 +81,24 @@ export default function NavBar() {
                 <Img alt="통계 아이콘" src={통계} />
                 <Title $isHighlighted={activePage === 'statistics'}>통계</Title>
             </Button>
-            <RRButton $isHidden={!showRRButton}>
-                <Button onClick={() => handleNavigation('/rent')}>
+
+            {reportType === 'TAKE' && (
+                <Button onClick={() => handleNavigation('/rent/1')}>
                     <KeyImg>
                         <Img alt="차량인수 아이콘" src={차량인수} />
                     </KeyImg>
                     <Title $isHighlighted={activePage === 'rr'}>차량인수</Title>
                 </Button>
-            </RRButton>
+            )}
+            {reportType === 'RETURN' && (
+                <Button onClick={() => handleNavigation('/return/1')}>
+                    <KeyImg>
+                        <Img alt="차량반납 아이콘" src={차량인수} />
+                    </KeyImg>
+                    <Title $isHighlighted={activePage === 'rr'}>차량반납</Title>
+                </Button>
+            )}
+
             <Button onClick={() => handleNavigation('/question')}>
                 <Img alt="문의 아이콘" src={문의} />
                 <Title $isHighlighted={activePage === 'question'}>문의</Title>
@@ -96,14 +118,9 @@ const Nav = styled.nav<{ $isHidden: boolean }>`
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 80px;
-
     @media (max-width: 500px) {
         margin-bottom: 0px;
     }
-`;
-
-const RRButton = styled.div<{ $isHidden: boolean }>`
-    display: ${({ $isHidden }) => ($isHidden ? 'none' : 'flex')};
 `;
 
 const Title = styled.div<{ $isHighlighted?: boolean }>`
@@ -122,7 +139,7 @@ const Button = styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer; // 클릭 가능한 요소임을 나타내기 위해 추가
+    cursor: pointer;
 `;
 
 const KeyImg = styled.div`

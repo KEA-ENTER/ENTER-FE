@@ -64,33 +64,39 @@ const LotteryList: React.FC = () => {
     // 2. pagination의 이름을 10(테스트용)에서 totalPage로 변경한다.
     return (
         <Container>
-            <Table>
-                <thead>
-                    <TableRow>
-                        <TableHeader>회차</TableHeader>
-                        <TableHeaderDetail>인수 기간</TableHeaderDetail>
-                        <TableHeaderDetail>차량 정보</TableHeaderDetail>
-                        <TableHeader>신청자 수</TableHeader>
-                        <TableHeader>당첨자 수</TableHeader>
-                        <TableHeader>미인수자 수</TableHeader>
-                        <TableHeader>경쟁률</TableHeader>
-                    </TableRow>
-                </thead>
-                <tbody>
-                    {lotteryData.map((item, idx) => (
-                        <TableRow key={idx} onClick={() => goLotteryDetail(item.round, item.takeDate, item.vehicleModel, item.applyRoundId.toString())}>
-                            <TableCell>{item.round}회차</TableCell>
-                            <TableCellDetail>{DateString(item.takeDate)}{" ~ "}{DateString(item.returnDate)}</TableCellDetail>
-                            <TableCellDetail>{item.vehicleModel} - {item.vehicleNo}</TableCellDetail>
-                            <TableCell>{item.applyCnt}명</TableCell>
-                            <TableCell>{item.winningCnt}명</TableCell>
-                            <TableCell>{item.noShowCnt}명</TableCell>
-                            <TableCell>{item.competition}</TableCell>
-                        </TableRow>
-                    ))}
-                </tbody>
-            </Table>
-            <Pagination totalPages={totalPage} />
+            {lotteryData.length === 0 ? (
+                <NoResultMessage>결과가 존재하지 않습니다</NoResultMessage>
+            ) : (
+                <>
+                    <Table>
+                        <thead>
+                            <TableRow>
+                                <TableHeader>회차</TableHeader>
+                                <TableHeaderDetail>인수 기간</TableHeaderDetail>
+                                <TableHeaderDetail>차량 정보</TableHeaderDetail>
+                                <TableHeader>신청자 수</TableHeader>
+                                <TableHeader>당첨자 수</TableHeader>
+                                <TableHeader>미인수자 수</TableHeader>
+                                <TableHeader>경쟁률</TableHeader>
+                            </TableRow>
+                        </thead>
+                        <tbody>
+                            {lotteryData.map((item, idx) => (
+                                <TableRow key={idx} onClick={() => goLotteryDetail(item.round, item.takeDate, item.vehicleModel, item.applyRoundId.toString())}>
+                                    <TableCell>{item.round}회차</TableCell>
+                                    <TableCellDetail>{DateString(item.takeDate)}{" ~ "}{DateString(item.returnDate)}</TableCellDetail>
+                                    <TableCellDetail>{item.vehicleModel} - {item.vehicleNo}</TableCellDetail>
+                                    <TableCell>{item.applyCnt}명</TableCell>
+                                    <TableCell>{item.winningCnt}명</TableCell>
+                                    <TableCell>{item.noShowCnt}명</TableCell>
+                                    <TableCell>{item.competition}</TableCell>
+                                </TableRow>
+                            ))}
+                        </tbody>
+                    </Table>
+                    <Pagination totalPages={totalPage} />
+                </>
+            )}
         </Container>
   );
 };
@@ -101,6 +107,13 @@ export default LotteryList;
 const Container = styled.div`
     padding: 20px 0px;
     border-radius: 0px;
+`;
+
+const NoResultMessage = styled.div`
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #686868;
 `;
 
 const Table = styled.table`

@@ -2,18 +2,17 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
-interface userStatus {
-    code: string;
-    message: string;
-}
-
-const checkUserStatus = async (): Promise<userStatus> => {
+const participationHistory = async (page: number) => {
     const accessToken = sessionStorage.getItem('accessToken');
+
     try {
-        const response = await axios.get<userStatus>(`${BASE_URL}/members/license`, {
+        const response = await axios.get(`${BASE_URL}/lotteries`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
+            },
+            params: {
+                page,
             },
         });
         return response.data;
@@ -23,4 +22,4 @@ const checkUserStatus = async (): Promise<userStatus> => {
     }
 };
 
-export default checkUserStatus;
+export default participationHistory;

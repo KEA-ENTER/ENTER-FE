@@ -4,8 +4,6 @@ const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 const addLicense = async (licenseCode: string, licensePassword: string) => {
     const accessToken = sessionStorage.getItem('accessToken');
-    console.log('licenseCode: ' + licenseCode);
-    console.log('licensePassword: ' + licensePassword);
 
     try {
         const response = await axios.post(

@@ -17,13 +17,14 @@ interface QuestionItem {
 
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
-    const { id } = useParams<{ id: string }>(); // 경로에서 id를 가져옴
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [openAnswer, setOpenAnswer] = useState(false);
 
     const goQuestionPage = () => {
         navigate("/admin/question");
     };
+
     const changeAnswerState = () => {
         setOpenAnswer(!openAnswer);
     };
@@ -35,7 +36,7 @@ export default function QuestionDetailContents () {
                 setQuestionData(res);
             }
         });
-    }, []);
+    }, [id]);
 
     const getCategoryText = (category: string) => {
         if (category === 'USER')
@@ -52,15 +53,15 @@ export default function QuestionDetailContents () {
 
     return(
         <Container>
-            {questionData && (
+            {questionData ? (
                 <>
                     <Title>
-                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent.substring(0, 10)}...`}
+                        {`[${getCategoryText(questionData.category)}] ${questionData.questionContent}`}
                     </Title>
                     <DetailInfo>{`${DateString(questionData.questionCreatedAt)} ${questionData.name}`}</DetailInfo>
                     <ContentBox>{questionData.questionContent}</ContentBox>
                 </>
-            )}
+            ) : <ErrorContainer>해당 문의 내용을 불러올 수 없습니다.</ErrorContainer>}
             {questionData?.answerContent && (
                 <>
                     <ContentBox>{questionData?.answerContent}</ContentBox>
@@ -85,10 +86,22 @@ export default function QuestionDetailContents () {
 const Container = styled.div`
 `;
 
+const ErrorContainer = styled.div`
+    background: rgba(238, 238, 238, 0.6);
+    padding: 20px;
+    margin: 10px 0px;
+    border-radius: 0px;
+`;
+
 const Title = styled.div`
+    width: 400px;
+    border: 1px solid red;
     font-size: 20px;
     font-style: bold;
     margin: 20px 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
 const DetailInfo = styled.div`

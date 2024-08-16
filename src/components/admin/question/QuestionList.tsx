@@ -92,7 +92,7 @@ export default function QuestionList () {
                     {questionData.map((item) => (
                         <TableRow key={item.questionId} onClick={() => goQuestionDetail(item.questionId)}>
                             <TableCell>{getCategoryText(item.category)}</TableCell>
-                            <TableCellDetail>{item.questionContent}...</TableCellDetail>
+                            <TableCellDetail>{item.questionContent}</TableCellDetail>
                             <TableCell>{getStatusText(item.state)}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{DateString(item.questionCreatedAt)}</TableCell>
@@ -142,5 +142,6 @@ const TableCell = styled.td`
 
 const TableCellDetail = styled(TableCell)`
     width: 20%;
+    text-overflow: ellipsis;
 `;
 
