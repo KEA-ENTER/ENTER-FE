@@ -24,7 +24,7 @@ const Header: React.FC = () => {
     return (
         <Head>
             <Container>
-                <Title onClick={() => goPage('/admin')}>탈까?</Title>
+                <Title onClick={() => goPage('/')}>탈까?</Title>
                 <Menu onClick={() => goPage('/admin/vehicle-step')} isSelected={isMenuSelected('vehicle-step')}>인수 관리</Menu>
                 <Menu onClick={() => goPage('/admin/lottery')} isSelected={isMenuSelected('lottery')}>추첨 관리</Menu>
                 <Menu onClick={() => goPage('/admin/vehicle')} isSelected={isMenuSelected('vehicle')}>차량 관리</Menu>
