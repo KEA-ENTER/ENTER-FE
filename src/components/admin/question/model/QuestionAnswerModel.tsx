@@ -10,7 +10,7 @@ const QuestionAnswerModel = async (questionId: number, contentData: string) => {
         return response.data;
     } catch (error) {
         console.error('Error response:', error);
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return null; 
     }
 };

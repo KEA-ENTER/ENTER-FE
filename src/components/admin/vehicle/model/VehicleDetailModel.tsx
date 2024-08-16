@@ -13,8 +13,8 @@ const VehicleDetailtModel = async (vehicleId: string | undefined) => {
         console.log("데이터:", response.data);
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
-        return []; 
+        console.log('Error:' + error);
+        return null; 
     }
 };
 

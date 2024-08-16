@@ -25,10 +25,8 @@ const VehicleModifyModel = async (id: string | undefined, vehicleNo: string, com
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
-            window.alert(error.message);
         } else {
             console.error(error);
-            window.alert(error);
         }
         return null;
     }

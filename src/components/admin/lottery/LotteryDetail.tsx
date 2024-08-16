@@ -36,7 +36,7 @@ const Container = styled.div`
 `;
 
 const DetailTitle = styled.div`
-    font-size: 22px;
+    font-size: 16px;
     font-weight: bold;
 `;
 
@@ -44,5 +44,5 @@ const SearchBoxContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 `;

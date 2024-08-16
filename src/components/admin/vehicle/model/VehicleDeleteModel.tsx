@@ -9,10 +9,8 @@ const VehicleDeleteModel = async (id: string | undefined) => {
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
-            window.alert(error.message);
         } else {
             console.error(error);
-            window.alert(error);
         }
         return null;
     }

@@ -6,7 +6,7 @@ const HomeTakesModel = async () => {
         const response = await api.get(`${import.meta.env.VITE_SERVER_URL}/admin/takes`);
         return response.data
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return []; 
     }
 }

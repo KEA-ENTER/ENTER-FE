@@ -29,7 +29,7 @@ const VehicleListModel = async (name: string, type: string, page: number) => {
         
         return response.data;
     } catch (error) {
-        window.alert('Error:' + error);
+        console.log('Error:' + error);
         return []; 
     }
 };
