@@ -21,6 +21,7 @@ interface FormDataType {
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
+    const [errorState, setErrorState] = useState("올바르지 않은 내용을 입력했습니다.");
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<FormDataType>({
         model: "",
@@ -69,7 +70,8 @@ export default function VehicleCreate() {
         setLoading(true);
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
         if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
-            setLoading(false)
+            setLoading(false);
+            setErrorState("내용을 전부 입력해주세요.");
             setErrorModal(true);
         } else {
             const res = await createVehicle();
@@ -78,14 +80,19 @@ export default function VehicleCreate() {
                 setConfirmModal(true);
             } else {
                 setLoading(false)
+                setErrorState("차량 번호 형식이 올바르지 않거나 중복되었습니다.");
+                setErrorModal(true);
             }
         }
     };
 
     const closeModal = () => {
         setConfirmModal(false);
-        setErrorModal(false);
         navigate('/admin/vehicle')
+    };
+
+    const closeErrorModal = () => {
+        setErrorModal(false);
     };
 
     const goVehicleCreate = () => {
@@ -118,9 +125,9 @@ export default function VehicleCreate() {
             )}
             {errorModal && (
                 <Modal
-                    title="내용을 전부 입력해주세요"
-                    description=""
-                    onClose={closeModal}
+                    title="업로드에 실패하였습니다."
+                    description={errorState}
+                    onClose={closeErrorModal}
                 />
             )}
             {loading && (
