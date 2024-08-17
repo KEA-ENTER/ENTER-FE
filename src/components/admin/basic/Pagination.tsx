@@ -16,7 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     const navigate = useNavigate();
     const query = Query();
 
-    const pagesPerGroup = 10;
+    const pagesPerGroup = 5; // 페이지 번호를 5개씩 반환
     const totalGroups = Math.ceil(totalPages / pagesPerGroup);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
-        query.set("page", page.toString());
+        query.set('page', page.toString());
         navigate({
             search: query.toString(),
         });
@@ -52,13 +52,9 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
-                <PageButton
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    $isactive={currentPage === i}
-                >
+                <PageButton key={i} onClick={() => handlePageChange(i)} $isactive={currentPage === i}>
                     {i}
-                </PageButton>
+                </PageButton>,
             );
         }
         return pages;
@@ -88,29 +84,29 @@ export default Pagination;
 const PaginationContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 20px;
 `;
 
 const PageButton = styled.button<{ $isactive: boolean }>`
-    margin: 0 5px;
     padding: 5px 10px;
-    background-color: ${props => props.$isactive ? '#bbb' : 'white'};
-    color: ${props => props.$isactive ? 'white' : 'black'};
+    background-color: ${(props) => (props.$isactive ? '#bbb' : 'white')};
+    color: ${(props) => (props.$isactive ? 'white' : 'black')};
     border: 0px solid #eee;
+    border-radius: 8px;
     cursor: pointer;
     &:hover {
-        background-color: ${props => props.$isactive ? '#dddddd' : '#f0f0f0'};
+        background-color: ${(props) => (props.$isactive ? '#dddddd' : '#f0f0f0')};
     }
 `;
 
 const NavButton = styled.button`
-    margin: 0 5px;
-    padding: 5px 10px;
+    padding: 5px 8px;
     background-color: white;
     color: black;
     border: 1px solid #ddd;
     cursor: pointer;
+    border-radius: 8px;
 
     &:disabled {
         cursor: not-allowed;
