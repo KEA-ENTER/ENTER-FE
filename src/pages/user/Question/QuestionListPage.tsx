@@ -46,7 +46,7 @@ export default function QuestionListPage() {
 
     const fetchData = () => {
         const pageNum = parseInt(page);
-        questionsList(pageNum, category, userInput)
+        questionsList(pageNum - 1, category, userInput)
             .then((data) => {
                 setQuestions(data.questions);
                 setTotalPage(data.totalPages);
@@ -99,19 +99,25 @@ export default function QuestionListPage() {
                 </InputContainer>
             </UserInputContainer>
             <ListContainer>
+                <TitleBox>
+                    <div>작성일</div>
+                    <div>카테고리</div>
+                    <div>내용</div>
+                    <div>작성자</div>
+                </TitleBox>
                 {questions.map((item) => (
                     <TextBox key={item.questionId} onClick={() => goQuestionDetail(item.questionId)}>
-                        <div>{DateString(item.questionCreatedAt)}</div>
+                        <DateContainer>{DateString(item.questionCreatedAt)}</DateContainer>
                         <div>{getCategoryText(item.category)}</div>
                         <CutContent>{item.questionContent}</CutContent>
                         <div>{item.name}</div>
                     </TextBox>
                 ))}
             </ListContainer>
+            <Pagination totalPages={totalPage} />
             <ButtonContainer>
                 <Button onClick={() => goQuestionWrite()}>문의하기</Button>
             </ButtonContainer>
-            <Pagination totalPages={totalPage} />
         </Container>
     );
 }
@@ -121,22 +127,22 @@ const Container = styled.div`
 `;
 
 const UserInputContainer = styled.div`
+    height: 70px;
+    // width: 95%;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
+    // border: 5px solid blue;
 `;
 
 const SelectContainer = styled.div`
     flex: 2;
-    padding: 10px 5px;
-`;
-
-const InputContainer = styled.div`
-    flex: 3;
-    padding: 10px 5px;
+    height: 70px;
 `;
 
 const Select = styled.select`
-    width: 100%;
+    width: 90%;
+    height: 55px;
     padding: 8px;
     background-color: #fff;
     font-size: 18px;
@@ -146,9 +152,24 @@ const Select = styled.select`
     margin-bottom: 20px;
 `;
 
+const InputContainer = styled.div`
+    height: 70px;
+    flex: 3;
+    // border: 1px solid red;
+`;
+
 const ListContainer = styled.div`
     border-radius: 8px;
-    padding: 10px;
+`;
+
+const TitleBox = styled.div`
+    border-radius: 8px;
+    background-color: #fee500;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: 700;
 `;
 
 const TextBox = styled.div`
@@ -164,8 +185,14 @@ const ButtonContainer = styled.div`
     text-align: center;
 `;
 
+const DateContainer = styled.div`
+    width: 30%;
+`;
+
 const CutContent = styled.div`
-    width: 100px;
+    // border: 1px solid red;
+    width: 30%;
+    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
