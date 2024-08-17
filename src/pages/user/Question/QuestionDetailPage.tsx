@@ -12,23 +12,18 @@ export default function QuestionDetailPage() {
     const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [answerContent, setAnswerContent] = useState<string>('');
-    const [myQuestion, setMyQuestion] = useState<boolean>(false); 
+    const [myQuestion, setMyQuestion] = useState<boolean>(false);
     const { id } = useParams();
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
 
     const getCategoryText = (category: string) => {
-        if (category === 'USER')
-            return '사용자';
-        else if (category === 'SERVICE')
-            return '서비스';
-        else if (category == 'VEHICLE')
-            return '차량 문의';
-        else if (category == 'ETC')
-            return '기타';
-        else
-            return '';
-    }
+        if (category === 'USER') return '사용자';
+        else if (category === 'SERVICE') return '서비스';
+        else if (category == 'VEHICLE') return '차량 문의';
+        else if (category == 'ETC') return '기타';
+        else return '';
+    };
 
     const handleModifyClick = () => {
         navigate(`/questionModify/${id}`); // 수정하기 페이지로 이동
@@ -49,24 +44,24 @@ export default function QuestionDetailPage() {
             alert('삭제 요청에 실패했습니다.');
         }
     };
-    
+
     const fetchData = async () => {
-        try{
+        try {
             const response = await axios.get(`${BASE_URL}/questions/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
                 },
             });
-            setCategory(response.data.category)
-            setContent(response.data.questionContent)
-            setAnswerContent(response.data.answerContent)
+            console.log(response.data);
+            setCategory(response.data.category);
+            setContent(response.data.questionContent);
+            setAnswerContent(response.data.answerContent);
             setMyQuestion(response.data.myQuestion);
         } catch (error) {
             console.error('API 요청 실패:', error);
             throw error;
         }
-        
     };
 
     useEffect(() => {

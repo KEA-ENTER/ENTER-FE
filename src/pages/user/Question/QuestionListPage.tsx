@@ -48,6 +48,7 @@ export default function QuestionListPage() {
         const pageNum = parseInt(page);
         questionsList(pageNum - 1, category, userInput)
             .then((data) => {
+                console.log(data);
                 setQuestions(data.questions);
                 setTotalPage(data.totalPages);
                 // console.log("data: ", data.questions);
@@ -186,12 +187,12 @@ const ButtonContainer = styled.div`
 `;
 
 const DateContainer = styled.div`
-    width: 30%;
+    width: 20%;
 `;
 
 const CutContent = styled.div`
     // border: 1px solid red;
-    width: 30%;
+    width: 40%;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
