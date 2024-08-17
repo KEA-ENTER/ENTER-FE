@@ -5,20 +5,14 @@ import useUserStore from '../../stores/userStore';
 
 const VehiecleRoutes = () => {
     const navigate = useNavigate();
-    const { name, role, accessToken } = useUserStore((state) => ({
-        name: state.name,
-        role: state.role,
-        accessToken: state.accessToken,
-    }));
+
     const setUser = useUserStore((state) => state.setUser);
 
     useEffect(() => {
-        console.log('VehiecleRoutes');
         const fetchAutoRouting = async () => {
             try {
                 const autoRoutingResponse = await autoRouting();
-                setUser(name, role, accessToken, autoRoutingResponse.userState);
-                console.log(autoRoutingResponse.routingId);
+
                 switch (autoRoutingResponse.routingId) {
                     case 1:
                         navigate('/application');
@@ -42,9 +36,8 @@ const VehiecleRoutes = () => {
         };
 
         fetchAutoRouting();
-    }, [navigate, setUser, name, role, accessToken]);
+    }, [navigate, setUser]);
 
-    // 컴포넌트가 아무것도 렌더링하지 않도록 null 반환
     return null;
 };
 
