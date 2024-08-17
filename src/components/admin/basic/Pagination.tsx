@@ -22,7 +22,10 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     useEffect(() => {
         const group = Math.ceil(currentPage / pagesPerGroup);
         setCurrentGroup(group);
-    }, [currentPage]);
+        const getPage = Number(query.get("page"))
+        console.log(getPage)
+        setCurrentPage(getPage)
+    }, [currentPage, query]);
 
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
