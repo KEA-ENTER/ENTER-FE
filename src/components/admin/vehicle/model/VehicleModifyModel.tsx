@@ -23,11 +23,7 @@ const VehicleModifyModel = async (id: string | undefined, vehicleNo: string, com
         const response = await api.patch(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData);
         return response.data;
     } catch (error) {
-        if (error instanceof Error) {
-            console.error(error.message);
-        } else {
-            console.error(error);
-        }
+        console.error(error);
         return null;
     }
 };

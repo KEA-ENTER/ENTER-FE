@@ -1,9 +1,6 @@
 import styled from 'styled-components';
-import { useLocation, useParams } from 'react-router-dom';
 import DateString from '../basic/DateString';
 import IdString from '../basic/IdString';
-import { useEffect, useState } from 'react';
-import LotteryDetailListModel from './model/LotteryDetailListModel';
 import Pagination from '../basic/Pagination';
 
 interface LotteryDetailItem {
@@ -14,30 +11,12 @@ interface LotteryDetailItem {
     applyTime: string;
 }
 
-function Query() {
-    return new URLSearchParams(useLocation().search);
+interface LotteryDetailProps {
+    lotteryDetailData: LotteryDetailItem[];
+    totalPage: number;
 }
 
-const LotteryDetailList: React.FC = () => {
-    const [lotteryDetailData, setLotteryData] = useState<LotteryDetailItem[]>([]);
-    const [totalPage, setTotalPage] = useState(0);
-
-    const query = Query();
-    const type = query.get("type") ?? "ALL";
-    const word = query.get("q") ?? "";
-    const page = query.get("page") ?? "1";
-    const { applyRound } = useParams<{ applyRound: string }>();
-   
-    useEffect(() => {
-        const pageNum = parseInt(page) - 1;
-
-        LotteryDetailListModel(word, type, pageNum, applyRound).then(res => {
-            if (res) {
-                setLotteryData(res.applicantList); 
-                setTotalPage(res.totalPages);
-            }
-        });
-    }, [type, word, page, applyRound]);
+const LotteryDetailList: React.FC<LotteryDetailProps> = ({ lotteryDetailData, totalPage }) => {
 
     return (
         <Container>
