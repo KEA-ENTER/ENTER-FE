@@ -47,6 +47,16 @@ VITE_SERVER_URL = https://moaboa.shop
 npm run dev
 ```
 
+## 프로젝트 구조
+
+- public/: 이미지, 폰트 등의 정적 리소스를 저장한 디렉토리
+- src/: 주요 소스 코드가 위치한 디렉토리
+  - API/: API 연결
+  - components/: react 컴포넌트
+  - pages/: 주요 페이지 구성
+- .eslintrc.cjs: ESLint 설정 파일
+- tsconfig.json: TypeScript 설정 파일
+- vite.config.ts: Vite 설정 파일
 ---
 
 가천대학교 SW아카데미 4기 기업실무프로젝트 6조 - Enter
