@@ -1,6 +1,6 @@
 // 라이브러리
 import { useEffect } from 'react';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 // 페이지
 import Layout from '../../components/user/Layout/Layout';
@@ -73,13 +73,13 @@ const UserRoutes = () => {
                 console.error('API 요청 중 오류가 발생했습니다:', error);
             }
         };
-
+        
         fetchRouting();
     }, []);
 
     return (
         <Routes>
-            <Route path="/*" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
                 <Route path="license" element={<AddLicensePage />} />
                 <Route path="application" element={<ApplicationFormPage />} />
                 <Route path="not-apply" element={<NotApplicationDatePage />} />

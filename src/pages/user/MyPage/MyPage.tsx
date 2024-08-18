@@ -5,6 +5,7 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import getPenaltyHistory from '../../../API/user/panaltyHistory';
 import getParticipationHistory from '../../../API/user/participationHistory';
+import Button from '../../../components/user/UI/Button';
 
 interface ParticipationItem {
     round: number;
@@ -69,6 +70,14 @@ export default function MyPage() {
         if (ref.current) {
             observerRef.current.observe(ref.current);
         }
+    };
+
+    const logoutHandler = () => {
+        sessionStorage.setItem('accessToken', '');
+        sessionStorage.setItem('roel', '');
+        sessionStorage.setItem('autoRoutingPage', '');
+        sessionStorage.setItem('userName', '');
+        navigate('/');
     };
 
     useEffect(() => {
@@ -188,6 +197,7 @@ export default function MyPage() {
                     })}
                 </ScrollableList>
             </TableContainer>
+            <Button onClick={logoutHandler}>로그아웃</Button>
         </Container>
     );
 }
