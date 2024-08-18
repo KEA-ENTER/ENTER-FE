@@ -17,14 +17,13 @@ export default function LotteryResultPage() {
 
     const toDetail = () => {
         navigate('/detail');
-    }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const data = await getResult();
-                console.log(data);
                 setState(data.winning);
                 setWatting(data.waitingNumber);
             } catch (error) {

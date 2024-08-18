@@ -9,7 +9,6 @@ interface AutoRoutingResponse {
 
 const autoRouting = async (): Promise<AutoRoutingResponse> => {
     const accessToken = sessionStorage.getItem('accessToken');
-
     try {
         const response = await axios.get<AutoRoutingResponse>(`${BASE_URL}/members/routing`, {
             headers: {

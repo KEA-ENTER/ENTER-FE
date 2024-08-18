@@ -1,6 +1,6 @@
 // 라이브러리
 import { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 // 페이지
 import Layout from '../../components/user/Layout/Layout';
@@ -19,7 +19,6 @@ import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
 import StatisticsPage from './Statistics/StatisticsPage';
 import PenaltyDetailPage from './MyPage/PenaltyDetailPage';
 import QuestionModifyPage from './Question/QuestionModifyPage';
-import NotFoundPage from '../../components/common/NotFoundPage';
 
 // API
 import checkUserStatus from '../../API/user/checkUserStatus';
@@ -27,9 +26,9 @@ import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 
 // Hook
 import useAutoRouting from '../../utils/useAutoRouting';
+import NotFoundPage from '../../components/common/NotFoundPage';
 
 const UserRoutes = () => {
-    console.log('라우팅페이지');
     const navigate = useNavigate();
     const { autoRoutingFunc } = useAutoRouting(); // 커스텀 훅 사용
 
@@ -39,8 +38,6 @@ const UserRoutes = () => {
         const fetchRouting = async () => {
             try {
                 const userStatusResponse = await checkUserStatus();
-
-                console.log('userStatusResponse: ', userStatusResponse);
 
                 switch (userStatusResponse.code) {
                     case 'MEM-001':
@@ -69,7 +66,6 @@ const UserRoutes = () => {
                             await autoRoutingFunc();
                         }
                         break;
-
                     default:
                         console.error('알 수 없는 사용자 상태 코드:', userStatusResponse.code);
                 }
@@ -83,7 +79,7 @@ const UserRoutes = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/*" element={<Layout />}>
                 <Route path="license" element={<AddLicensePage />} />
                 <Route path="application" element={<ApplicationFormPage />} />
                 <Route path="not-apply" element={<NotApplicationDatePage />} />

@@ -4,11 +4,21 @@ import Button from '../user/UI/Button';
 
 import sad from '../../img/icon/sad.png';
 
+import useAutoRouting from '../../utils/useAutoRouting';
+
 export default function NotFoundPage() {
     const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting();
+
+    const role = sessionStorage.getItem('role');
 
     const toMain = () => {
-        navigate('/');
+        if (role == 'USER') {
+            autoRoutingFunc();
+        } else if (role == 'ADMIN') {
+            console.log('ADMIN');
+            navigate('/admin');
+        }
     };
 
     return (
