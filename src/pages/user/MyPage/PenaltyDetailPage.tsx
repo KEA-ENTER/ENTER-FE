@@ -5,6 +5,7 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import panaltyDetail from '../../../API/user/panaltyDetail';
 import BackButton from '../../../components/user/UI/BackButton';
+import Loading from '../../../components/user/Loading';
 
 interface PenaltyDetail {
     createdAt: string;
@@ -35,7 +36,7 @@ export default function MyPage() {
     }, [penaltyId]);
 
     if (!penaltyDetail) {
-        return <div>Loading...</div>; // 데이터를 가져오는 동안 로딩 표시
+        return <Loading />; // 데이터를 가져오는 동안 로딩 표시
     }
 
     return (

@@ -71,7 +71,6 @@ export default function Login({ stateHandler }: { stateHandler: (role: string) =
     );
 }
 
-// 스타일 컴포넌트
 const Container = styled.div`
     height: 100vh;
     max-width: 500px;
