@@ -73,11 +73,12 @@ export default function MyPage() {
     };
 
     const logoutHandler = () => {
-        sessionStorage.setItem('accessToken', '');
-        sessionStorage.setItem('roel', '');
-        sessionStorage.setItem('autoRoutingPage', '');
-        sessionStorage.setItem('userName', '');
-        navigate('/');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('role');
+        sessionStorage.removeItem('autoRoutingPage');
+        sessionStorage.removeItem('userName');
+
+        window.location.reload();
     };
 
     useEffect(() => {
@@ -197,7 +198,9 @@ export default function MyPage() {
                     })}
                 </ScrollableList>
             </TableContainer>
-            <Button onClick={logoutHandler}>로그아웃</Button>
+            <BottonContainer>
+                <Button onClick={logoutHandler}>로그아웃</Button>
+            </BottonContainer>
         </Container>
     );
 }
@@ -240,4 +243,9 @@ const ListContainer = styled.div`
 
 const Items = styled.div`
     font-size: 12px;
+`;
+
+const BottonContainer = styled.div`
+    width: 100%;
+    text-align: center;
 `;
