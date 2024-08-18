@@ -19,6 +19,7 @@ import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
 import StatisticsPage from './Statistics/StatisticsPage';
 import PenaltyDetailPage from './MyPage/PenaltyDetailPage';
 import QuestionModifyPage from './Question/QuestionModifyPage';
+import NotFoundPage from './NotFoundPage';  // 404 페이지
 
 // API
 import checkUserStatus from '../../API/user/checkUserStatus';
@@ -95,6 +96,7 @@ const UserRoutes = () => {
                 <Route path="rent/:page" element={<RentPage />} />
                 <Route path="return/:page" element={<ReturnPage />} />
                 <Route path="statistics" element={<StatisticsPage />} />
+                <Route path="*" element={<NotFoundPage />} /> {/* 정의되지 않은 경로 처리 */}
             </Route>
         </Routes>
     );
