@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import autoRouting from '../../API/user/autoRouting';
-import useUserStore from '../../stores/userStore';
 
 const VehiecleRoutes = () => {
     const navigate = useNavigate();
-
-    const setUser = useUserStore((state) => state.setUser);
 
     useEffect(() => {
         const fetchAutoRouting = async () => {
@@ -36,7 +33,7 @@ const VehiecleRoutes = () => {
         };
 
         fetchAutoRouting();
-    }, [navigate, setUser]);
+    }, [navigate]);
 
     return null;
 };

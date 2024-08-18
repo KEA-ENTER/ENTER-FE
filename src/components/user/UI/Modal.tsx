@@ -1,5 +1,28 @@
-import React from 'react';
 import styled from 'styled-components';
+
+interface ModalProps {
+    show: boolean; // 모달의 표시 여부
+    handleClose: () => void; // 모달 닫기 함수
+    children: React.ReactNode; // 모달 안에 들어갈 내용
+}
+
+const Modal: React.FC<ModalProps> = ({ show, handleClose, children }) => {
+    if (!show) return null;
+
+    return (
+        <ModalBackground>
+            <ModalContent>
+                <ModalHeader>개인정보 처리 방침</ModalHeader>
+                <ModalBody>{children}</ModalBody>
+                <ModalFooter>
+                    <CloseButton onClick={handleClose}>닫기</CloseButton>
+                </ModalFooter>
+            </ModalContent>
+        </ModalBackground>
+    );
+};
+
+export default Modal;
 
 const ModalBackground = styled.div`
     position: fixed;
@@ -50,21 +73,3 @@ const CloseButton = styled.button`
         background: #0056b3;
     }
 `;
-
-const Modal = ({ show, handleClose, children }) => {
-    if (!show) return null;
-
-    return (
-        <ModalBackground>
-            <ModalContent>
-                <ModalHeader>개인정보 처리 방침</ModalHeader>
-                <ModalBody>{children}</ModalBody>
-                <ModalFooter>
-                    <CloseButton onClick={handleClose}>닫기</CloseButton>
-                </ModalFooter>
-            </ModalContent>
-        </ModalBackground>
-    );
-};
-
-export default Modal;
