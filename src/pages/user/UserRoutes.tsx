@@ -19,6 +19,7 @@ import ApplicationDateInfoPage from './ApplicationDate/ApplicationDateInfoPage';
 import StatisticsPage from './Statistics/StatisticsPage';
 import PenaltyDetailPage from './MyPage/PenaltyDetailPage';
 import QuestionModifyPage from './Question/QuestionModifyPage';
+import NotFoundPage from '../../components/common/NotFoundPage';
 
 // API
 import checkUserStatus from '../../API/user/checkUserStatus';
@@ -28,6 +29,7 @@ import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 import useAutoRouting from '../../utils/useAutoRouting';
 
 const UserRoutes = () => {
+    console.log('라우팅페이지');
     const navigate = useNavigate();
     const { autoRoutingFunc } = useAutoRouting(); // 커스텀 훅 사용
 
@@ -63,7 +65,9 @@ const UserRoutes = () => {
                     }
 
                     case 'MEM-004':
-                        await autoRoutingFunc();
+                        if (!autoRoutingPage) {
+                            await autoRoutingFunc();
+                        }
                         break;
 
                     default:
@@ -95,6 +99,7 @@ const UserRoutes = () => {
                 <Route path="rent/:page" element={<RentPage />} />
                 <Route path="return/:page" element={<ReturnPage />} />
                 <Route path="statistics" element={<StatisticsPage />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
     );
