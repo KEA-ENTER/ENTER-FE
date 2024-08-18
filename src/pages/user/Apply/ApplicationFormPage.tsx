@@ -1,25 +1,30 @@
 import { useState, useEffect, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Button from '../../../components/user/UI/Button';
-import { useNavigate } from 'react-router-dom';
+
 import RadioButtonOption from '../../../components/user/Apply/RadioButtonOption';
 import CarOption from '../../../components/user/Apply/CarOption';
 import FinishedPage from './FinishedPage';
 
 import getAppliesDate from '../../../API/user/getAppliesDate';
 import getAbleVehicle from '../../../API/user/getAbleVehicle';
+import applyVehicel from '../../../API/user/applyVehicel';
 import Loading from '../../../components/user/Loading';
 
 interface Car {
-    id: number;
-    name: string;
-    type: string;
-    brand: string;
-    capacity: number;
-    ratio: string;
-    imageUrl: string;
+    company: string;
+    competition: number;
+    fuel: string;
+    img: string;
+    model: string;
+    round: number;
+    seat: number;
+    vehicleId: number;
+    applyRoundId: number;
 }
 
 interface DateOption {
@@ -29,20 +34,26 @@ interface DateOption {
 }
 
 export default function ApplicationFormPage() {
-    const [purpose, setPurpose] = useState<string>('여행'); // 사용 목적
+    const navigate = useNavigate();
+
     const [next, setNext] = useState<boolean>(false);
+
+    const [purpose, setPurpose] = useState<string>('TRAVEL'); // 사용 목적
     const [selectedDate, setSelectedDate] = useState<DateOption | null>(null); // 탑승일
     const [selectedCar, setSelectedCar] = useState<Car | null>(null); // 탑승할 차량
-    const [dates, setDates] = useState<DateOption[]>([]); // state로 변경된 탑승일
-    const [cars, setCars] = useState<Car[]>([]); // state로 변경된 차량 데이터
+    const [applyRoundId, setApplyRoundId] = useState<number | null>(null); // 선택한 차량의 applyRoundId
+
+    const [dates, setDates] = useState<DateOption[]>([]); // API response
+    const [cars, setCars] = useState<Car[]>([]); // API response
+
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [finished, setFinished] = useState<boolean>(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const dateResponse = await getAppliesDate(); // API 호출 함수 사용
+                console.log(dateResponse);
                 setDates(dateResponse);
             } catch (error) {
                 console.error('Error fetching dates:', error);
@@ -59,14 +70,18 @@ export default function ApplicationFormPage() {
 
     const handlePurposeChange = (event: ChangeEvent<HTMLSelectElement>) => setPurpose(event.target.value);
 
-    const handleCarSelection = (car: Car) => setSelectedCar(car);
+    const handleCarSelection = (car: Car) => {
+        setSelectedCar(car);
+        setApplyRoundId(car.applyRoundId); // 선택한 차량의 applyRoundId를 저장
+    };
 
     const fetchCars = async () => {
         try {
             setIsDataLoaded(false); // 로딩 시작
             if (selectedDate) {
                 const vehicleResponse = await getAbleVehicle(selectedDate.takeDate, selectedDate.returnDate);
-                setCars(vehicleResponse.cars || []);
+                console.log('vehicleResponse', vehicleResponse);
+                setCars(vehicleResponse || []);
             }
         } catch (error) {
             console.error('차량 정보를 불러오는 중 오류가 발생했습니다.');
@@ -87,10 +102,26 @@ export default function ApplicationFormPage() {
             console.log('모든 항목을 선택해 주세요.');
             return;
         }
+        setIsDataLoaded(false);
+        try {
+            // 차량 신청 API 호출
+            const response = await applyVehicel(applyRoundId as number, purpose);
+            console.log('차량 신청 응답:', response);
 
-        // 신청 완료 후 다음 단계로 이동
-        setFinished(true);
-        navigate('/next-step');
+            if (response.code === 'APPLY-001') {
+                alert('만 26세 이하는 이용이 불가능합니다.');
+                navigate('/mypage');
+                return;
+            }
+
+            // 신청 완료 후 다음 단계로 이동
+        } catch (error) {
+            console.error('차량 신청 중 오류가 발생했습니다.', error);
+            return;
+        } finally {
+            setFinished(true);
+            setIsDataLoaded(true);
+        }
     };
 
     if (!isDataLoaded) return <Loading />;
@@ -121,10 +152,11 @@ export default function ApplicationFormPage() {
 
                     <SubTitle subTitle="사용 목적을 선택해주세요." />
                     <Select value={purpose} onChange={handlePurposeChange}>
-                        <option value="여행">여행</option>
-                        <option value="경조사">경조사</option>
-                        <option value="학업">학업</option>
-                        <option value="업무">업무</option>
+                        <option value="TRAVEL">여행</option>
+                        <option value="EVENT">경조사</option>
+                        <option value="HOBBY">학업</option>
+                        <option value="SELF">개인사</option>
+                        <option value="EDUCATION">교육</option>
                     </Select>
 
                     <ButtonContainer>
@@ -136,18 +168,20 @@ export default function ApplicationFormPage() {
             ) : (
                 <>
                     <SubTitle subTitle="탑승할 차량을 선택해주세요" />
-                    {cars.length === 0 ? (
-                        <NoOptionsText>선택 가능한 차량이 없습니다.</NoOptionsText>
-                    ) : (
-                        cars.map((car) => (
-                            <CarOption
-                                key={car.id}
-                                car={car}
-                                selectedCar={selectedCar}
-                                onCarSelection={handleCarSelection}
-                            />
-                        ))
-                    )}
+                    <CarListContainer>
+                        {cars.length === 0 ? (
+                            <NoOptionsText>선택 가능한 차량이 없습니다.</NoOptionsText>
+                        ) : (
+                            cars.map((car) => (
+                                <CarOption
+                                    key={car.vehicleId}
+                                    car={car}
+                                    selectedCar={selectedCar}
+                                    onCarSelection={handleCarSelection}
+                                />
+                            ))
+                        )}
+                    </CarListContainer>
                     <ButtonContainer>
                         <Button onClick={handleButtonClick}>신청하기</Button>
                     </ButtonContainer>
@@ -176,6 +210,12 @@ const ButtonContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+`;
+
+const CarListContainer = styled.div`
+    max-height: 430px; /* 고정된 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 가능 */
+    margin-bottom: 20px;
 `;
 
 const NoOptionsText = styled.p`

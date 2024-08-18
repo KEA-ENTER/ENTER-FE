@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 interface Car {
-    id: number;
-    name: string;
-    type: string;
-    brand: string;
-    capacity: number;
-    ratio: string;
-    imageUrl: string;
+    company: string;
+    competition: number;
+    fuel: string;
+    img: string;
+    model: string;
+    round: number;
+    seat: number;
+    vehicleId: number;
+    applyRoundId: number;
 }
 
 const CarOption: React.FC<{
@@ -16,12 +18,12 @@ const CarOption: React.FC<{
     onCarSelection: (car: Car) => void;
 }> = ({ car, selectedCar, onCarSelection }) => {
     return (
-        <StyledCarOption onClick={() => onCarSelection(car)} $isSelected={selectedCar?.id === car.id}>
+        <StyledCarOption onClick={() => onCarSelection(car)} $isSelected={selectedCar?.vehicleId === car.vehicleId}>
             <CarInfo>
-                <img src={car.imageUrl} alt={car.name} />
+                <CarImg src={car.img} alt={car.model} />
                 <CarDetails>
-                    <CarName>{`${car.name} / ${car.type} / ${car.brand} / ${car.capacity}인승`}</CarName>
-                    <CarRatio>{car.ratio}</CarRatio>
+                    <CarName>{`${car.model} / ${car.fuel} / ${car.company} / ${car.seat}인승`}</CarName>
+                    <CarRatio>1 : {car.competition}</CarRatio>
                 </CarDetails>
             </CarInfo>
         </StyledCarOption>
@@ -47,6 +49,10 @@ const StyledCarOption = styled.div<{ $isSelected?: boolean }>`
 const CarInfo = styled.div`
     display: flex;
     align-items: center;
+`;
+
+const CarImg = styled.img`
+    max-width: 100px;
 `;
 
 const CarDetails = styled.div`

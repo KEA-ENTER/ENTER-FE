@@ -6,7 +6,7 @@ const getAbleVehicle = async (takeDate: string, returnDate: string) => {
     const accessToken = sessionStorage.getItem('accessToken');
 
     try {
-        const response = await axios.get(`${BASE_URL}/applies`, {
+        const response = await axios.get(`${BASE_URL}/applies/vehicles`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',

@@ -26,6 +26,9 @@ const RadioContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 15px;
 `;
 
 const RadioInput = styled.input`

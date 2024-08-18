@@ -31,6 +31,7 @@ export default function QuestionListPage() {
 
     const [category, setCategory] = useState<string>(type);
     const [userInput, setUserInput] = useState<string>(word);
+    const [debouncedInput, setDebouncedInput] = useState<string>(userInput);
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
 
@@ -44,14 +45,23 @@ export default function QuestionListPage() {
         else return '';
     };
 
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedInput(userInput);
+        }, 300); // 300ms 딜레이 (필요에 따라 조정 가능)
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [userInput]);
+
     const fetchData = () => {
         const pageNum = parseInt(page);
-        questionsList(pageNum - 1, category, userInput)
+        questionsList(pageNum - 1, category, debouncedInput)
             .then((data) => {
                 console.log(data);
                 setQuestions(data.questions);
                 setTotalPage(data.totalPages);
-                // console.log("data: ", data.questions);
             })
             .catch((error) => {
                 console.error('Failed to fetch questions:', error);
@@ -60,7 +70,7 @@ export default function QuestionListPage() {
 
     useEffect(() => {
         fetchData();
-    }, [category, userInput, page]);
+    }, [category, debouncedInput, page]);
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
@@ -129,11 +139,9 @@ const Container = styled.div`
 
 const UserInputContainer = styled.div`
     height: 70px;
-    // width: 95%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    // border: 5px solid blue;
 `;
 
 const SelectContainer = styled.div`
@@ -156,7 +164,6 @@ const Select = styled.select`
 const InputContainer = styled.div`
     height: 70px;
     flex: 3;
-    // border: 1px solid red;
 `;
 
 const ListContainer = styled.div`
@@ -191,7 +198,6 @@ const DateContainer = styled.div`
 `;
 
 const CutContent = styled.div`
-    // border: 1px solid red;
     width: 40%;
     text-align: left;
     overflow: hidden;

@@ -18,7 +18,7 @@ interface VehicleInfo {
             rightImg: string;
         };
         vehicleNote: string;
-    }
+    };
 }
 
 const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
@@ -26,7 +26,9 @@ const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`사용 일자: ${DateString(rentData.reportTime)} ~ ${DateString(rentData.returnDate)}`}</InfoItem>
+                    <InfoItem>{`사용 일자: ${DateString(rentData.takeDate)} ~ ${DateString(
+                        rentData.returnDate,
+                    )}`}</InfoItem>
                     <InfoItem>{`사용자 이름: ${rentData.memberName}`}</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>
@@ -35,7 +37,7 @@ const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>계기판 사진</InfoItem>  
+                    <InfoItem>계기판 사진</InfoItem>
                     <ImageContainer>
                         <Image imageUrl={rentData.reportImageList.dashboardImg} />
                     </ImageContainer>
@@ -43,7 +45,7 @@ const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>차량 사진</InfoItem>   
+                    <InfoItem>차량 사진</InfoItem>
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>
@@ -62,7 +64,7 @@ const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
             </InfoWrapper>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>측면부</InfoItem>   
+                    <InfoItem>측면부</InfoItem>
                 </HalfWrapper>
             </InfoWrapper>
             <InfoWrapper>

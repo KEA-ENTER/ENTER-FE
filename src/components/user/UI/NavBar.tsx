@@ -119,7 +119,7 @@ const Nav = styled.nav<{ $isHidden: boolean }>`
     align-items: flex-end;
     margin-bottom: 80px;
     @media (max-width: 500px) {
-        margin-bottom: 0px;
+        margin-bottom: 5px;
     }
 `;
 
