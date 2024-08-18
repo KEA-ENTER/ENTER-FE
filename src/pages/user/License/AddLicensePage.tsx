@@ -45,6 +45,7 @@ export default function AddLicensePage() {
             return;
         }
         try {
+            
             const response = await addLicense(licenseCode, licensePassword);
 
             console.log('response', response);

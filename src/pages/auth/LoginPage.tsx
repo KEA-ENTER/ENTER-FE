@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import login from '../../API/user/login';
-import useUserStore from '../../stores/userStore';
 
 export default function Login({ stateHandler }: { stateHandler: (role: string) => void }) {
     //사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const setUser = useUserStore((state) => state.setUser);
 
     const handleLogin = async () => {
         try {
@@ -20,7 +17,7 @@ export default function Login({ stateHandler }: { stateHandler: (role: string) =
             //리프레시토큰 쿠키에 저장
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
             //각 데이터 전역 state에 저장
-            setUser(memberName, '');
+
             sessionStorage.setItem('userName', memberName);
             // 세션 스토리지에 저장
             sessionStorage.setItem('accessToken', accessToken);
