@@ -16,14 +16,13 @@ export default function Login({ stateHandler }: { stateHandler: (role: string) =
 
             //리프레시토큰 쿠키에 저장
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
-            //각 데이터 전역 state에 저장
 
             sessionStorage.setItem('userName', memberName);
             // 세션 스토리지에 저장
             sessionStorage.setItem('accessToken', accessToken);
             //memberRole : USER / ADMIN
             sessionStorage.setItem('role', memberRole);
-            //APp.tsx 에 role 전달.
+            //APP.tsx 에 role 전달.
             stateHandler(memberRole);
         } catch (error) {
             alert('아이디 또는 비밀번호를 확인해주세요');

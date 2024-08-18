@@ -77,7 +77,7 @@ export default function MyPage() {
         sessionStorage.removeItem('role');
         sessionStorage.removeItem('autoRoutingPage');
         sessionStorage.removeItem('userName');
-
+        navigate('/');
         window.location.reload();
     };
 
