@@ -55,38 +55,38 @@ const UserRoutes = () => {
                 } else if (userStatusResponse.code === 'MEM-002') {
                     navigate('/license'); //면허증 등록 이동
 
-                    //분기 3. DB에 해당 사용자 면허 데이터는 등록되어 있으나, 면허증이 유효한지 확인해야 하는 경우
-                    // } else if (userStatusResponse.code === 'MEM-003') {
-                    //     const checkLicenseValidationResponse = await checkLicenseValidation(); //실제 면허증 유효성 API
+                    // 분기 3. DB에 해당 사용자 면허 데이터는 등록되어 있으나, 면허증이 유효한지 확인해야 하는 경우
+                } else if (userStatusResponse.code === 'MEM-003') {
+                    const checkLicenseValidationResponse = await checkLicenseValidation(); //실제 면허증 유효성 API
 
-                    //     //면허증 유효하지 않을 때
-                    //     if (checkLicenseValidationResponse != 'SUCCESS') {
-                    //         navigate('/license'); //면허증 등록 페이지
-                    //     } else {
-                    //         const autoRoutingPage = sessionStorage.getItem('autoRoutingPage'); //세션에 저장된 라우팅 페이지 불러옴
+                    //면허증 유효하지 않을 때
+                    if (checkLicenseValidationResponse != 'SUCCESS') {
+                        navigate('/license'); //면허증 등록 페이지
+                    } else {
+                        const autoRoutingPage = sessionStorage.getItem('autoRoutingPage'); //세션에 저장된 라우팅 페이지 불러옴
 
-                    //         if (autoRoutingPage === null) {
-                    //             const autoRoutingResponse = await autoRouting(); //세션에 저장된 라우팅 페이지가 없다면 API 호출
-                    //             console.log('autoRoutingResponse: ');
-                    //             console.log(autoRoutingResponse);
+                        if (autoRoutingPage === null) {
+                            const autoRoutingResponse = await autoRouting(); //세션에 저장된 라우팅 페이지가 없다면 API 호출
+                            console.log('autoRoutingResponse: ');
+                            console.log(autoRoutingResponse);
 
-                    //             setUser(name, autoRoutingResponse.userState);
-                    //             sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
-                    //             navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
-                    //         }
-                    //     }
+                            setUser(name, autoRoutingResponse.userState);
+                            sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
+                            navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
+                        }
+                    }
 
                     //분기 4. 사용자 서비스 이용 가능할 경우
                 } else if (userStatusResponse.code === 'MEM-004') {
-                    // const autoRoutingPage = sessionStorage.getItem('autoRoutingPage'); //세션에 저장된 라우팅 페이지 불러옴
-                    // if (autoRoutingPage === null) {
-                    //     const autoRoutingResponse = await autoRouting(); //세션에 저장된 라우팅 페이지가 없다면 API 호출
-                    //     console.log('autoRoutingResponse: ');
-                    //     console.log(autoRoutingResponse);
-                    //     setUser(name, autoRoutingResponse.userState);
-                    //     sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
-                    //     navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
-                    // }
+                    const autoRoutingPage = sessionStorage.getItem('autoRoutingPage'); //세션에 저장된 라우팅 페이지 불러옴
+                    if (autoRoutingPage === null) {
+                        const autoRoutingResponse = await autoRouting(); //세션에 저장된 라우팅 페이지가 없다면 API 호출
+                        console.log('autoRoutingResponse: ');
+                        console.log(autoRoutingResponse);
+                        setUser(name, autoRoutingResponse.userState);
+                        sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
+                        navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
+                    }
                 }
             } catch (error) {
                 console.error('API 요청 중 오류가 발생했습니다:', error);
@@ -94,7 +94,7 @@ const UserRoutes = () => {
         };
 
         fetchRouting();
-    });
+    }, []); // 이 부분에 빈 배열을 추가하여, 컴포넌트 마운트 시에만 호출되도록 합니다.
 
     return (
         <Routes>
