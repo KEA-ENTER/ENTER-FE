@@ -5,6 +5,7 @@ import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 
 import SubTitle from '../../../components/user/UI/SubTitle';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import BackButton from '../../../components/user/UI/BackButton';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,6 +14,7 @@ export default function QuestionDetailPage() {
     const [content, setContent] = useState<string>('');
     const [answerContent, setAnswerContent] = useState<string>('');
     const [myQuestion, setMyQuestion] = useState<boolean>(false);
+    const [questionAuthor, setQuestionAuthor] = useState<string>('');
     const { id } = useParams();
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
@@ -55,6 +57,7 @@ export default function QuestionDetailPage() {
             });
             console.log(response.data);
             setCategory(response.data.category);
+            setQuestionAuthor(response.data.name);
             setContent(response.data.questionContent);
             setAnswerContent(response.data.answerContent);
             setMyQuestion(response.data.myQuestion);
@@ -70,9 +73,15 @@ export default function QuestionDetailPage() {
 
     return (
         <Container>
-            <Title title="문의 내용" />
+            <TitleContainer>
+                <BackButton />
+                <Title title="문의 내용" />
+            </TitleContainer>
             <CategoryBox>{getCategoryText(category)}</CategoryBox>
-            <SubTitle subTitle="문의 내용" />
+            <AuthorBox>
+                <SubTitle subTitle="문의 내용" />
+                <Author>작성자: {questionAuthor}</Author>
+            </AuthorBox>
             <TextBox>{content}</TextBox>
             {answerContent ? (
                 <>
@@ -95,6 +104,11 @@ const Container = styled.div`
     width: 100%;
 `;
 
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+`;
+
 const CategoryBox = styled.div`
     padding: 15px 10px;
     background-color: #fee500;
@@ -102,6 +116,18 @@ const CategoryBox = styled.div`
     font-weight: 500;
     border-radius: 8px;
     margin-bottom: 20px;
+`;
+
+const Author = styled.div`
+    width: 130px;
+    margin-top: 10px;
+    font-weight: 500;
+`;
+
+const AuthorBox = styled.div`
+    display: flex;
+    justify-content: space-btween;
+    align-items: center;
 `;
 
 const TextBox = styled.p`

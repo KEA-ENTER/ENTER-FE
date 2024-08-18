@@ -39,6 +39,9 @@ const UserRoutes = () => {
         const fetchRouting = async () => {
             try {
                 const userStatusResponse = await checkUserStatus(); //사용자 서비스 이용 가능여부 확인
+                console.log('userStatusResponse', userStatusResponse);
+                console.log('userStatusResponse.code', userStatusResponse.code);
+                console.log("userStatusResponse.code === 'MEM-001'", userStatusResponse.code === 'MEM-001');
                 //분기 1. 신청기간이 아닐 경우
                 if (userStatusResponse.code === 'MEM-001') {
                     if (!autoRoutingPage) {
@@ -52,13 +55,13 @@ const UserRoutes = () => {
                     navigate('/license'); //면허증 등록 이동
 
                     //분기 3. DB에 해당 사용자 면허 데이터는 등록되어 있으나, 면허증이 유효한지 확인해야 하는 경우
-                } else if (userStatusResponse.code === 'MEM-003') {
-                    const checkLicenseValidationResponse = await checkLicenseValidation(); //실제 면허증 유효성 API
+                    // } else if (userStatusResponse.code === 'MEM-003') {
+                    //     const checkLicenseValidationResponse = await checkLicenseValidation(); //실제 면허증 유효성 API
 
-                    //면허증 유효하지 않을 때
-                    if (checkLicenseValidationResponse != 'SUCCESS') {
-                        navigate('/license'); //면허증 등록 페이지
-                    }
+                    //     //면허증 유효하지 않을 때
+                    //     if (checkLicenseValidationResponse != 'SUCCESS') {
+                    //         navigate('/license'); //면허증 등록 페이지
+                    //     }
 
                     //분기 4. 사용자 서비스 이용 가능할 경우
                 } else if (userStatusResponse.code === 'MEM-004') {

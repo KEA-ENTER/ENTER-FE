@@ -1,11 +1,11 @@
-import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import Title from "../../basic/Title";
-import Button from "../../basic/Button";
-import Penalty from "./penalty/Penalty";
-import RentInfo from "./RentInfo";
-import { useEffect, useState } from "react";
-import RentReportModel from "../model/RentReportModel";
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Title from '../../basic/Title';
+import Button from '../../basic/Button';
+import Penalty from './penalty/Penalty';
+import RentInfo from './RentInfo';
+import { useEffect, useState } from 'react';
+import RentReportModel from '../model/RentReportModel';
 
 interface VehicleInfo {
     reportId: number;
@@ -30,29 +30,30 @@ export default function RentReport() {
 
     const goStep = () => {
         navigate('/admin/vehicle-step');
-    }
+    };
 
     const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         const fetchRentData = async () => {
             const res = await RentReportModel(id || '-1');
+            console.log('res', res);
             if (res) {
                 setRentData(res);
             } else {
-                setRentData(null)
+                setRentData(null);
             }
         };
         fetchRentData();
     }, [id]);
-    
-    return(
+
+    return (
         <Container>
             <Title imageSrc="/img/vehicle-step.png" title="인수 보고서" />
             {rentData ? <RentInfo rentData={rentData} /> : <InfoContainer>보고서를 불러올 수 없습니다.</InfoContainer>}
-            {rentData && <Penalty memberId={rentData.memberId}/> }
+            {rentData && <Penalty memberId={rentData.memberId} />}
             <ButtonContainer>
-                <Button onClick={goStep} text={"목록"} />
+                <Button onClick={goStep} text={'목록'} />
             </ButtonContainer>
         </Container>
     );
