@@ -96,24 +96,6 @@ const Container = styled.form`
     width: 100%;
 `;
 
-const CategoryBox = styled.div`
-    padding: 15px 10px;
-    background-color: #fee500;
-    font-size: 18px;
-    font-weight: 500;
-    border-radius: 8px;
-    margin-bottom: 20px;
-`;
-
-const TextBox = styled.p`
-    width: 100%;
-    height: 200px;
-    border: 1px solid black;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 15px;
-    margin-bottom: 20px;
-`;
 
 const ButtonContainer = styled.div`
     width: 100%;

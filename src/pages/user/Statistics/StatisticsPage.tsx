@@ -67,7 +67,7 @@ export default function StatisticsPage() {
                 <SubTitle subTitle="회차별 경쟁률" />
 
                 {compData.length > 0 ? <CompetitionGraph data={compData} /> : <div>경쟁률 데이터가 없습니다.</div>}
-                <SubTitle subTitle="회차별 취소 수" />
+                <SubTitle subTitle="회차별 평균 취소 비율" />
                 {waitData.length > 0 ? <WaitingGraph data={waitData} /> : <div>대기 수 데이터가 없습니다.</div>}
             </GraphContainer>
         </Container>

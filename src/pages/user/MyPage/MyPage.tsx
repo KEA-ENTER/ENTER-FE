@@ -76,6 +76,7 @@ export default function MyPage() {
             setParticipationLoading(true);
             try {
                 const participationData = await getParticipationHistory(participationPage);
+                console.log(participationData);
                 setParticipationHistory((prev) => [...prev, ...participationData.lotteryListInfos]);
                 setParticipationHasMore(participationData.lotteryListInfos.length > 0);
                 setParticipationLoading(false);
@@ -92,6 +93,7 @@ export default function MyPage() {
             setPenaltyLoading(true);
             try {
                 const penaltyData = await getPenaltyHistory(penaltyPage);
+                console.log('penaltyData', penaltyData);
                 setPenaltyHistory((prev) => [...prev, ...penaltyData.penaltyList]);
                 setPenaltyHasMore(penaltyData.penaltyList.length > 0);
                 setPenaltyLoading(false);
@@ -135,7 +137,7 @@ export default function MyPage() {
                                 <ListContainer key={index} ref={lastParticipationElementRef}>
                                     <Items>{item.round}</Items>
                                     <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
-                                    <Items>{item.competitionRate}</Items>
+                                    <Items>1 : {item.competitionRate}</Items>
                                     <Items>{item.result}</Items>
                                 </ListContainer>
                             );
@@ -144,7 +146,7 @@ export default function MyPage() {
                                 <ListContainer key={index}>
                                     <Items>{item.round}</Items>
                                     <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
-                                    <Items>{item.competitionRate}</Items>
+                                    <Items>1 : {item.competitionRate}</Items>
                                     <Items>{item.result}</Items>
                                 </ListContainer>
                             );

@@ -5,6 +5,7 @@ import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 
 import SubTitle from '../../../components/user/UI/SubTitle';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import BackButton from '../../../components/user/UI/BackButton';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -12,23 +13,19 @@ export default function QuestionDetailPage() {
     const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [answerContent, setAnswerContent] = useState<string>('');
-    const [myQuestion, setMyQuestion] = useState<boolean>(false); 
+    const [myQuestion, setMyQuestion] = useState<boolean>(false);
+    const [questionAuthor, setQuestionAuthor] = useState<string>('');
     const { id } = useParams();
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
 
     const getCategoryText = (category: string) => {
-        if (category === 'USER')
-            return '사용자';
-        else if (category === 'SERVICE')
-            return '서비스';
-        else if (category == 'VEHICLE')
-            return '차량 문의';
-        else if (category == 'ETC')
-            return '기타';
-        else
-            return '';
-    }
+        if (category === 'USER') return '사용자';
+        else if (category === 'SERVICE') return '서비스';
+        else if (category == 'VEHICLE') return '차량 문의';
+        else if (category == 'ETC') return '기타';
+        else return '';
+    };
 
     const handleModifyClick = () => {
         navigate(`/questionModify/${id}`); // 수정하기 페이지로 이동
@@ -49,24 +46,25 @@ export default function QuestionDetailPage() {
             alert('삭제 요청에 실패했습니다.');
         }
     };
-    
+
     const fetchData = async () => {
-        try{
+        try {
             const response = await axios.get(`${BASE_URL}/questions/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json',
                 },
             });
-            setCategory(response.data.category)
-            setContent(response.data.questionContent)
-            setAnswerContent(response.data.answerContent)
+            console.log(response.data);
+            setCategory(response.data.category);
+            setQuestionAuthor(response.data.name);
+            setContent(response.data.questionContent);
+            setAnswerContent(response.data.answerContent);
             setMyQuestion(response.data.myQuestion);
         } catch (error) {
             console.error('API 요청 실패:', error);
             throw error;
         }
-        
     };
 
     useEffect(() => {
@@ -75,9 +73,15 @@ export default function QuestionDetailPage() {
 
     return (
         <Container>
-            <Title title="문의 내용" />
+            <TitleContainer>
+                <BackButton />
+                <Title title="문의 내용" />
+            </TitleContainer>
             <CategoryBox>{getCategoryText(category)}</CategoryBox>
-            <SubTitle subTitle="문의 내용" />
+            <AuthorBox>
+                <SubTitle subTitle="문의 내용" />
+                <Author>작성자: {questionAuthor}</Author>
+            </AuthorBox>
             <TextBox>{content}</TextBox>
             {answerContent ? (
                 <>
@@ -100,6 +104,11 @@ const Container = styled.div`
     width: 100%;
 `;
 
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+`;
+
 const CategoryBox = styled.div`
     padding: 15px 10px;
     background-color: #fee500;
@@ -107,6 +116,18 @@ const CategoryBox = styled.div`
     font-weight: 500;
     border-radius: 8px;
     margin-bottom: 20px;
+`;
+
+const Author = styled.div`
+    width: 130px;
+    margin-top: 10px;
+    font-weight: 500;
+`;
+
+const AuthorBox = styled.div`
+    display: flex;
+    justify-content: space-btween;
+    align-items: center;
 `;
 
 const TextBox = styled.p`

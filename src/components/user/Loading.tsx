@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import loop from '../../img/icon/loop.png';
 
 const Loading = () => {
@@ -13,6 +13,16 @@ const Loading = () => {
 
 export default Loading;
 
+// 회전 애니메이션 정의
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+`;
+
 const CompliteContainer = styled.div`
     width: 100%;
     height: 500px;
@@ -24,6 +34,7 @@ const CompliteContainer = styled.div`
 
 const Img = styled.img`
     width: 100px;
+    animation: ${rotate} 2s linear infinite; /* 2초 동안 회전, 무한 반복 */
 `;
 
 const SubTitle = styled.h2`

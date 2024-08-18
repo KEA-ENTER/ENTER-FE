@@ -1,35 +1,40 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
-
 import Button from '../../../components/user/UI/Button';
 import congratulation from '../../../img/icon/congratulation.png';
 import sad from '../../../img/icon/sad.png';
-
-interface Response {
-    state: number;
-    waitting: number | null;
-}
+import getResult from '../../../API/user/getResult';
+import Loading from '../../../components/user/Loading';
 
 export default function LotteryResultPage() {
-    const [state, setState] = useState<number>();
-    const [watting, setWatting] = useState<number | null>(3);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get<Response>('/result');
-    //             setState(response.data.state);
-    //             setWatting(response.data.waitting);
-    //         } catch (error) {
-    //             console.error('Error fetching lottery result:', error);
-    //         }
-    //     };
+    const [state, setState] = useState<boolean>();
+    const [watting, setWatting] = useState<number | null>();
 
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const data = await getResult();
+                console.log(data);
+                setState(data.winning);
+                setWatting(data.waitingNumber);
+            } catch (error) {
+                console.error('Error fetching lottery result:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    if (state === 1) {
+        fetchData();
+    }, []);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (state) {
         return (
             <Container>
                 <Img alt="congratulation" src={congratulation} />
@@ -41,7 +46,7 @@ export default function LotteryResultPage() {
                 </div>
             </Container>
         );
-    } else if (state === 2) {
+    } else if (watting) {
         return (
             <Container>
                 <Img alt="sadIcon" src={sad} />
@@ -50,14 +55,15 @@ export default function LotteryResultPage() {
                 <Button>신청취소</Button>
             </Container>
         );
+    } else {
+        return (
+            <Container>
+                <Img alt="sadIcon" src={sad} />
+                <Message>차량 추첨에 미당첨되었어요..</Message>
+                <Button>다음 신청일 확인</Button>
+            </Container>
+        );
     }
-    return (
-        <Container>
-            <Img alt="sadIcon" src={sad} />
-            <Message>차량 추첨에 미당첨되었어요..</Message>
-            <Button>다음 신청일 확인</Button>
-        </Container>
-    );
 }
 
 const Container = styled.div`
