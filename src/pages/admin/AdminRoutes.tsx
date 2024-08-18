@@ -13,27 +13,28 @@ import VehicleModifyPage from './vehicle/VehicleModify';
 import VehicleDetailPage from './vehicle/VehicleDetailPage';
 import QuestionPage from './question/QuestionPage';
 import QuestionDetailPage from './question/QuestionDetailPage';
+import NotFoundPage from './../../components/common/NotFoundPage';
 
 const AdminRoutes = () => {
     return (
         <Routes>
-            <Route path='/admin' element={<AdminHomePage />} />
+            <Route path="/admin" element={<AdminHomePage />} />
             <Route path="/" element={<Navigate to="/admin" />} />
-            <Route path='/admin/*' element={<AdminLayout />}>
-                <Route path='admin-test' element={<AdminTest />} />
-                <Route path='vehicle-step' element={<VehicleStepPage />} />
-                <Route path='vehicle-step/rent/:id' element={<RentReportPage />} />
-                <Route path='vehicle-step/return/:id' element={<ReturnReportPage />} />
-                <Route path='lottery' element={<LotteryPage />} />
-                <Route path='lottery/detail/:applyRound' element={<LotteryDetailPage />} />
-                <Route path='vehicle' element={<VehiclePage />} />
-                <Route path='vehicle/create' element={<VehicleCreatePage />} />
-                <Route path='vehicle/modify/:id' element={<VehicleModifyPage />} />
-                <Route path='vehicle/detail/:id' element={<VehicleDetailPage />} />
+            <Route path="/admin/*" element={<AdminLayout />}>
+                <Route path="admin-test" element={<AdminTest />} />
+                <Route path="vehicle-step" element={<VehicleStepPage />} />
+                <Route path="vehicle-step/rent/:id" element={<RentReportPage />} />
+                <Route path="vehicle-step/return/:id" element={<ReturnReportPage />} />
+                <Route path="lottery" element={<LotteryPage />} />
+                <Route path="lottery/detail/:applyRound" element={<LotteryDetailPage />} />
+                <Route path="vehicle" element={<VehiclePage />} />
+                <Route path="vehicle/create" element={<VehicleCreatePage />} />
+                <Route path="vehicle/modify/:id" element={<VehicleModifyPage />} />
+                <Route path="vehicle/detail/:id" element={<VehicleDetailPage />} />
                 <Route path="question" element={<QuestionPage />} />
                 <Route path="question/detail/:id" element={<QuestionDetailPage />} />
             </Route>
-            <Route path="*" element={<Navigate to="/admin" />} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
 };
