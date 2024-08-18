@@ -1,33 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import login from '../../API/user/login';
 
 export default function Login({ stateHandler }: { stateHandler: (role: string) => void }) {
-    //사용자 입력 state
+    // 사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+    const handleLogin = useCallback(async () => {
         try {
             const loginResponse = await login(username, password); // 로그인 API 호출
 
-            //memberRole : USER / ADMIN
+            // memberRole : USER / ADMIN
             const { accessToken, refreshToken, memberName, memberRole } = loginResponse; // 응답 값 저장
 
-            //리프레시토큰 쿠키에 저장
+            // 리프레시 토큰 쿠키에 저장
             document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
 
             sessionStorage.setItem('userName', memberName);
             // 세션 스토리지에 저장
             sessionStorage.setItem('accessToken', accessToken);
-            //memberRole : USER / ADMIN
+            // memberRole : USER / ADMIN
             sessionStorage.setItem('role', memberRole);
-            //APP.tsx 에 role 전달.
+            // APP.tsx에 role 전달
             stateHandler(memberRole);
         } catch (error) {
             alert('아이디 또는 비밀번호를 확인해주세요');
         }
-    };
+    }, [username, password, stateHandler]);
+
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                handleLogin();
+            }
+        },
+        [handleLogin],
+    );
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <Container>
