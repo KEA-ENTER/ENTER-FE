@@ -1,53 +1,78 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';import styled from "styled-components";
 import Title from "../basic/Title";
 import Button from "../basic/Button";
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
+import VehicleDetailModel from "../../../API/admin/vehicle/VehicleDetailModel";
 
-const vehicleData = {
-    imageUrl: "https://img.khan.co.kr/news/2020/04/05/l_2020040601000443600045541.jpg",
-    status: "사용 가능",
-    manufacturer: "현대",
-    model: "model",
-    fuel: "연료",
-    capacity: 5,
-    registrationDate: "2023-05-01"
-};
+interface VehicleDetailProps {
+    vehicleId: number;
+    vehicleNo: string;
+    company: string;
+    model: string;
+    seats: string;
+    fuel: string;
+    img: string;
+    createdAt: string;
+    updatedAt: string;
+    state: string;
+}
 
-const reportData = [
-    {
-        id: 1,
-        name: "이다현",
-        date: "2024-04-04",
-        contents: "차가 너무 더럽습니다"
-    },
-    {
-        id: 2,
-        name: "이다현",
-        date: "2024-04-05",
-        contents: "The love..."
-    }
-]
+interface VehicleReportProps {
+    names: string[];
+    reportCreatedAts: string[];
+    contents: string[];
+}
 
+// 차량 상세보기 페이지
 export default function VehicleDetail() {
     const navigate = useNavigate();
 
     const confirmBtn = () => {
         navigate('/admin/vehicle')
     }
+    const [vehicleInfo, setVehicleInfo] = useState<VehicleDetailProps | null>(null);
+    const [reportInfo, setReportInfo] = useState<VehicleReportProps>();
+    const { id } = useParams<{ id: string }>();
+
+    // 차량 상세 내용 API를 호출한다.
+    useEffect(() => {
+        const fetchVehicleData = async () => {
+            const res = await VehicleDetailModel(id);
+            if (res) {
+                setVehicleInfo(res);
+                setReportInfo(res);
+            }
+        };
+        fetchVehicleData();
+    }, [id]);
 
     return(
-        <div>
-            <Title imageSrc="/img/car.png" title="123가 5678" />
-            <VehicleDetailInfo vehicleData={vehicleData} />
-            <VehicleDetailReport reportData={reportData} />
+        <Container>
+            { vehicleInfo && reportInfo ?
+                <>
+                    <Title imageSrc="/img/car.png" title={vehicleInfo.vehicleNo} />
+                    <VehicleDetailInfo vehicleInfo={vehicleInfo} />
+                    <VehicleDetailReport reportInfo={reportInfo} />
+                </> : <ErrorContainer>차량 정보를 불러올 수 없습니다.</ErrorContainer>}
             <ButtonContainer>
-                <Button text="확인" onClick={confirmBtn} />
+                <Button text="목록" onClick={confirmBtn} />
             </ButtonContainer>
-        </div>
+        </Container>
     );
 }
+
+const Container = styled.div`
+    width: 850px;
+`;
+
+const ErrorContainer = styled.div`
+    background: rgba(238, 238, 238, 0.6);
+    padding: 20px;
+    margin: 10px 0px;
+    border-radius: 0px;
+`;
 
 const ButtonContainer = styled.div`
     margin: 20px;

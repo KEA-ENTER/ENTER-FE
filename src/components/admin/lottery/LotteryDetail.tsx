@@ -1,47 +1,80 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DateString from "../basic/DateString";
 import Title from "../basic/Title";
-import Pagination from "../basic/Pagination";
 import SearchBox from "../../common/SearchBox";
 import LotteryDetailList from "./LotteryDetailList";
+import LotteryDetailListModel from "../../../API/admin/lottery/LotteryDetailListModel";
 
+interface LotteryDetailItem {
+    email: string;
+    name: string;
+    purpose: string;
+    isWinning: boolean;
+    applyTime: string;
+}
 
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
+
+// 추첨 관리 메뉴의 신청 관리 페이지 
 export default function LotteryDetail () {
-    const { round } = useParams<{ round: string }>();
-    const { date } = useParams<{ date: string }>();
-    const { id } = useParams<{ id: string }>();
-    const [page, setPage] = useState(1);
+    const [lotteryDetailData, setLotteryData] = useState<LotteryDetailItem[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
+    const [round, setRound] = useState("");
+    const [date, setDate] = useState("");
+    const [vehicle, setVehicle] = useState("");
+
+    const query = Query();
+    const type = query.get("type") ?? "ALL";
+    const word = query.get("q") ?? "";
+    const page = query.get("page") ?? "1";
+    const { applyRound } = useParams<{ applyRound: string }>();
+
+    // 신청 내역 API를 호출한다.
+    useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
+        const pageNum = parseInt(page) - 1;
+
+        LotteryDetailListModel(word, type, pageNum, applyRound).then(res => {
+            if (res) {
+                setLotteryData(res.applicantList); 
+                setTotalPage(res.totalPages);
+                setRound(res.round);
+                setDate(res.takeDate);
+                setVehicle(res.vehicleModel);
+            }
+        });
+    }, [type, word, page, applyRound]);
+
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
     }
-    const handlePageChange = (newPage: number) => {
-        setPage(newPage);
-        console.log('현재: ', newPage);
-        console.log(page)
-    }
+
     return(
         <Container>
-            <Title imageSrc="/img/vehicle-step.png" title="신청 내역" />
-            <DetailTitle>{round}회차 / {DateString(date)} / {id}</DetailTitle>
+            <Title imageSrc="/img/vehicle-step.png" title="추첨 관리" />
+            <DetailTitle>{`신청 내역: ${round}회차 / ${DateString(date)} / ${vehicle}`}</DetailTitle>
             <SearchBoxContainer>
                 <SearchBox
-                    menuItems={['아이디', '신청자명', '결과']}
+                    menuItems={['아이디', '신청자명']}
                     onSearch={handleSearch}
-                />
+                    />
             </SearchBoxContainer>
-            <LotteryDetailList />
-            <Pagination totalPages={10} onPageChange={handlePageChange} />
+            <LotteryDetailList lotteryDetailData={lotteryDetailData} totalPage={totalPage} />
         </Container>
     );
 }
 
 const Container = styled.div`
+    width: 850px;
 `;
 
 const DetailTitle = styled.div`
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
 `;
 
@@ -49,5 +82,5 @@ const SearchBoxContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 `;

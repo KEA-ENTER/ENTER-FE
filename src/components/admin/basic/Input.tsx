@@ -1,11 +1,20 @@
+import React from 'react';
 import styled from 'styled-components';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  width?: string;
+    width?: string;
 }
 
 const Input: React.FC<InputProps> = ({ width, ...props }) => {
-  return <InputBox width={width} {...props} />;
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const specialCharsRegex = /[!@#$%^&*()_+=[\]{};:'"\\|,.<>/?]+/;
+
+        if (specialCharsRegex.test(e.key) && e.key !== '-') {
+            e.preventDefault();
+        }
+    };
+
+    return <InputBox width={width} {...props} onKeyDown={handleKeyDown} />;
 };
 
 export default Input;

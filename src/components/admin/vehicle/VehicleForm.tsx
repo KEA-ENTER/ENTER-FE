@@ -7,16 +7,17 @@ interface VehicleFormProps {
         model: string;
         manufacturer: string;
         vehicleNumber: string;
-        fuel: string;
+        fuel: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
         capacity: string;
-        status: string;
+        status: 'AVAILABLE' | 'INACTIVE';
         image: File | null;
     };
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
     imagePreview: string | ArrayBuffer | null;
 }
 
+// 차량 추가 또는 수정 입력을 처리하는 컴포넌트
 const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, handleImageUpload, imagePreview }) => {
     const onDrop = (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
@@ -57,13 +58,16 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                     width="50%"
                 />
                 <InputTitle>연료</InputTitle>
-                <Input
+                <Select
                     name="fuel"
-                    placeholder="연료"
                     value={formData.fuel}
                     onChange={handleInputChange}
                     width="50%"
-                />
+                >
+                    <option value="DIESEL">디젤</option>
+                    <option value="GASOLINE">가솔린</option>
+                    <option value="ELECTRICITY">전기</option>
+                </Select>
             </Row>
             <Row>
                 <InputTitle>수용 가능 인원</InputTitle>
@@ -81,8 +85,8 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                         <input
                             type="radio"
                             name="status"
-                            value="available"
-                            checked={formData.status === "available"}
+                            value="AVAILABLE"
+                            checked={formData.status === "AVAILABLE"}
                             onChange={handleInputChange}
                         />
                         사용 가능
@@ -91,8 +95,8 @@ const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, 
                         <input
                             type="radio"
                             name="status"
-                            value="unavailable"
-                            checked={formData.status === "unavailable"}
+                            value="INACTIVE"
+                            checked={formData.status === "INACTIVE"}
                             onChange={handleInputChange}
                         />
                         사용 불가능
@@ -135,12 +139,19 @@ const InputTitle = styled.div`
     margin: 0 10px;
 `;
 
+const Select = styled.select<{width: string}>`
+    border-radius: 10px;
+    padding: 8px;
+    border: 1px solid transparent;
+    width: ${(props) => props.width || '100%'};
+    outline: none;
+`;
+
 const StatusContainer = styled.div`
     display: flex;
     align-items: center;
-    // border: 1px solid red;
     width: 50%;
-        padding: 8px;
+    padding: 8px;
 
     label {
         margin-right: 10px;
@@ -158,6 +169,8 @@ const ImageUploadContainer = styled.div`
     cursor: pointer;
     padding: 15px;
     margin: 0 auto;
+    border-radius: 10px;
+    background-color: #fff;
 `;
 
 const UploadMessage = styled.p`
@@ -167,5 +180,4 @@ const UploadMessage = styled.p`
 const ImagePreview = styled.img`
     max-width: 100%;
     max-height: 100%;
-    border-radius: 10px;
 `;
