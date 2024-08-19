@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../basic/Button";
 import Modal from "../basic/Modal";
@@ -11,6 +11,7 @@ export default function QuestionDetailAnswer () {
     const [confirmModal, setConfirmModal] = useState(false);
     const [contentData, setContentData] = useState<string | null>(null)
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
 
     const closeErrorModal = () => {
@@ -38,6 +39,7 @@ export default function QuestionDetailAnswer () {
     const closeConfirmModal = () => {
         setConfirmModal(false);
         setContentData(null);
+        navigate('/admin/question')
     }
 
     return(
