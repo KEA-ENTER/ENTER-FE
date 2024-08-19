@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import AdminHomePage from './AdminHomePage';
 import AdminLayout from './AdminLayout';
 import AdminTest from '../../components/admin/basic/AdminTest';
@@ -14,12 +14,23 @@ import VehicleDetailPage from './vehicle/VehicleDetailPage';
 import QuestionPage from './question/QuestionPage';
 import QuestionDetailPage from './question/QuestionDetailPage';
 import NotFoundPage from './../../components/common/NotFoundPage';
+import { useEffect } from 'react';
 
 const AdminRoutes = () => {
+    const navigate = useNavigate();
+    const RedirectAdminHome = () => {
+        useEffect(() => {
+            {(sessionStorage.getItem('role') && sessionStorage.getItem('accessToken')) && 
+                navigate('/admin');
+            }
+        });
+        return null; 
+    }
+
     return (
         <Routes>
             <Route path="/admin" element={<AdminHomePage />} />
-            <Route path="/" element={<Navigate to="/admin" />} />
+            <Route path="/" element={<RedirectAdminHome />} />
             <Route path="/admin/*" element={<AdminLayout />}>
                 <Route path="admin-test" element={<AdminTest />} />
                 <Route path="vehicle-step" element={<VehicleStepPage />} />

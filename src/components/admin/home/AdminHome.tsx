@@ -9,6 +9,14 @@ export default function AdminHome() {
         navigate(url);
     }
 
+    const logout = () => {
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('userName')
+        sessionStorage.removeItem('role');
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
         <Container>
             <TitleText>{"탈까?"}</TitleText>
@@ -32,6 +40,7 @@ export default function AdminHome() {
                     {`문의 관리`}
                 </NavBtn>
             </Navigation>
+            <Logout onClick={logout}>로그아웃</Logout>
         </Container>
     );
 }
@@ -40,7 +49,6 @@ const Container = styled.div`
     height: 100vh;
     max-width: 500px;
     margin: 0 auto;
-    position: relative;
     align-items: center;
     // background-color: #eeeeee40;
     padding: 30px;
@@ -59,12 +67,8 @@ const TitleText = styled.h1`
 const Navigation = styled.div`
     margin: 0 auto;
     display: flex;
-    position: absolute;
-    top: 60%;
     flex-wrap: wrap;
     gap: 20px;
-    left: 30px;
-    right: 30px;
 `;
 
 const NavIcon = styled.img`
@@ -87,4 +91,11 @@ const NavBtn = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+`;
+
+const Logout = styled.div`
+    color: #aaa;
+    text-decoration: underline;
+    margin: 10px 0px;
+    cursor: pointer;
 `;

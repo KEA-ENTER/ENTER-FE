@@ -91,7 +91,7 @@ export default function QuestionList () {
                     ))}
                 </tbody>
             </Table>
-            <Pagination totalPages={totalPage} />
+            <Pagination totalPages={totalPage} pagesPerGroup={10}/>
         </Container>
   );
 }

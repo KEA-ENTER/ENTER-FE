@@ -125,7 +125,7 @@ export default function QuestionListPage() {
                     </TextBox>
                 ))}
             </ListContainer>
-            <Pagination totalPages={totalPage} />
+            <Pagination totalPages={totalPage} pagesPerGroup={5}/>
             <ButtonContainer>
                 <Button onClick={() => goQuestionWrite()}>문의하기</Button>
             </ButtonContainer>

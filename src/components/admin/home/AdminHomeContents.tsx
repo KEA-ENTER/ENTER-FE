@@ -22,8 +22,8 @@ export default function AdminHomeContents() {
     const [todayState, setTodayState] = useState('');
     const [rentDate, setRentDate] = useState('0');
     const [returnDate, setReturnDate] = useState('0');
-    const [takesData, setTakesData] = useState<Takes | null>(null);
-    const [appliesData, setAppliesData] = useState<Applies | null>(null);
+    const [takesData, setTakesData] = useState<Takes>({applyRound: 0, applyCnt: 0, takeCnt: 0, noShowCnt: 0});
+    const [appliesData, setAppliesData] = useState<Applies>({round: 0, applyCnt: 0, winningCnt: 0, cancelCnt: 0});
 
     useEffect(() => {
         getDate();
@@ -142,15 +142,15 @@ export default function AdminHomeContents() {
 }
 
 const Container = styled.div`
-    padding: 20px 0px;
+    padding: 10px 0px;
     margin: 0 auto;
     align-items: center;
 `;
 
 const DateContainer = styled.div`
     display: flex;
-    margin: 20px auto;
-    padding: 20px;
+    margin: 10px auto;
+    padding: 10px;
     align-items: center;
     color: #FFF;
     background-color: #232D63;
@@ -161,6 +161,7 @@ const DateContainer = styled.div`
 const DateData = styled.div`
     width: 40%;
     margin: 0 auto;
+    padding: 10px 0px;
     align-items: center;
 `;
 

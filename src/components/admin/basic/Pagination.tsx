@@ -4,19 +4,19 @@ import styled from 'styled-components';
 
 interface PaginationProps {
     totalPages: number;
+    pagesPerGroup: number;
 }
 
 function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
+const Pagination: React.FC<PaginationProps> = ({ totalPages, pagesPerGroup }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentGroup, setCurrentGroup] = useState(1);
     const navigate = useNavigate();
     const query = Query();
 
-    const pagesPerGroup = 5; // 페이지 번호를 5개씩 반환
     const totalGroups = Math.ceil(totalPages / pagesPerGroup);
 
     useEffect(() => {

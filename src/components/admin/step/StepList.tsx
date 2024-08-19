@@ -104,7 +104,7 @@ const StepList: React.FC = () => {
                             ))}
                         </tbody>
                     </Table>
-                    <Pagination totalPages={totalPage} />
+                    <Pagination totalPages={totalPage} pagesPerGroup={10}/>
                 </>
             )}
 

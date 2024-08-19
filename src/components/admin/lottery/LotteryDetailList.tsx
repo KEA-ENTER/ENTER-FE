@@ -46,7 +46,7 @@ const LotteryDetailList: React.FC<LotteryDetailProps> = ({ lotteryDetailData, to
                             ))}
                         </tbody>
                     </Table>
-                    <Pagination totalPages={totalPage} />
+                    <Pagination totalPages={totalPage} pagesPerGroup={10}/>
                 </>
             )}
         </Container>
