@@ -1,4 +1,4 @@
-import api, { setAuthorizationToken } from '../../../../API/AxiosInstance';
+import api, { setAuthorizationToken } from '../../AxiosInstance';
 
 // name: 검색 키워드, type: 검색 메뉴, page: 선택된 페이지
 const LotteryListModel = async (name: string, type: string, page: number) => {

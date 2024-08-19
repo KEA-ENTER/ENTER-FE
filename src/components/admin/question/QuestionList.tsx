@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import DateString from "../basic/DateString";
-import { useEffect, useState } from 'react';
-import QuestionListModel from "./model/QuestionListModel";
 import Pagination from '../basic/Pagination';
+import DateString from "../basic/DateString";
+import QuestionListModel from "../../../API/admin/question/QuestionListModel";
 
 interface QuestionItem {
     questionId: number;

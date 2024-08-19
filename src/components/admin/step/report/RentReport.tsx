@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Title from '../../basic/Title';
 import Button from '../../basic/Button';
 import Penalty from './penalty/Penalty';
 import RentInfo from './RentInfo';
-import { useEffect, useState } from 'react';
-import RentReportModel from '../model/RentReportModel';
+import RentReportModel from '../../../../API/admin/step/RentReportModel';
 
 interface VehicleInfo {
     reportId: number;
@@ -37,7 +37,6 @@ export default function RentReport() {
     useEffect(() => {
         const fetchRentData = async () => {
             const res = await RentReportModel(id || '-1');
-            console.log('res', res);
             if (res) {
                 setRentData(res);
             } else {

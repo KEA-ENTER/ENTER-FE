@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../basic/Button";
 import Modal from "../basic/Modal";
-import QuestionAnswerModel from "./model/QuestionAnswerModel";
-import { useParams } from "react-router-dom";
 import Loading from "../basic/Loading";
+import QuestionAnswerModel from "../../../API/admin/question/QuestionAnswerModel";
 
 export default function QuestionDetailAnswer () {
     const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [contentData, setContentData] = useState<string | null>(null)
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
 
     const closeErrorModal = () => {
@@ -38,13 +39,14 @@ export default function QuestionDetailAnswer () {
     const closeConfirmModal = () => {
         setConfirmModal(false);
         setContentData(null);
+        navigate('/admin/question')
     }
 
     return(
         <Container>
             <ContentBox onChange={(e) => setContentData(e.target.value)}/>
             <ButtonContainer>
-                <Button text="확인" onClick={completeAnswer} />
+                <Button text="전송" onClick={completeAnswer} />
             </ButtonContainer>
             {errorModal && 
                 <Modal

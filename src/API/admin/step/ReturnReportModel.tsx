@@ -1,4 +1,4 @@
-import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
+import api, { setAuthorizationToken } from "../../AxiosInstance";
 
 const ReturnReportModel = async (id: string) => {
     setAuthorizationToken();

@@ -15,7 +15,7 @@ const BreadcrumbsMenu: React.FC = () => {
                 const isLast = index === displayPathnames.length - 1;
 
                 return (
-                    <BreadcrumbItem key={to} isLast={isLast}>
+                    <BreadcrumbItem key={to} $islast={isLast}>
                         {isLast ? (
                             <span>{decodeURIComponent(value)}</span>
                         ) : (
@@ -36,16 +36,16 @@ const BreadcrumbContainer = styled.nav`
   padding: 10px 0px 0px 0px;
 `;
 
-const BreadcrumbItem = styled.div<{ isLast: boolean }>`
+const BreadcrumbItem = styled.div<{ $islast: boolean }>`
   margin-right: 5px;
   font-size: 14px;
 
   & > a, & > span {
     text-decoration: none;
-    color: ${props => (props.isLast ? '#232d63' : '#aaa')};
+    color: ${props => (props.$islast ? '#232d63' : '#aaa')};
 
     &:hover {
-      text-decoration: ${props => (props.isLast ? 'none' : 'underline')};
+      text-decoration: ${props => (props.$islast ? 'none' : 'underline')};
     }
   }
 

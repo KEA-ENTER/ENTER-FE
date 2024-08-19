@@ -1,7 +1,6 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import AdminHomePage from './AdminHomePage';
 import AdminLayout from './AdminLayout';
-import AdminTest from '../../components/admin/basic/AdminTest';
 import VehicleStepPage from './vehicle/VehicleStepPage';
 import RentReportPage from './vehicle-step/RentReportPage';
 import ReturnReportPage from './vehicle-step/ReturnReportPage';
@@ -32,7 +31,6 @@ const AdminRoutes = () => {
             <Route path="/admin" element={<AdminHomePage />} />
             <Route path="/" element={<RedirectAdminHome />} />
             <Route path="/admin/*" element={<AdminLayout />}>
-                <Route path="admin-test" element={<AdminTest />} />
                 <Route path="vehicle-step" element={<VehicleStepPage />} />
                 <Route path="vehicle-step/rent/:id" element={<RentReportPage />} />
                 <Route path="vehicle-step/return/:id" element={<ReturnReportPage />} />

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import VehicleListModel from './model/VehicleListModel';
 import Pagination from '../basic/Pagination';
-import CarMenu from './CarMenu';
 import ConfirmModal from '../basic/ConfirmModal';
 import Modal from '../basic/Modal';
-import VehicleDeleteModel from './model/VehicleDeleteModel';
 import Loading from '../basic/Loading';
+import CarMenu from './CarMenu';
+import VehicleListModel from '../../../API/admin/vehicle/VehicleListModel';
+import VehicleDeleteModel from '../../../API/admin/vehicle/VehicleDeleteModel';
 
 interface VehicleItem {
     id: number;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import AdminHomeContents from './AdminHomeContents';
 import { useNavigate } from 'react-router-dom';
+import AdminHomeContents from './AdminHomeContents';
 
 export default function AdminHome() {
     const navigate = useNavigate()
@@ -50,7 +50,6 @@ const Container = styled.div`
     max-width: 500px;
     margin: 0 auto;
     align-items: center;
-    // background-color: #eeeeee40;
     padding: 30px;
 `;
 

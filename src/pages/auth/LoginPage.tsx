@@ -1,11 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import login from '../../API/user/login';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login({ stateHandler }: { stateHandler: (role: string) => void }) {
     // 사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    // Login에 접근 시 url을 없애기
+    useEffect(() => {
+        navigate('/');
+    }, [navigate]);
 
     const handleLogin = useCallback(async () => {
         try {

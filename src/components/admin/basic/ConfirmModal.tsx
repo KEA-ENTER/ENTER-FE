@@ -9,6 +9,7 @@ interface ConfirmModalProps {
     setIsConfirmed: React.Dispatch<SetStateAction<boolean>>;
 }
 
+// 취소 또는 확인의 결과를 받을 수 있는 모달
 const ConfirmModal: React.FC<ConfirmModalProps> = ({ title, description, onClose, setIsConfirmed }) => {
     const handleFalseClose = () => {
         setIsConfirmed(false);

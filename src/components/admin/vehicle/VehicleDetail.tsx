@@ -1,12 +1,10 @@
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';import styled from "styled-components";
 import Title from "../basic/Title";
 import Button from "../basic/Button";
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import VehicleDetailInfo from "./VehicleDetailInfo";
 import VehicleDetailReport from "./VehicleDetailReport";
-import VehicleDetailModel from './model/VehicleDetailModel';
-
+import VehicleDetailModel from "../../../API/admin/vehicle/VehicleDetailModel";
 
 interface VehicleDetailProps {
     vehicleId: number;

@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, pagesPerGroup }) =>
         } else {
             setCurrentPage(1)
         }
-    }, [currentPage, query]);
+    }, [currentPage, pagesPerGroup, query]);
 
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
