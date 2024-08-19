@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import sad from '../../../img/icon/sad.png';
 
+//신청일자가 아닐 경우 경고 페이지
 export default function NotApplicationDatePage() {
     const navigate = useNavigate();
 

@@ -6,21 +6,23 @@ import SubTitle from '../../../components/user/UI/SubTitle';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import BackButton from '../../../components/user/UI/BackButton';
-import Loading from '../../../components/user/Loading'; // Loading 컴포넌트 추가
+import Loading from '../../../components/user/Loading';
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export default function QuestionDetailPage() {
-    const [category, setCategory] = useState<string>('');
-    const [content, setContent] = useState<string>('');
-    const [answerContent, setAnswerContent] = useState<string>('');
-    const [myQuestion, setMyQuestion] = useState<boolean>(false);
-    const [questionAuthor, setQuestionAuthor] = useState<string>('');
-    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태 추가
+    const [category, setCategory] = useState<string>(''); // 문의 카테고리
+    const [content, setContent] = useState<string>(''); // 문의 내용
+    const [answerContent, setAnswerContent] = useState<string>(''); // 답변 내용
+    const [myQuestion, setMyQuestion] = useState<boolean>(false); // 내가 작성한 문의인지 여부
+    const [questionAuthor, setQuestionAuthor] = useState<string>(''); // 문의 작성자
+    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태
+
     const { id } = useParams();
     const navigate = useNavigate();
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken'); // 세션 토큰 가져오기
 
+    // 카테고리 텍스트 변환 함수
     const getCategoryText = (category: string) => {
         if (category === 'USER') return '사용자';
         else if (category === 'SERVICE') return '서비스';
@@ -29,10 +31,12 @@ export default function QuestionDetailPage() {
         else return '';
     };
 
+    // 수정하기 버튼 클릭 핸들러
     const handleModifyClick = () => {
         navigate(`/questionModify/${id}`); // 수정하기 페이지로 이동
     };
 
+    // 삭제하기 버튼 클릭 핸들러
     const handleDeleteClick = async () => {
         try {
             await axios.delete(`${BASE_URL}/questions/${id}`, {
@@ -49,6 +53,7 @@ export default function QuestionDetailPage() {
         }
     };
 
+    // 데이터 가져오기 함수
     const fetchData = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/questions/${id}`, {
@@ -57,25 +62,27 @@ export default function QuestionDetailPage() {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(response.data);
-            setCategory(response.data.category);
-            setQuestionAuthor(response.data.name);
-            setContent(response.data.questionContent);
-            setAnswerContent(response.data.answerContent);
-            setMyQuestion(response.data.myQuestion);
+
+            setCategory(response.data.category); // 카테고리 설정
+            setQuestionAuthor(response.data.name); // 작성자 이름 설정
+            setContent(response.data.questionContent); // 문의 내용 설정
+            setAnswerContent(response.data.answerContent); // 답변 내용 설정
+            setMyQuestion(response.data.myQuestion); // 내가 작성한 문의 여부 설정
             setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
         } catch (error) {
             console.error('API 요청 실패:', error);
-            setIsLoading(false); // 에러 발생 시에도 로딩 상태 해제
+            setIsLoading(false);
         }
     };
 
+    // 컴포넌트가 마운트될 때 데이터 가져오기
     useEffect(() => {
         fetchData();
     }, []);
 
+    // 로딩 중일 때 로딩 컴포넌트 표시
     if (isLoading) {
-        return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
+        return <Loading />;
     }
 
     return (

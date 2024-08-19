@@ -1,6 +1,6 @@
+import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Button from '../../../components/user/UI/Button';
@@ -15,8 +15,8 @@ import Loading from '../../../components/user/Loading';
 export default function RentPage() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 State 관리
+    const [isLoading, setIsLoading] = useState(false); // 로딩 State 관리
 
     // URL이 변경될 때마다 currentPage를 업데이트
     useEffect(() => {
@@ -24,7 +24,7 @@ export default function RentPage() {
         setCurrentPage(page);
     }, [location]);
 
-    // 업로드된 사진을 관리하는 state
+    // 업로드된 사진을 관리하는 State
     const [photos, setPhotos] = useState({
         front: null as File | null,
         right: null as File | null,
@@ -33,7 +33,7 @@ export default function RentPage() {
         dashboard: null as File | null,
     });
 
-    // 특이사항 메모 관리 state
+    // 특이사항 메모 관리 State
     const [notes, setNotes] = useState('');
 
     // 사진 업로드 핸들러
@@ -41,21 +41,21 @@ export default function RentPage() {
         setPhotos((prev) => ({ ...prev, [side]: file }));
     };
 
-    // 다음 버튼 핸들러
+    // 다음 버튼 클릭 시 페이지를 전환하는 함수
     const handleNext = () => {
         if (currentPage < 5) {
             navigate(`/rent/${currentPage + 1}`);
         }
     };
 
-    // 이전 버튼 핸들러
+    // 이전 버튼 클릭 시 페이지를 전환하는 함수
     const handlePrevious = () => {
         if (currentPage > 1) {
             navigate(`/rent/${currentPage - 1}`);
         }
     };
 
-    // API 호출을 통해 데이터를 전송하는 함수
+    // 데이터를 서버에 제출하는 함수
     const submitData = async () => {
         if (photos.front && photos.right && photos.back && photos.left && photos.dashboard) {
             setIsLoading(true);
@@ -81,7 +81,7 @@ export default function RentPage() {
         }
     };
 
-    // 다음 버튼 비활성화 조건
+    // 다음 버튼 비활성화 조건을 반환하는 함수
     const isNextButtonDisabled = () => {
         if (currentPage === 2) {
             return !Object.values(photos).slice(0, 4).every(Boolean); // 4개의 차량 사진이 모두 업로드되지 않았으면 비활성화
@@ -92,7 +92,7 @@ export default function RentPage() {
         }
     };
 
-    // 현재 페이지에 따라 적절한 콘텐츠를 렌더링
+    // 현재 페이지에 따라 적절한 콘텐츠를 렌더링하는 함수
     const renderContent = () => {
         switch (currentPage) {
             case 1:
@@ -125,6 +125,7 @@ export default function RentPage() {
         }
     };
 
+    // 로딩 중이면 로딩 컴포넌트를 반환
     if (isLoading) {
         return <Loading />;
     }

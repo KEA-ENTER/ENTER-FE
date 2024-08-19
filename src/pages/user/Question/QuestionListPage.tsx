@@ -25,20 +25,22 @@ function Query() {
 }
 
 export default function QuestionListPage() {
-    const query = Query();
-    const type = query.get('type') ?? 'ALL';
-    const word = query.get('q') ?? '';
-    const page = query.get('page') ?? '1';
+    const query = Query(); // URL에서 쿼리 파라미터를 추출
+    const type = query.get('type') ?? 'ALL'; // 카테고리 유형
+    const word = query.get('q') ?? ''; // 검색어
+    const page = query.get('page') ?? '1'; // 페이지 번호
 
-    const [category, setCategory] = useState<string>(type);
-    const [userInput, setUserInput] = useState<string>(word);
-    const [debouncedInput, setDebouncedInput] = useState<string>(userInput);
-    const [questions, setQuestions] = useState<QuestionItem[]>([]);
-    const [totalPage, setTotalPage] = useState(0);
-    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태 추가
+    // State 관리
+    const [category, setCategory] = useState<string>(type); // 선택된 카테고리
+    const [userInput, setUserInput] = useState<string>(word); // 사용자가 입력한 검색어
+    const [debouncedInput, setDebouncedInput] = useState<string>(userInput); // 디바운스 처리된 검색어
+    const [questions, setQuestions] = useState<QuestionItem[]>([]); // 질문 목록
+    const [totalPage, setTotalPage] = useState(0); // 총 페이지 수
+    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태
 
     const navigate = useNavigate();
 
+    // 카테고리 텍스트 변환 함수
     const getCategoryText = (category: string) => {
         if (category === 'USER') return '사용자';
         else if (category === 'SERVICE') return '서비스';
@@ -47,6 +49,7 @@ export default function QuestionListPage() {
         else return '';
     };
 
+    // 디바운싱 300ms
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedInput(userInput);
@@ -57,42 +60,48 @@ export default function QuestionListPage() {
         };
     }, [userInput]);
 
+    // 데이터 가져오기 함수
     const fetchData = () => {
         setIsLoading(true);
         const pageNum = parseInt(page);
         questionsList(pageNum - 1, category, debouncedInput)
             .then((data) => {
-                console.log(data);
-                setQuestions(data.questions);
-                setTotalPage(data.totalPages);
-                setIsLoading(false);
+                setQuestions(data.questions); // 가져온 질문 목록 설정
+                setTotalPage(data.totalPages); // 총 페이지 수 설정
+                setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
             })
             .catch((error) => {
                 console.error('Failed to fetch questions:', error);
-                setIsLoading(false);
+                setIsLoading(false); // 에러 발생 시 로딩 상태 해제
             });
     };
 
+    // 컴포넌트가 마운트될 때 및 의존성 배열이 변경될 때 데이터 가져오기
     useEffect(() => {
         fetchData();
     }, [category, debouncedInput, page]);
 
+    // 카테고리 변경 핸들러
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
     };
 
+    // 사용자 입력 변경 핸들러
     const handleUserInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUserInput(event.target.value);
     };
 
+    // 질문 상세 페이지로 이동하는 함수
     const goQuestionDetail = (id: number) => {
         navigate(`/questiondetail/${id}`);
     };
 
+    // 질문 작성 페이지로 이동하는 함수
     const goQuestionWrite = () => {
         navigate(`/write`);
     };
 
+    // 로딩 중일 때 로딩 컴포넌트 표시
     if (isLoading) {
         return <Loading />;
     }
@@ -134,7 +143,7 @@ export default function QuestionListPage() {
                     </TextBox>
                 ))}
             </ListContainer>
-            <Pagination totalPages={totalPage} pagesPerGroup={5}/>
+            <Pagination totalPages={totalPage} pagesPerGroup={5} />
             <ButtonContainer>
                 <Button onClick={() => goQuestionWrite()}>문의하기</Button>
             </ButtonContainer>

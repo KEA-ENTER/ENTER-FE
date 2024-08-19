@@ -1,8 +1,5 @@
-//API를 통해 사용자가 기본적으로 라우팅 되어야 되는 페이지를 받아오고, 해당 페이지로 이동시키는 훅 입니다.
-
 import { useNavigate } from 'react-router-dom';
 import autoRouting from '../API/user/autoRouting';
-import navigateBasedOnRoutingId from './navigateOnRoutingId';
 
 const useAutoRouting = () => {
     const navigate = useNavigate();
@@ -10,7 +7,23 @@ const useAutoRouting = () => {
     const autoRoutingFunc = async () => {
         const autoRoutingResponse = await autoRouting(); // 자동 라우팅 API 호출
         sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString()); // 세션에 정보 저장
-        navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate); // API 호출 결과를 바탕으로 라우팅
+        switch (autoRoutingResponse.routingId) {
+            case 1:
+                navigate('/application'); // 차량 신청 페이지
+                break;
+            case 2:
+                navigate('/detail'); // 신청서 조회 페이지
+                break;
+            case 3:
+                navigate('/not-apply'); // 신청일자 경고 페이지
+                break;
+            case 4:
+                navigate('/lottery-result'); // 추첨 결과 페이지
+                break;
+            default:
+                console.error('알 수 없는 routingId:', autoRoutingResponse.routingId);
+                break;
+        }
     };
 
     return { autoRoutingFunc };

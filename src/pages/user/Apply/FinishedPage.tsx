@@ -7,7 +7,7 @@ export default function FinishedPage() {
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        navigate('/detail'); //링크 수정 필요
+        navigate('/detail');
     };
 
     return (

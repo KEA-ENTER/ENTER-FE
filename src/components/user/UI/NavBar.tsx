@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
-import autoRouting from '../../../API/user/autoRouting';
+import useAutoRouting from '../../../utils/useAutoRouting';
 
 import 차량신청 from '../../../img/icon/car.png';
 import 통계 from '../../../img/icon/chart.png';
@@ -14,6 +13,7 @@ import getReportType from '../../../API/user/getReportType';
 export default function NavBar() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting();
 
     const [activePage, setActivePage] = useState<string | null>(null);
     const [reportType, setReportType] = useState<string | null>(null);
@@ -56,20 +56,7 @@ export default function NavBar() {
     const handleNavigation = (path: string) => navigate(path);
 
     const handleAutoRouting = async () => {
-        let autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
-
-        if (!autoRoutingPage) {
-            try {
-                const autoRoutingResponse = await autoRouting();
-                autoRoutingPage = autoRoutingResponse.routingId.toString();
-                sessionStorage.setItem('autoRoutingPage', autoRoutingPage);
-            } catch (error) {
-                console.error('Auto-routing failed:', error);
-                return;
-            }
-        }
-
-        navigateBasedOnRoutingId(Number(autoRoutingPage), navigate);
+        autoRoutingFunc();
     };
 
     return (

@@ -1,6 +1,6 @@
 // 라이브러리
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 // 페이지
 import Layout from '../../components/user/Layout/Layout';
@@ -30,20 +30,19 @@ import useAutoRouting from '../../utils/useAutoRouting';
 import NotFoundPage from '../../components/common/NotFoundPage';
 
 const UserRoutes = () => {
+    const location = useLocation();
     const navigate = useNavigate();
-    const { autoRoutingFunc } = useAutoRouting(); // 커스텀 훅 사용
+    const { autoRoutingFunc } = useAutoRouting();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log('userRoutes useEffect');
         const autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
 
         const fetchRouting = async () => {
             setIsLoading(true);
             try {
                 const userStatusResponse = await checkUserStatus();
-                console.log('userStatusResponse: ', userStatusResponse);
 
                 switch (userStatusResponse.code) {
                     case 'MEM-001':
@@ -94,6 +93,10 @@ const UserRoutes = () => {
         return <Loading />;
     }
 
+    if (location.pathname === '/') {
+        autoRoutingFunc();
+    }
+
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
@@ -102,16 +105,16 @@ const UserRoutes = () => {
                 <Route path="not-apply" element={<NotApplicationDatePage />} /> {/* 차량신청 기간 경고 페이지 */}
                 <Route path="date-info" element={<ApplicationDateInfoPage />} /> {/* 차량신청 기간 안내 페이지 */}
                 <Route path="detail" element={<CompletedApplicationForm />} /> {/* 차량신청 내역 확인 페이지 */}
-                <Route path="lottery-result" element={<LotteryResultPage />} />
-                <Route path="mypage" element={<MyPage />} />
-                <Route path="penalty/:penaltyId" element={<PenaltyDetailPage />} />
-                <Route path="question" element={<QuestionListPage />} />
-                <Route path="write" element={<QuestionWritePage />} />
-                <Route path="questiondetail/:id" element={<QuestionDetailPage />} />
-                <Route path="questionModify/:id" element={<QuestionModifyPage />} />
-                <Route path="rent/:page" element={<RentPage />} />
-                <Route path="return/:page" element={<ReturnPage />} />
-                <Route path="statistics" element={<StatisticsPage />} />
+                <Route path="lottery-result" element={<LotteryResultPage />} /> {/* 추첨 결과 확인 페이지 */}
+                <Route path="mypage" element={<MyPage />} /> {/* 마이 페이지*/}
+                <Route path="penalty/:penaltyId" element={<PenaltyDetailPage />} /> {/* 페널티 상세보기*/}
+                <Route path="question" element={<QuestionListPage />} /> {/* 문의사항 리스트 페이지*/}
+                <Route path="write" element={<QuestionWritePage />} /> {/* 문의사항 작성 페이지*/}
+                <Route path="questiondetail/:id" element={<QuestionDetailPage />} /> {/* 문의사항 상세보기 페이지*/}
+                <Route path="questionModify/:id" element={<QuestionModifyPage />} /> {/* 문의사항 수정 페이지*/}
+                <Route path="rent/:page" element={<RentPage />} /> {/* 인수 보고서 작성 페이지*/}
+                <Route path="return/:page" element={<ReturnPage />} /> {/* 반납 보고서 작성 페이지*/}
+                <Route path="statistics" element={<StatisticsPage />} /> {/* 통계 페이지*/}
                 <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
