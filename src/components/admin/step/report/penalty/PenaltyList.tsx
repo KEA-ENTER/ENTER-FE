@@ -46,8 +46,8 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     };
 
     // 페널티 삭제 전 확인 후 
-    const openAlertModal = (id: number, category: string, level: string) => {
-        setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
+    const openAlertModal = (id: number, category: string, level: string, etc: string) => {
+        setSelectedPenalty(`선택된 페널티: ${showPenaltyReason(category)} / ${showPenaltyLevel(level)} / ${etc}`);
         setSelectedPenaltyId(id);
         setAlertModal(true);
     };
@@ -78,7 +78,22 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         else if (level == 'BLACKLIST')
             return '블랙리스트';
         else
-            return '';
+            return level;
+    }
+
+    const showPenaltyReason = (reason: string) => {
+        if (reason === "TAKE")
+            return "인수"
+        else if (reason === "RETURN")
+            return "반납"
+        else if (reason === "FUEL")
+            return "연료"
+        else if (reason === "BROKEN")
+            return "파손"
+        else if (reason === "ETC")
+            return "기타"
+        else
+            return reason
     }
 
     return (
@@ -97,12 +112,12 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
             <tbody>
             {penaltyList.map((item, idx) => (
                 <TableRow key={idx}>
-                <TableCell>{item.reason}</TableCell>
+                <TableCell>{showPenaltyReason(item.reason)}</TableCell>
                 <TableCell>{showPenaltyLevel(item.level)}</TableCell>
                 <TableCell>{DateString(item.createdAt)}</TableCell>
                 <TableCellDetail>{item.etc}</TableCellDetail>
                 <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level)}>삭제</DeleteButton>
+                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level, item.etc)}>삭제</DeleteButton>
                 </TableCell>
                 </TableRow>
             ))}

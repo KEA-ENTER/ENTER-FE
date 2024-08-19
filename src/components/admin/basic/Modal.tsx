@@ -62,6 +62,10 @@ const Description = styled.div`
     color: #686868;
     margin: 0 0 0px 0;
     text-align: center;
+    width: 400px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
 const ButtonContainer = styled.div`
