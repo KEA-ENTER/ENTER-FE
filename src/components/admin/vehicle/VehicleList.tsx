@@ -26,6 +26,7 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
+// 차량 관리 리스트
 const VehicleList: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -56,6 +57,7 @@ const VehicleList: React.FC = () => {
         });
     }, [type, word, page]);
 
+    // 차량 삭제 API를 호출한다.
     const deleteVehicle = async (id: string) => {
         setLoading(true);
         const res = await VehicleDeleteModel(id);
@@ -63,6 +65,7 @@ const VehicleList: React.FC = () => {
         return res;
     };
 
+    // 차량 삭제 이전에 선택된 차량을 확인하는 모듈을 보여준다.
     const openAlertModal = (id: number, model: string, number: string) => {
         closeMenu();
         setSelectedId(id);
@@ -70,14 +73,15 @@ const VehicleList: React.FC = () => {
         setAlertModal(true);
     };
 
+    // 차량 삭제 요청을 처리한다.
     const handleDelete = async (confirmed: boolean) => {
         console.log(confirm)
-        if (confirmed) {
+        if (confirmed) { // 차량 삭제 확인 모듈에서 확인을 받았을 때 차량 삭제 API를 호출한다.
             const res = await deleteVehicle(String(selectedId));
-            if (res) {
+            if (res) { // 성공적으로 삭제되었을 때
                 setAlertModal(false);
                 setConfirmModal(true);
-            } else {
+            } else { // API 호출 오류로 삭제에 실패했을 때
                 setAlertModal(false);
             }
             setSelectedId(null);
@@ -96,6 +100,7 @@ const VehicleList: React.FC = () => {
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
+        window.location.reload();
     };
 
     const openMenu = (id: number) => {
@@ -112,6 +117,7 @@ const VehicleList: React.FC = () => {
         navigate(`detail/${id}`);
     };
 
+    // 서버에 저장된 차량 상태를 한글로 변환해서 보여준다.
     const getStatusText = (state: string) => {
         if (state === 'AVAILABLE')
             return '사용 가능';

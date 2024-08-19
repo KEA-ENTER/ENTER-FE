@@ -21,6 +21,7 @@ interface VehicleInfo {
     };
 }
 
+// 인수 보고서 내용
 const RentInfo: React.FC<VehicleInfo> = ({ rentData }) => {
     return (
         <Container>

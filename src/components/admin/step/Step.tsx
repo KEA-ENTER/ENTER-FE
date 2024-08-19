@@ -3,6 +3,7 @@ import Title from "../basic/Title";
 import SearchBox from "../../common/SearchBox";
 import StepList from "./StepList";
 
+// 인수 관리 페이지
 export default function Step() {
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);

@@ -22,6 +22,7 @@ interface VehicleInfo {
     }
 }
 
+// 반납 보고서 내용
 const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
     return (
         <Container>

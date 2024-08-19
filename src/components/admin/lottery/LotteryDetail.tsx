@@ -20,7 +20,7 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
-// 추첨 관리/신청 관리 페이지 
+// 추첨 관리 메뉴의 신청 관리 페이지 
 export default function LotteryDetail () {
     const [lotteryDetailData, setLotteryData] = useState<LotteryDetailItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);

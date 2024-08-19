@@ -25,6 +25,7 @@ interface VehicleReportProps {
     contents: string[];
 }
 
+// 차량 상세보기 페이지
 export default function VehicleDetail() {
     const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ export default function VehicleDetail() {
     const [reportInfo, setReportInfo] = useState<VehicleReportProps>();
     const { id } = useParams<{ id: string }>();
 
+    // 차량 상세 내용 API를 호출한다.
     useEffect(() => {
         const fetchVehicleData = async () => {
             const res = await VehicleDetailModel(id);

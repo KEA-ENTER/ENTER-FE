@@ -17,7 +17,9 @@ interface VehicleDetailProps {
     }
 }
 
+// 차량 상세 보기 정보를 보여주는 컴포넌트
 const VehicleDetailInfo: React.FC<VehicleDetailProps> = ({ vehicleInfo }) => {
+    // 영어로 된 서버값을 한글로 변환한다.
     const getStatusText = (state: string) => {
         if (state === 'AVAILABLE')
             return '사용 가능';

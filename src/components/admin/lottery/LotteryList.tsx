@@ -22,6 +22,7 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
+// 추첨 관리 페이지의 리스트
 const LotteryList: React.FC = () => {
     const [lotteryData, setLotteryData] = useState<LotteryItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);

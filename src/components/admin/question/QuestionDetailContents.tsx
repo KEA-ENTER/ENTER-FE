@@ -15,20 +15,24 @@ interface QuestionItem {
     answerCreatedAt: string;
 }
 
+// 문의 상세 내용 컴포넌트
 export default function QuestionDetailContents () {
     const [questionData, setQuestionData] = useState<QuestionItem | undefined>(undefined);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [openAnswer, setOpenAnswer] = useState(false);
 
+    // 문의 관리 목록으로 이동한다.
     const goQuestionPage = () => {
         navigate("/admin/question");
     };
 
+    // 답변이 작성되어있지 않은 경우, 답변 작성 창을 열고 닫는 동작을 실행한다.
     const changeAnswerState = () => {
         setOpenAnswer(!openAnswer);
     };
     
+    // 문의 상세 내용 API를 호출한다.
     useEffect(() => {
         const questionIdNum = parseInt(id ?? "0");
         QuestionDetailModel(questionIdNum).then(res => {
@@ -38,6 +42,7 @@ export default function QuestionDetailContents () {
         });
     }, [id]);
 
+    // 문의 카테고리 중 프론트에서 보여지는 단어와 서버의 식별 키워드를 매칭한다.
     const getCategoryText = (category: string) => {
         if (category === 'USER')
             return '사용자';

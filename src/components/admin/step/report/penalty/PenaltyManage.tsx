@@ -10,6 +10,7 @@ interface IdProps {
     memberId: number;
 }
 
+// 페널티 관리 (페널티 추가) 컴포넌트
 const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
     const menuItems = ['인수', '반납', '연료', '파손', '기타'];
     const levelItems = ['매우 낮음', '낮음', '보통', '높음', '블랙리스트'];
@@ -27,31 +28,36 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
         }
     }
 
+    // 페널티를 추가하기 위한 입력창을 하나 더 만든다.
     const addPenalty = () => {
         setPenalties([...penalties, { reason: menuItems[0], level: levelItems[0], etc: '' }]);
     };
 
+    // 페널티를 추가하기 위한 입력창을 계속 반영한다.
     const updatePenalty = (index: number, updatedPenalty: { reason: string, level: string, etc: string }) => {
         const updatedPenalties = penalties.map((penalty, i) => i === index ? updatedPenalty : penalty);
         setPenalties(updatedPenalties);
     };
 
+    // 페널티를 추가하기 위한 입력창을 초기화한다.
     const clearPenalties = () => {
         setPenalties([{ reason: menuItems[0], level: levelItems[0], etc: '' }]);
     };
 
+    // 페널티를 업로드한다.
     const uploadPenalties = async () => {
+        // 페널티 입력이 없을 시 경고창을 띄운다.
         const hasEmptyEtc = penalties.some(penalty => penalty.etc === '');
         if (hasEmptyEtc) {
             setErrorModal(true);
             return;
         }
     
+        // 1 이상의 페널티를 하나씩 추가한다.
         for (const penalty of penalties) {
             const { reason, level, etc } = penalty;
-    
+            // 페널티 추가 API를 호출한다.
             const result = await PenaltyAddModel(memberId, reason, level, etc);
-    
             if (!result) {
                 window.alert('업로드 실패');
                 return;

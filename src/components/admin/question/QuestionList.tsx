@@ -20,8 +20,8 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
+// 문의 관리 리스트
 export default function QuestionList () {
-
     const [questionData, setQuestionData] = useState<QuestionItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ export default function QuestionList () {
     const type = query.get("type") ?? "ALL";
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
+
 
     const getCategoryText = (category: string) => {
         if (category === 'USER')
@@ -43,7 +44,8 @@ export default function QuestionList () {
         else
             return '';
     }
-
+    
+    // 문의 카테고리 중 프론트에서 보여지는 단어와 서버의 식별 키워드를 매칭한다.
     const getStatusText = (state: string) => {
         if (state === 'COMPLETE')
             return '답변 완료';

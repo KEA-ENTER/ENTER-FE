@@ -3,6 +3,7 @@ import Title from "../basic/Title";
 import SearchBox from "../../common/SearchBox";
 import QuestionList from "./QuestionList";
 
+// 문의 관리 페이지
 export default function Question () {
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);

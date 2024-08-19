@@ -17,6 +17,7 @@ interface VehicleFormProps {
     imagePreview: string | ArrayBuffer | null;
 }
 
+// 차량 추가 또는 수정 입력을 처리하는 컴포넌트
 const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, handleImageUpload, imagePreview }) => {
     const onDrop = (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];

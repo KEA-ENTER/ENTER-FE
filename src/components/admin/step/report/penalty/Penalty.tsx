@@ -6,6 +6,7 @@ interface IdProps {
     memberId: number;
 }
 
+// 페널티 컴포넌트
 const Penalty: React.FC<IdProps> = ({memberId}) => {
     return(
         <Container>

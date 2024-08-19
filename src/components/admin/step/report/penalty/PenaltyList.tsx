@@ -18,6 +18,7 @@ interface IdProps {
     memberId: number;
 }
 
+// 페널티 리스트
 const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
@@ -25,6 +26,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [penaltyList, setPenaltyList] = useState<PenaltyItem[]>([]);
     const [selectedPenaltyId, setSelectedPenaltyId] = useState<number | null>(null);
 
+    // 페널티 내역 API를 호출한다.
     useEffect(() => {
         const fetchPenaltyData = async () => {
             const res = await PenaltyListModel(memberId);
@@ -35,6 +37,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         fetchPenaltyData();
     }, [memberId]);
 
+    // 페널티 삭제 API를 호출한다.
     const fetchPenaltyDeleteData = async (penaltyId: number | null) => {
         const res = await PenaltyDeleteModel(memberId, penaltyId);
         if (!res) {
@@ -42,6 +45,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         }
     };
 
+    // 페널티 삭제 전 확인 후 
     const openAlertModal = (id: number, category: string, level: string) => {
         setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
         setSelectedPenaltyId(id);

@@ -28,13 +28,13 @@ interface VehicleInfo {
 export default function ReturnReport() {
     const navigate = useNavigate();
     const [returnData, setReturnData] = useState<VehicleInfo | null>(null);
+    const { id } = useParams<{ id: string }>();
 
     const goStep = () => {
         navigate('/admin/vehicle-step');
     }
 
-    const { id } = useParams<{ id: string }>();
-
+    // 반납 보고서 API를 호출한다.
     useEffect(() => {
         const fetchReturnData = async () => {
             const res = await ReturnReportModel(id || '-1');
