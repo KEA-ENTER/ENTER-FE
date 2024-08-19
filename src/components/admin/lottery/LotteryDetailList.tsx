@@ -26,13 +26,13 @@ const LotteryDetailList: React.FC<LotteryDetailProps> = ({ lotteryDetailData, to
                 <>
                     <Table>
                         <thead>
-                            <TableRow>
+                            <TableTitle>
                                 <TableHeader>아이디</TableHeader>
                                 <TableHeader>신청자명</TableHeader>
                                 <TableHeader>사용목적</TableHeader>
                                 <TableHeader>결과</TableHeader>
                                 <TableHeader>신청 시간</TableHeader>
-                            </TableRow>
+                            </TableTitle>
                         </thead>
                         <tbody>
                             {lotteryDetailData.map((item, idx) => (
@@ -74,9 +74,16 @@ const Table = styled.table`
     overflow: hidden;
 `;
 
+const TableTitle = styled.tr`
+    border-bottom: solid 1px #686868;
+`;
+
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
     height: 55px;
+    &:hover {
+        background: rgba(220, 220, 220, 0.6);
+    }
 `;
 
 const TableHeader = styled.td`
