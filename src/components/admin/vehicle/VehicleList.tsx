@@ -214,7 +214,6 @@ const VehicleList: React.FC = () => {
 
 export default VehicleList;
 
-// Style
 const Container = styled.div`
     padding: 0px;
     border-radius: 0px;

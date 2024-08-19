@@ -52,8 +52,8 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         setAlertModal(true);
     };
 
-    const closeAlertModal = () => {
-        if (selectedPenalty) {
+    const closeAlertModal = (confirmed: boolean) => {
+        if (selectedPenalty && confirmed) {
             fetchPenaltyDeleteData(selectedPenaltyId);
         }
         setAlertModal(false);
