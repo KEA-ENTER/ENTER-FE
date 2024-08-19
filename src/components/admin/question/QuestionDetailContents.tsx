@@ -59,11 +59,13 @@ export default function QuestionDetailContents () {
                         {`[${getCategoryText(questionData.category)}] ${questionData.questionContent}`}
                     </Title>
                     <DetailInfo>{`${DateString(questionData.questionCreatedAt)} ${questionData.name}`}</DetailInfo>
+                    <ContentTitle>내용</ContentTitle>
                     <ContentBox>{questionData.questionContent}</ContentBox>
                 </>
             ) : <ErrorContainer>해당 문의 내용을 불러올 수 없습니다.</ErrorContainer>}
             {questionData?.answerContent && (
                 <>
+                    <ContentTitle>답변</ContentTitle>
                     <ContentBox>{questionData?.answerContent}</ContentBox>
                 </>
             )}
@@ -103,6 +105,11 @@ const Title = styled.div`
     white-space: nowrap;
 `;
 
+const ContentTitle = styled.div`
+    margin: 20px 0px 0px 5px;
+    color: #444;
+`;
+
 const DetailInfo = styled.div`
     font-size: 13px;
     color: #aaa;
@@ -113,7 +120,7 @@ const ContentBox = styled.div`
     padding: 30px 40px;
     border: 1px solid #686868;
     border-radius: 10px;
-    margin: 20px 0px;
+    margin: 10px 0px;
     white-space: pre-wrap;
 `;
 

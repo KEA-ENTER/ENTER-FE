@@ -44,7 +44,7 @@ export default function QuestionDetailAnswer () {
         <Container>
             <ContentBox onChange={(e) => setContentData(e.target.value)}/>
             <ButtonContainer>
-                <Button text="확인" onClick={completeAnswer} />
+                <Button text="전송" onClick={completeAnswer} />
             </ButtonContainer>
             {errorModal && 
                 <Modal
