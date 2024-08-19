@@ -181,7 +181,7 @@ const VehicleList: React.FC = () => {
                     {loading && (
                         <Loading />
                     )}
-                    <Pagination totalPages={totalPage} />
+                    <Pagination totalPages={totalPage} pagesPerGroup={10}/>
                 </>
             )}
         </Container>
@@ -222,7 +222,7 @@ const TableHeader = styled.td`
 `;
 
 const TableCell = styled.td`
-    padding: 10px;
+    padding: 7px;
     text-align: center;
     width: 10%;
     background: rgba(238, 238, 238, 0.6);

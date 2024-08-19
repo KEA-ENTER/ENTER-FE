@@ -45,7 +45,7 @@ function AdminTest() {
             <Image imageUrl="https://example.com/valid-image.jpg" />
 
 
-            <Pagination totalPages={10}/>
+            <Pagination totalPages={10} pagesPerGroup={10}/>
         </div>
     );
 }
