@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import AdminHomeContents from './AdminHomeContents';
 import { useNavigate } from 'react-router-dom';
+import AdminHomeContents from './AdminHomeContents';
 
 export default function AdminHome() {
     const navigate = useNavigate()

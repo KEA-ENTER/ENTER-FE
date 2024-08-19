@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Title from "../../basic/Title";
 import Button from "../../basic/Button";
 import Penalty from "./penalty/Penalty";
 import ReturnInfo from "./ReturnInfo";
-import { useEffect, useState } from "react";
-import ReturnReportModel from "../model/ReturnReportModel";
+import ReturnReportModel from "../../../../API/admin/step/ReturnReportModel";
 
 interface VehicleInfo {
     reportId: number;

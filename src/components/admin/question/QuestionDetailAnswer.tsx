@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../basic/Button";
 import Modal from "../basic/Modal";
-import QuestionAnswerModel from "./model/QuestionAnswerModel";
-import { useParams } from "react-router-dom";
 import Loading from "../basic/Loading";
+import QuestionAnswerModel from "../../../API/admin/question/QuestionAnswerModel";
 
 export default function QuestionDetailAnswer () {
     const [errorModal, setErrorModal] = useState(false);

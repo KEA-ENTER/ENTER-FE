@@ -1,4 +1,4 @@
-import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
+import api, { setAuthorizationToken } from "../../AxiosInstance";
 
 const QuestionListModel = async (name: string, type: string, page: number) => {
     setAuthorizationToken();

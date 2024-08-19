@@ -1,4 +1,5 @@
-import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
+import api, { setAuthorizationToken } from "../../AxiosInstance";
+
 
 const HomeAppliesModel = async () => {
     setAuthorizationToken();

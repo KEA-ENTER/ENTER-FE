@@ -1,9 +1,10 @@
-import api, { setAuthorizationToken } from "../../../../API/AxiosInstance";
+import api, { setAuthorizationToken } from "../../AxiosInstance";
 
-const VehicleAddModel = async (vehicleNo: string, company: string, model: string, seats: string, fuel: string, img: File | null, state: string) => {
+const VehicleModifyModel = async (id: string | undefined, vehicleNo: string, company: string, model: string, seats: string, fuel: string, img: File | null, state: string) => {
     setAuthorizationToken();
 
     const jsonData = {
+        id: id,
         vehicleNo: vehicleNo,
         company: company,
         model: model,
@@ -19,16 +20,12 @@ const VehicleAddModel = async (vehicleNo: string, company: string, model: string
     if (img) { formData.append('image', img, img.name); }
 
     try {
-        const response = await api.post(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData);
+        const response = await api.patch(`${import.meta.env.VITE_SERVER_URL}/admin/vehicles`, formData);
         return response.data;
     } catch (error) {
-        if (error instanceof Error) {
-            console.error(error.message);
-        } else {
-            console.error(error);
-        }
+        console.error(error);
         return null;
     }
 };
 
-export default VehicleAddModel;
+export default VehicleModifyModel;

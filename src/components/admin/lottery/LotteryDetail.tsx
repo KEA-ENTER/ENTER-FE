@@ -1,12 +1,12 @@
 
 import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DateString from "../basic/DateString";
 import Title from "../basic/Title";
 import SearchBox from "../../common/SearchBox";
 import LotteryDetailList from "./LotteryDetailList";
-import { useEffect, useState } from "react";
-import LotteryDetailListModel from "./model/LotteryDetailListModel";
+import LotteryDetailListModel from "../../../API/admin/lottery/LotteryDetailListModel";
 
 interface LotteryDetailItem {
     email: string;

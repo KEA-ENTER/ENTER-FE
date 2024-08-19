@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import DateString from '../basic/DateString';
 import { useEffect, useState } from 'react';
-import LotteryListModel from './model/LotteryListModel';
+import LotteryListModel from '../../../API/admin/lottery/LotteryListModel';
 import Pagination from '../basic/Pagination';
 
 // api에서 불러올 아이템들의 이름과 타입을 작성해준다.

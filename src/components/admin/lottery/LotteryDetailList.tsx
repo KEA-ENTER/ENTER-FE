@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import Pagination from '../basic/Pagination';
 import DateString from '../basic/DateString';
 import IdString from '../basic/IdString';
-import Pagination from '../basic/Pagination';
 
 interface LotteryDetailItem {
     email: string;

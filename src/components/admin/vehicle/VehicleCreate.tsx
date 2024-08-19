@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import Title from '../basic/Title';
 import Button from '../basic/Button';
 import Modal from '../basic/Modal';
-import VehicleForm from './VehicleForm';
-import VehicleAddModel from './model/VehicleAddModel';
 import Loading from '../basic/Loading';
+import VehicleForm from './VehicleForm';
+import VehicleAddModel from '../../../API/admin/vehicle/VehicleAddModel';
 
 interface FormDataType {
     model: string;

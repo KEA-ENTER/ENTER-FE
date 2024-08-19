@@ -4,7 +4,7 @@ import Button from '../../../basic/Button';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
 import PenaltyMenu from './PenaltyMenu';
-import PenaltyAddModel from '../../model/PenaltyAddModel';
+import PenaltyAddModel from '../../../../../API/admin/step/PenaltyAddModel';
 
 interface IdProps {
     memberId: number;

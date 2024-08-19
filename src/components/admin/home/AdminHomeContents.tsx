@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HomeAppliesModel from './model/HomeAppliesModel';
-import HomeTakesModel from './model/HomeTakesModel';
+import HomeAppliesModel from '../../../API/admin/home/HomeAppliesModel';
+import HomeTakesModel from '../../../API/admin/home/HomeTakesModel';
 
 interface Takes {
     applyRound: number;

@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import DateString from "../basic/DateString";
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import QuestionDetailModel from "./model/QuestionDetailModel";
+import styled from "styled-components";
 import Button from "../basic/Button";
+import DateString from "../basic/DateString";
 import QuestionDetailAnswer from "./QuestionDetailAnswer";
+import QuestionDetailModel from "../../../API/admin/question/QuestionDetailModel";
 
 interface QuestionItem {
     name: string;

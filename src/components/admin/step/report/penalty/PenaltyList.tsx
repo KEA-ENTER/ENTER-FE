@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
-import PenaltyListModel from '../../model/PenaltyListModel';
 import DateString from '../../../basic/DateString';
-import PenaltyDeleteModel from '../../model/PenaltyDeleteModel';
+import PenaltyListModel from '../../../../../API/admin/step/PenaltyListModel';
+import PenaltyDeleteModel from '../../../../../API/admin/step/PenaltyDeleteModel';
 
 interface PenaltyItem{
     penaltyId: number,
