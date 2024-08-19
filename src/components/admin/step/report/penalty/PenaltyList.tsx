@@ -125,7 +125,6 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
 
 export default PenaltyList;
 
-// Style
 const Container = styled.div`
   padding: 20px;
   border-radius: 0px;

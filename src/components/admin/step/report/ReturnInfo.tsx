@@ -79,6 +79,8 @@ const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
+            <InfoItem>특이사항</InfoItem>
+            <NoteContainer>{returnData.vehicleNote}</NoteContainer>
         </Container>
     );
 };
@@ -109,4 +111,12 @@ const InfoItem = styled.div`
 
 const ImageContainer = styled.div`
     height: 180px;
+`;
+
+const NoteContainer = styled.table`
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
 `;

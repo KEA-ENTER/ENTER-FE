@@ -168,6 +168,8 @@ const ImageUploadContainer = styled.div`
     cursor: pointer;
     padding: 15px;
     margin: 0 auto;
+    border-radius: 10px;
+    background-color: #fff;
 `;
 
 const UploadMessage = styled.p`
@@ -177,5 +179,4 @@ const UploadMessage = styled.p`
 const ImagePreview = styled.img`
     max-width: 100%;
     max-height: 100%;
-    border-radius: 10px;
 `;
