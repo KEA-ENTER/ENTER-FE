@@ -114,7 +114,7 @@ const ImageContainer = styled.div`
     height: 180px;
 `;
 
-const NoteContainer = styled.table`
+const NoteContainer = styled.div`
   width: 100%;
   padding: 20px;
   background: white;

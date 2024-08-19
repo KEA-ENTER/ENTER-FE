@@ -101,24 +101,24 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         <Title>페널티 내역</Title>
         <Table>
             <thead>
-            <TableRow>
-                <TableHeader>사유</TableHeader>
-                <TableHeader>페널티 수준</TableHeader>
-                <TableHeader>날짜</TableHeader>
-                <TableHeaderDetail>비고</TableHeaderDetail>
-                <TableHeader></TableHeader>
-            </TableRow>
+                <TableRow>
+                    <TableHeader>사유</TableHeader>
+                    <TableHeader>페널티 수준</TableHeader>
+                    <TableHeader>날짜</TableHeader>
+                    <TableHeaderDetail>비고</TableHeaderDetail>
+                    <TableHeader></TableHeader>
+                </TableRow>
             </thead>
             <tbody>
             {penaltyList.map((item, idx) => (
                 <TableRow key={idx}>
-                <TableCell>{showPenaltyReason(item.reason)}</TableCell>
-                <TableCell>{showPenaltyLevel(item.level)}</TableCell>
-                <TableCell>{DateString(item.createdAt)}</TableCell>
-                <TableCellDetail>{item.etc}</TableCellDetail>
-                <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level, item.etc)}>삭제</DeleteButton>
-                </TableCell>
+                    <TableCell>{showPenaltyReason(item.reason)}</TableCell>
+                    <TableCell>{showPenaltyLevel(item.level)}</TableCell>
+                    <TableCell>{DateString(item.createdAt)}</TableCell>
+                    <TableCellDetail>{item.etc}</TableCellDetail>
+                    <TableCell>
+                        <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level, item.etc)}>삭제</DeleteButton>
+                    </TableCell>
                 </TableRow>
             ))}
             </tbody>
