@@ -88,14 +88,14 @@ const StepList: React.FC = () => {
                                         <ReportBtn 
                                             onClick={() => goRentReport(item.winningId)} 
                                             disabled={item.state === 'BEFORE_TAKE'} 
-                                            isDisabled={item.state === 'BEFORE_TAKE'}
+                                            $isdisabled={item.state === 'BEFORE_TAKE'}
                                             >
                                             인수 보고서
                                         </ReportBtn>
                                         <ReportBtn 
                                             onClick={() => goReturnReport(item.winningId)} 
                                             disabled={item.state !== 'RETURN'} 
-                                            isDisabled={item.state !== 'RETURN'}
+                                            $isdisabled={item.state !== 'RETURN'}
                                             >
                                             반납 보고서
                                         </ReportBtn>
@@ -161,10 +161,10 @@ const TableCellDetail = styled(TableCell)`
     width: 20%;
 `;
 
-const ReportBtn = styled.button<{ isDisabled: boolean }>`
-    background-color: ${props => props.isDisabled ? '#ddd' : '#FEE500'};
+const ReportBtn = styled.button<{ $isdisabled: boolean }>`
+    background-color: ${props => props.$isdisabled ? '#ddd' : '#FEE500'};
     border: none;
-    cursor: ${props => props.isDisabled ? 'not-allowed' : 'pointer'};
+    cursor: ${props => props.$isdisabled ? 'not-allowed' : 'pointer'};
     padding: 7px 12px;
     margin: 0px 5px;
     border-radius: 5px;

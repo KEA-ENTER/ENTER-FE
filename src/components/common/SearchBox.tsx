@@ -47,7 +47,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     return (
         <SearchComp>
             <DropdownContainer>
-                <DropdownButton onClick={toggleDropdown} isopen={isopen}>
+                <DropdownButton onClick={toggleDropdown} $isopen={isopen}>
                     <ButtonText>{selectedItem}</ButtonText>
                     <ButtonIcon>{isopen ? '▲' : '▼'}</ButtonIcon>
                 </DropdownButton>
@@ -95,10 +95,10 @@ const DropdownContainer = styled.div`
     align-items: center;
 `;
 
-const DropdownButton = styled.button<{ isopen: boolean }>`
+const DropdownButton = styled.button<{ $isopen: boolean }>`
     height: 100%;
     width: 100%;
-    border-radius: ${(props) => (props.isopen ? '10px 10px 0 0' : '10px')};
+    border-radius: ${(props) => (props.$isopen ? '10px 10px 0 0' : '10px')};
     background-color: white;
     border: 1px solid #858585;
     display: flex;

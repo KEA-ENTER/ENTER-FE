@@ -37,7 +37,6 @@ export default function RentReport() {
     useEffect(() => {
         const fetchRentData = async () => {
             const res = await RentReportModel(id || '-1');
-            console.log('res', res);
             if (res) {
                 setRentData(res);
             } else {

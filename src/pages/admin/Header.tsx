@@ -25,10 +25,10 @@ const Header: React.FC = () => {
         <Head>
             <Container>
                 <Title onClick={() => goPage('/admin')}>탈까?</Title>
-                <Menu onClick={() => goPage('/admin/vehicle-step')} isSelected={isMenuSelected('vehicle-step')}>인수 관리</Menu>
-                <Menu onClick={() => goPage('/admin/lottery')} isSelected={isMenuSelected('lottery')}>추첨 관리</Menu>
-                <Menu onClick={() => goPage('/admin/vehicle')} isSelected={isMenuSelected('vehicle')}>차량 관리</Menu>
-                <Menu onClick={() => goPage('/admin/question')} isSelected={isMenuSelected('question')}>문의 관리</Menu>
+                <Menu onClick={() => goPage('/admin/vehicle-step')} $isselected={isMenuSelected('vehicle-step')}>인수 관리</Menu>
+                <Menu onClick={() => goPage('/admin/lottery')} $isselected={isMenuSelected('lottery')}>추첨 관리</Menu>
+                <Menu onClick={() => goPage('/admin/vehicle')} $isselected={isMenuSelected('vehicle')}>차량 관리</Menu>
+                <Menu onClick={() => goPage('/admin/question')} $isselected={isMenuSelected('question')}>문의 관리</Menu>
             </Container>
         </Head>
     );
@@ -61,11 +61,11 @@ const Title = styled.div`
   cursor: pointer;
 `;
 
-const Menu = styled.div<{ isSelected: boolean }>`
+const Menu = styled.div<{ $isselected: boolean }>`
   font-size: 16px;
   margin: 0 20px 0 0;
   cursor: pointer;
-  font-weight: ${props => props.isSelected ? 'bold' : 'normal'};
+  font-weight: ${props => props.$isselected ? 'bold' : 'normal'};
   &:hover {
     color: #303570;
   }

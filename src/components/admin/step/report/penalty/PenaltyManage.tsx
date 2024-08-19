@@ -155,7 +155,6 @@ const PenaltyManage: React.FC<IdProps> = ({memberId}) => {
 
 export default PenaltyManage;
 
-// Style
 const PenaltyContainer = styled.div`
     padding: 20px;
     display: flex;

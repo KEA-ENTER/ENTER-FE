@@ -9,8 +9,7 @@ const VehicleDetailtModel = async (vehicleId: string | undefined) => {
               vehicleId: vehicleId
             },
         });
-        
-        console.log("데이터:", response.data);
+
         return response.data;
     } catch (error) {
         console.log('Error:' + error);
