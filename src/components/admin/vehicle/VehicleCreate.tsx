@@ -4,29 +4,59 @@ import styled from 'styled-components';
 import Title from '../basic/Title';
 import Button from '../basic/Button';
 import Modal from '../basic/Modal';
+import Loading from '../basic/Loading';
 import VehicleForm from './VehicleForm';
+import VehicleAddModel from '../../../API/admin/vehicle/VehicleAddModel';
 
+interface FormDataType {
+    model: string;
+    manufacturer: string;
+    vehicleNumber: string;
+    fuel: 'DIESEL' | 'GASOLINE' | 'ELECTRICITY';
+    capacity: string;
+    status: 'AVAILABLE' | 'INACTIVE';
+    image: File | null;
+}
+
+// 차량 추가 페이지
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
-    const [formData, setFormData] = useState({
-        model: '',
-        manufacturer: '',
-        vehicleNumber: '',
-        fuel: '',
-        capacity: '',
-        status: 'available',
-        image: null as File | null
+    const [errorState, setErrorState] = useState("올바르지 않은 내용을 입력했습니다.");
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState<FormDataType>({
+        model: "",
+        manufacturer: "",
+        vehicleNumber: "",
+        fuel: 'DIESEL',
+        capacity: "",
+        status: 'AVAILABLE',
+        image: null
     });
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
-
     const navigate = useNavigate();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // VehicleForm에서 가져온 데이터를 통해 차량 추가 API를 호출한다.
+    const createVehicle = async () => {
+        const res = await VehicleAddModel(
+            formData.vehicleNumber, 
+            formData.manufacturer, 
+            formData.model, 
+            formData.capacity, 
+            formData.fuel, 
+            formData.image, 
+            formData.status
+        );
+        return res;
+    };
+
+    // 입력값을 현재 컴포넌트에 저장한다
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // 이미지 입력값 미리보기를 보여준다.
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (files && files.length > 0) {
@@ -40,17 +70,33 @@ export default function VehicleCreate() {
         }
     };
 
-    const handleCreate = () => {
+    // 사용자의 차량 추가 요청을 처리한다.
+    const handleCreate = async () => {
+        setLoading(true);
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
-        if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
+        if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) { // 입력 값이 전부 존재하지 않을 때 
+            setLoading(false);
+            setErrorState("내용을 전부 입력해주세요.");
             setErrorModal(true);
-        } else {
-            setConfirmModal(true);
+        } else { // 입력값이 전부 존재한다면 차량 추가 API를 호출한다.
+            const res = await createVehicle();
+            if (res) {
+                setLoading(false)
+                setConfirmModal(true);
+            } else {
+                setLoading(false)
+                setErrorState("차량 번호 형식이 올바르지 않거나 중복되었습니다.");
+                setErrorModal(true);
+            }
         }
     };
 
     const closeModal = () => {
         setConfirmModal(false);
+        navigate('/admin/vehicle')
+    };
+
+    const closeErrorModal = () => {
         setErrorModal(false);
     };
 
@@ -59,7 +105,7 @@ export default function VehicleCreate() {
     };
 
     return (
-        <div>
+        <Container>
             <Title imageSrc="/img/car.png" title="차량 추가" />
             <VehicleForm
                 formData={formData}
@@ -84,17 +130,24 @@ export default function VehicleCreate() {
             )}
             {errorModal && (
                 <Modal
-                    title="내용을 전부 입력해주세요"
-                    description=""
-                    onClose={closeModal}
+                    title="업로드에 실패하였습니다."
+                    description={errorState}
+                    onClose={closeErrorModal}
                 />
             )}
-        </div>
+            {loading && (
+                <Loading />
+            )}
+        </Container>
     );
 }
 
+const Container = styled.div`
+    width: 850px;
+`;
+
 const ButtonContainer = styled.div`
-    margin: 20px;
+    margin: 10px;
     display: flex;
     justify-content: flex-end;
 `;

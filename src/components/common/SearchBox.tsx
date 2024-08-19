@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 interface SearchBoxProps {
@@ -6,13 +7,32 @@ interface SearchBoxProps {
     onSearch: (selectedItem: string, searchText: string) => void;
 }
 
+function Query() {
+    return new URLSearchParams(useLocation().search);
+}
+
 const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
     const [searchText, setSearchText] = useState("");
     const [isopen, setIsopen] = useState(false);
 
+    const navigate = useNavigate();
+    const query = Query();
+
     const handleSearch = () => {
+        query.set("type", selectedItem);
+        query.set("q", searchText);
+        query.delete("page")
+        navigate({
+            search: query.toString(),
+        });
         onSearch(selectedItem, searchText);
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
     }
 
     const toggleDropdown = () => {
@@ -27,7 +47,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
     return (
         <SearchComp>
             <DropdownContainer>
-                <DropdownButton onClick={toggleDropdown} isopen={isopen}>
+                <DropdownButton onClick={toggleDropdown} $isopen={isopen}>
                     <ButtonText>{selectedItem}</ButtonText>
                     <ButtonIcon>{isopen ? '▲' : '▼'}</ButtonIcon>
                 </DropdownButton>
@@ -38,7 +58,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                                 key={item} 
                                 onClick={() => handleSelect(item)}
                                 className={item === selectedItem ? 'selected' : ''}
-                            >
+                                >
                                 {item}
                             </DropdownItem>
                         ))}
@@ -50,7 +70,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({ menuItems, onSearch }) => {
                     type="text" 
                     value={searchText} 
                     onChange={(e) => setSearchText(e.target.value)}
-                />
+                    onKeyDown={handleKeyDown}
+                    />
                 <Button onClick={handleSearch} src="/img/search.png" alt="Search"/>
             </InputComp>
         </SearchComp>
@@ -74,10 +95,10 @@ const DropdownContainer = styled.div`
     align-items: center;
 `;
 
-const DropdownButton = styled.button<{ isopen: boolean }>`
+const DropdownButton = styled.button<{ $isopen: boolean }>`
     height: 100%;
     width: 100%;
-    border-radius: ${(props) => (props.isopen ? '10px 10px 0 0' : '10px')};
+    border-radius: ${(props) => (props.$isopen ? '10px 10px 0 0' : '10px')};
     background-color: white;
     border: 1px solid #858585;
     display: flex;

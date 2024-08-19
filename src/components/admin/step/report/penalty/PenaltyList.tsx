@@ -1,27 +1,99 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../../basic/Modal';
 import ConfirmModal from '../../../basic/ConfirmModal';
-import data from '../../../../../data/admin/step/penalty.json';
+import DateString from '../../../basic/DateString';
+import PenaltyListModel from '../../../../../API/admin/step/PenaltyListModel';
+import PenaltyDeleteModel from '../../../../../API/admin/step/PenaltyDeleteModel';
 
-const PenaltyList: React.FC = () => {
+interface PenaltyItem{
+    penaltyId: number,
+    createdAt: string,
+    reason: string,
+    level: string,
+    etc: string
+}
+
+interface IdProps {
+    memberId: number;
+}
+
+// 페널티 리스트
+const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [selectedPenalty, setSelectedPenalty] = useState<string | null>(null);
+    const [penaltyList, setPenaltyList] = useState<PenaltyItem[]>([]);
+    const [selectedPenaltyId, setSelectedPenaltyId] = useState<number | null>(null);
 
-    const openAlertModal = (id: number, category: string, level: string) => {
-        console.log(id)
-        setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
+    // 페널티 내역 API를 호출한다.
+    useEffect(() => {
+        const fetchPenaltyData = async () => {
+            const res = await PenaltyListModel(memberId);
+            if (res) {
+                setPenaltyList(res);
+            }
+        };
+        fetchPenaltyData();
+    }, [memberId]);
+
+    // 페널티 삭제 API를 호출한다.
+    const fetchPenaltyDeleteData = async (penaltyId: number | null) => {
+        const res = await PenaltyDeleteModel(memberId, penaltyId);
+        if (!res) {
+            window.alert("실패");
+        }
+    };
+
+    // 페널티 삭제 전 확인 후 
+    const openAlertModal = (id: number, category: string, level: string, etc: string) => {
+        setSelectedPenalty(`선택된 페널티: ${showPenaltyReason(category)} / ${showPenaltyLevel(level)} / ${etc}`);
+        setSelectedPenaltyId(id);
         setAlertModal(true);
     };
 
-    const closeAlertModal = () => {
+    const closeAlertModal = (confirmed: boolean) => {
+        if (selectedPenalty && confirmed) {
+            fetchPenaltyDeleteData(selectedPenaltyId);
+        }
         setAlertModal(false);
+        setSelectedPenaltyId(null);
         setSelectedPenalty(null);
     };
 
     const closeConfirmModal = () => {
         setConfirmModal(false);
+        window.location.reload();
+    }
+
+    const showPenaltyLevel = (level: string) => {
+        if (level === 'MINIMUM')
+            return '매우 낮음';
+        else if (level === 'LOW')
+            return '낮음';
+        else if (level == 'MEDIUM')
+            return '보통';
+        else if (level == 'HIGH')
+            return '높음';
+        else if (level == 'BLACKLIST')
+            return '블랙리스트';
+        else
+            return level;
+    }
+
+    const showPenaltyReason = (reason: string) => {
+        if (reason === "TAKE")
+            return "인수"
+        else if (reason === "RETURN")
+            return "반납"
+        else if (reason === "FUEL")
+            return "연료"
+        else if (reason === "BROKEN")
+            return "파손"
+        else if (reason === "ETC")
+            return "기타"
+        else
+            return reason
     }
 
     return (
@@ -29,24 +101,24 @@ const PenaltyList: React.FC = () => {
         <Title>페널티 내역</Title>
         <Table>
             <thead>
-            <TableRow>
-                <TableHeader>사유</TableHeader>
-                <TableHeader>페널티 수준</TableHeader>
-                <TableHeader>날짜</TableHeader>
-                <TableHeaderDetail>비고</TableHeaderDetail>
-                <TableHeader></TableHeader>
-            </TableRow>
+                <TableRow>
+                    <TableHeader>사유</TableHeader>
+                    <TableHeader>페널티 수준</TableHeader>
+                    <TableHeader>날짜</TableHeader>
+                    <TableHeaderDetail>비고</TableHeaderDetail>
+                    <TableHeader></TableHeader>
+                </TableRow>
             </thead>
             <tbody>
-            {data.map((item) => (
-                <TableRow key={item.id}>
-                <TableCell>{item.category}</TableCell>
-                <TableCell>{item.level}</TableCell>
-                <TableCell>{item.date}</TableCell>
-                <TableCellDetail>{item.detail}</TableCellDetail>
-                <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(item.id, item.category, item.level)}>삭제</DeleteButton>
-                </TableCell>
+            {penaltyList.map((item, idx) => (
+                <TableRow key={idx}>
+                    <TableCell>{showPenaltyReason(item.reason)}</TableCell>
+                    <TableCell>{showPenaltyLevel(item.level)}</TableCell>
+                    <TableCell>{DateString(item.createdAt)}</TableCell>
+                    <TableCellDetail>{item.etc}</TableCellDetail>
+                    <TableCell>
+                        <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level, item.etc)}>삭제</DeleteButton>
+                    </TableCell>
                 </TableRow>
             ))}
             </tbody>
@@ -72,7 +144,6 @@ const PenaltyList: React.FC = () => {
 
 export default PenaltyList;
 
-// Style
 const Container = styled.div`
   padding: 20px;
   border-radius: 0px;

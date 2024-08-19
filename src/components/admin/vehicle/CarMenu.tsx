@@ -7,6 +7,7 @@ interface CarMenuProps {
     onOpenModal: () => void;
 }
 
+// 차량 리스트의 더보기 메뉴
 const CarMenu: React.FC<CarMenuProps> = ({ id, onCloseMenu, onOpenModal }) => {
     const navigate = useNavigate();
     const goModifyPage = (id: number) => {
@@ -30,7 +31,7 @@ export default CarMenu;
 
 const DropdownList = styled.div`
     position: absolute;
-    transform: translate(20%, -40%);
+    transform: translate(20%, -60%);
     width: 100px;
     list-style: none;
     border: 1px solid #68686868;

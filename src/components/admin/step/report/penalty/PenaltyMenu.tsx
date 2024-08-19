@@ -8,6 +8,7 @@ interface PenaltyMenuProps {
     onSearch: (selectedItem: string) => void;
 }
 
+// 페널티 옵션 지정 메뉴
 const PenaltyMenu: React.FC<PenaltyMenuProps> = ({ menuItems, isOpen, onToggle, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
 
@@ -20,7 +21,7 @@ const PenaltyMenu: React.FC<PenaltyMenuProps> = ({ menuItems, isOpen, onToggle, 
     return (
         <SearchComp>
             <DropdownContainer>
-                <DropdownButton onClick={onToggle} isopen={isOpen}>
+                <DropdownButton onClick={onToggle} $isopen={isOpen}>
                     <ButtonText>{selectedItem}</ButtonText>
                     <ButtonIcon>{isOpen ? '▲' : '▼'}</ButtonIcon>
                 </DropdownButton>
@@ -43,7 +44,6 @@ const PenaltyMenu: React.FC<PenaltyMenuProps> = ({ menuItems, isOpen, onToggle, 
 }
 export default PenaltyMenu;
 
-// Style
 const SearchComp = styled.div`
     height: 100%;
     display: flex;
@@ -58,13 +58,13 @@ const DropdownContainer = styled.div`
     align-items: center;
 `;
 
-const DropdownButton = styled.button<{ isopen: boolean }>`
+const DropdownButton = styled.button<{ $isopen: boolean }>`
     height: 100%;
     width: 100%;
-    border-radius: ${(props) => (props.isopen ? '10px 10px 0 0' : '10px')};
+    border-radius: ${(props) => (props.$isopen ? '10px 10px 0 0' : '10px')};
     background-color: #Fee500;
     border: 1px solid #686868;
-    border-width: ${(props) => (props.isopen ? '1px 1px 0px 1px': '0px 0px 0px 0px')};
+    border-width: ${(props) => (props.$isopen ? '1px 1px 0px 1px': '0px 0px 0px 0px')};
     display: flex;
     align-items: center;
     cursor: pointer;

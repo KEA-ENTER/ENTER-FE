@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
 interface ButtonProps {
-  text: string;
-  onClick: () => void;
+    text: string;
+    onClick: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
-  return (
-    <Btn onClick={onClick}>
-      {text}
-    </Btn>
-  );
+    return (
+        <Btn onClick={onClick}>
+            {text}
+        </Btn>
+    );
 };
 
 export default Button;

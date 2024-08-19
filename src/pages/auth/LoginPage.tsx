@@ -1,32 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import login from '../../API/user/login';
+import { useNavigate } from 'react-router-dom';
 
-interface LoginProps {
-    onLoginSuccess: (role: string) => void;
-}
-
-export default function Login({ onLoginSuccess }: LoginProps) {
+export default function Login({ stateHandler }: { stateHandler: (role: string) => void }) {
+    // 사용자 입력 state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        const response = await fetch('http://your-server-url/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+    // Login에 접근 시 url을 없애기
+    useEffect(() => {
+        navigate('/');
+    }, [navigate]);
 
-        if (response.ok) {
-            const { token } = await response.json();
-            localStorage.setItem('jwt', token);
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            onLoginSuccess(payload.role);
-        } else {
-            alert('Login failed');
+    const handleLogin = useCallback(async () => {
+        try {
+            const loginResponse = await login(username, password); // 로그인 API 호출
+
+            // memberRole : USER / ADMIN
+            const { accessToken, refreshToken, memberName, memberRole } = loginResponse; // 응답 값 저장
+
+            // 리프레시 토큰 쿠키에 저장
+            document.cookie = `refreshToken=${refreshToken}; path=/; secure; httpOnly`;
+
+            sessionStorage.setItem('userName', memberName);
+            // 세션 스토리지에 저장
+            sessionStorage.setItem('accessToken', accessToken);
+            // memberRole : USER / ADMIN
+            sessionStorage.setItem('role', memberRole);
+            // APP.tsx에 role 전달
+            stateHandler(memberRole);
+        } catch (error) {
+            alert('아이디 또는 비밀번호를 확인해주세요');
         }
-    };
+    }, [username, password, stateHandler]);
+
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                handleLogin();
+            }
+        },
+        [handleLogin],
+    );
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <Container>
@@ -34,7 +58,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                 <SubTitle>회사 법인차량,</SubTitle>
                 <MainTitle>탈까?</MainTitle>
             </TitleContainer>
-            <Body>
+            <Article>
                 <Input
                     value={username}
                     type="text"
@@ -48,7 +72,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button onClick={handleLogin}>로그인</Button>
-            </Body>
+            </Article>
             <Disc>· 이메일, 비밀번호를 입력해주세요</Disc>
         </Container>
     );
@@ -57,7 +81,6 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 const Container = styled.div`
     height: 100vh;
     max-width: 500px;
-    // border: 1px solid red;
     margin: 0 auto;
     padding: 0 24px;
     padding-top: 20vh;
@@ -69,19 +92,18 @@ const Container = styled.div`
 const TitleContainer = styled.div`
     width: 100%;
 `;
+
 const SubTitle = styled.h2`
     width: 100%;
-    decoration: none;
     font-weight: 300;
     color: gray;
 `;
+
 const MainTitle = styled.h1`
-    // width: 90%;
     font-size: 60px;
 `;
 
-const Body = styled.div`
-    // border: 1px solid red;
+const Article = styled.article`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -114,6 +136,5 @@ const Disc = styled.div`
     color: gray;
     font-weight: 200;
     width: 100%;
-
     padding-left: 10px;
 `;
