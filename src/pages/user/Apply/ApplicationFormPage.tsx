@@ -17,6 +17,8 @@ import applyVehicel from '../../../API/user/applyVehicel';
 import getDetail from '../../../API/user/getDetail';
 import patchApplyVehicel from '../../../API/user/patchApplyVehicel';
 
+import useAutoRouting from '../../../utils/useAutoRouting';
+
 interface Car {
     company: string;
     competition: number;
@@ -37,6 +39,7 @@ interface DateOption {
 
 export default function ApplicationFormPage() {
     const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting();
 
     const [next, setNext] = useState<boolean>(false); //다음 페이지 전환
 
@@ -128,6 +131,7 @@ export default function ApplicationFormPage() {
             console.error('차량 신청 중 오류가 발생했습니다.', error);
             return;
         } finally {
+            autoRoutingFunc();
             setFinished(true);
             setIsDataLoaded(true);
         }

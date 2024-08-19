@@ -35,6 +35,7 @@ export default function CompletedApplicationForm() {
                 console.error('삭제 실패:', error);
             } finally {
                 setIsLoading(false);
+                autoRoutingFunc();
             }
         }
     };
