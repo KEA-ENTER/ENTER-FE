@@ -138,11 +138,11 @@ const TableHeader = styled.td`
     font-style: none;
     padding: 10px;
     text-align: center;
-    width: 11%;
+    width: 12%;
 `;
 
 const TableHeaderDetail = styled(TableHeader)`
-    width: 22.5%;
+    width: 20%;
 `;
 
 const TableCell = styled.td`
@@ -155,5 +155,5 @@ const TableCell = styled.td`
 
 const TableCellDetail = styled(TableCell)`
     width: 20%;
-    font-size: 13px;
+    font-size: 12px;
 `;
