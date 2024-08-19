@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import AdminHomeContents from './AdminHomeContents';
 
+// 관리자 홈 화면
 export default function AdminHome() {
     const navigate = useNavigate()
 
@@ -9,6 +10,7 @@ export default function AdminHome() {
         navigate(url);
     }
 
+    // 세션에서 로그인 시 저장해두었던 정보들을 삭제한다.
     const logout = () => {
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('userName')

@@ -53,7 +53,9 @@ export default function QuestionList () {
             return '';
     }
 
+    // 문의 내역 API를 호출한다.
     useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
         const pageNum = parseInt(page) - 1;
         QuestionListModel(word, type, pageNum).then(res => {
             if (res) {

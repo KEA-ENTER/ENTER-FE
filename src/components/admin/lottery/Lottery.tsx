@@ -3,6 +3,7 @@ import Title from "../basic/Title";
 import SearchBox from "../../common/SearchBox";
 import LotteryList from "./LotteryList";
 
+// 추첨 관리 페이지
 export default function Lottery () {
     const handleSearch = (selectedItem: string, searchText: string) => {
         console.log(`Selected Item: ${selectedItem}, Search Text: ${searchText}`);
@@ -15,7 +16,7 @@ export default function Lottery () {
                 <SearchBox
                     menuItems={['회차', '차량정보']}
                     onSearch={handleSearch}
-                />
+                    />
             </SearchBoxContainer>
             <LotteryList />
         </Container>

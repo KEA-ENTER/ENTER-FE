@@ -43,7 +43,9 @@ const VehicleList: React.FC = () => {
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
 
+    // 차량 목록 API를 호출한다.
     useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
         const pageNum = parseInt(page) - 1;
 
         VehicleListModel(word, type, pageNum).then(res => {

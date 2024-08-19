@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react';
 import LotteryListModel from '../../../API/admin/lottery/LotteryListModel';
 import Pagination from '../basic/Pagination';
 
-// api에서 불러올 아이템들의 이름과 타입을 작성해준다.
-// 사용해야 하는 api에 따라 다르게 작성해서 사용
 interface LotteryItem {
     applyRoundId: number;
     round: number;
@@ -20,48 +18,37 @@ interface LotteryItem {
     competition: string;
 }
 
-// url에서 쿼리문을 가져오기 위해 필요한 것 (밑에 3줄 그냥 복붙하면 도이)
 function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
 const LotteryList: React.FC = () => {
-
-    // 여기서부터 api 관련
-    // 1. lotteryData로 되어 있는데 상황에 맞게 변수명만 변경해서 사용하면 됨, 그리고 <위에서만든인터페이스이름[]>으로 수정
     const [lotteryData, setLotteryData] = useState<LotteryItem[]>([]);
-    // 2. 얘는 그냥 복붙
     const [totalPage, setTotalPage] = useState(0);
 
-    // 3. 건너뛰어
     const navigate = useNavigate();
     
-    // 4. 아래 4줄 싸그리싹싹 복붙
     const query = Query();
     const type = query.get("type") ?? "ALL";
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
 
-    // 5. api 불러오는 부분
+    // 추첨 내역 API를 호출한다.
     useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
         const pageNum = parseInt(page) - 1;
         LotteryListModel(word, type, pageNum).then(res => {
             if (res) {
-                // 여기 밑에 두 줄만 수정하면 됨
                 setLotteryData(res.lotteryList); // lotteryList 저장 (서버에서 만든 리스트 이름이 lotteryList임)
                 setTotalPage(res.totalPages); // totalPages 저장 (서버에서 보내준 총 페이지 수)
             }
         });
     }, [type, word, page]);
-    // 여기까지 api 관련
 
     const goLotteryDetail = (applyRoundId: number) => {
         navigate(`/admin/lottery/detail/${applyRoundId}`)
     }
 
-    // 1. 여기 밑에서 lotteryData.map 하고 뒤에 아이템들이 있는데, 현재 상태는 이다현이 만든 더미데이터의 이름들임.
-    // 이걸 서버 api의 이름 == 위에서 만든 인터페이스의 이름에 맞게 수정해줘야 함.
-    // 2. pagination의 이름을 10(테스트용)에서 totalPage로 변경한다.
     return (
         <Container>
             {lotteryData.length === 0 ? (
