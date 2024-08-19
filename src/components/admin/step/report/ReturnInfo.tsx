@@ -28,7 +28,7 @@ const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
         <Container>
             <InfoWrapper>
                 <HalfWrapper>
-                    <InfoItem>{`사용 일자: ${DateString(returnData.reportTime)} ~ ${DateString(returnData.returnDate)}`}</InfoItem>
+                    <InfoItem>{`사용 일자: ${DateString(returnData.takeDate)} ~ ${DateString(returnData.returnDate)}`}</InfoItem>
                     <InfoItem>{`사용자 이름: ${returnData.memberName}`}</InfoItem>
                 </HalfWrapper>
                 <HalfWrapper>

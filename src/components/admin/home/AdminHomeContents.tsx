@@ -63,7 +63,7 @@ export default function AdminHomeContents() {
                 break;
             case 1:
                 day = '월';
-                setTodayState('재배정');
+                setTodayState('신청');
                 setRentDate('-Day');
                 setReturnDate('-3');
                 break;
