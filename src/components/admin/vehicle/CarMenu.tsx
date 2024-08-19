@@ -7,6 +7,7 @@ interface CarMenuProps {
     onOpenModal: () => void;
 }
 
+// 차량 리스트의 더보기 메뉴
 const CarMenu: React.FC<CarMenuProps> = ({ id, onCloseMenu, onOpenModal }) => {
     const navigate = useNavigate();
     const goModifyPage = (id: number) => {

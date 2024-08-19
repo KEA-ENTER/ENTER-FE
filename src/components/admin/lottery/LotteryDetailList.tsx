@@ -16,8 +16,8 @@ interface LotteryDetailProps {
     totalPage: number;
 }
 
+// 신청 관리 페이지의 리스트
 const LotteryDetailList: React.FC<LotteryDetailProps> = ({ lotteryDetailData, totalPage }) => {
-
     return (
         <Container>
             {lotteryDetailData.length === 0 ? (

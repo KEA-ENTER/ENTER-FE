@@ -20,6 +20,7 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
+// 추첨 관리 메뉴의 신청 관리 페이지 
 export default function LotteryDetail () {
     const [lotteryDetailData, setLotteryData] = useState<LotteryDetailItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
@@ -33,7 +34,9 @@ export default function LotteryDetail () {
     const page = query.get("page") ?? "1";
     const { applyRound } = useParams<{ applyRound: string }>();
 
+    // 신청 내역 API를 호출한다.
     useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
         const pageNum = parseInt(page) - 1;
 
         LotteryDetailListModel(word, type, pageNum, applyRound).then(res => {
@@ -59,7 +62,7 @@ export default function LotteryDetail () {
                 <SearchBox
                     menuItems={['아이디', '신청자명']}
                     onSearch={handleSearch}
-                />
+                    />
             </SearchBoxContainer>
             <LotteryDetailList lotteryDetailData={lotteryDetailData} totalPage={totalPage} />
         </Container>

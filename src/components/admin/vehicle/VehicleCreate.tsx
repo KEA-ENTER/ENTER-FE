@@ -18,6 +18,7 @@ interface FormDataType {
     image: File | null;
 }
 
+// 차량 추가 페이지
 export default function VehicleCreate() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [errorModal, setErrorModal] = useState(false);
@@ -35,6 +36,7 @@ export default function VehicleCreate() {
     const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
     const navigate = useNavigate();
 
+    // VehicleForm에서 가져온 데이터를 통해 차량 추가 API를 호출한다.
     const createVehicle = async () => {
         const res = await VehicleAddModel(
             formData.vehicleNumber, 
@@ -48,11 +50,13 @@ export default function VehicleCreate() {
         return res;
     };
 
+    // 입력값을 현재 컴포넌트에 저장한다
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // 이미지 입력값 미리보기를 보여준다.
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (files && files.length > 0) {
@@ -66,14 +70,15 @@ export default function VehicleCreate() {
         }
     };
 
+    // 사용자의 차량 추가 요청을 처리한다.
     const handleCreate = async () => {
         setLoading(true);
         const { model, manufacturer, vehicleNumber, fuel, capacity, image } = formData;
-        if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) {
+        if (!model || !manufacturer || !vehicleNumber || !fuel || !capacity || !image) { // 입력 값이 전부 존재하지 않을 때 
             setLoading(false);
             setErrorState("내용을 전부 입력해주세요.");
             setErrorModal(true);
-        } else {
+        } else { // 입력값이 전부 존재한다면 차량 추가 API를 호출한다.
             const res = await createVehicle();
             if (res) {
                 setLoading(false)

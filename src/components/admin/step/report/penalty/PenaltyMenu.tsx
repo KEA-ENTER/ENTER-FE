@@ -8,6 +8,7 @@ interface PenaltyMenuProps {
     onSearch: (selectedItem: string) => void;
 }
 
+// 페널티 옵션 지정 메뉴
 const PenaltyMenu: React.FC<PenaltyMenuProps> = ({ menuItems, isOpen, onToggle, onSearch }) => {
     const [selectedItem, setSelectedItem] = useState(menuItems[0]);
 

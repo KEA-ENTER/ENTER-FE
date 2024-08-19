@@ -17,6 +17,7 @@ interface Applies {
     cancelCnt: number;
 }
 
+// 관리자 홈 화면의 응모, 인수 현황 등 데이터를 보여주는 부분
 export default function AdminHomeContents() {
     const [todayDate, setTodayDate] = useState('');
     const [todayState, setTodayState] = useState('');
@@ -25,10 +26,12 @@ export default function AdminHomeContents() {
     const [takesData, setTakesData] = useState<Takes>({applyRound: 0, applyCnt: 0, takeCnt: 0, noShowCnt: 0});
     const [appliesData, setAppliesData] = useState<Applies>({round: 0, applyCnt: 0, winningCnt: 0, cancelCnt: 0});
 
+    // 렌더링 시 날짜를 받아오고 현재 요일의 상태를 표시한다.
     useEffect(() => {
         getDate();
     }, [])
 
+    // 응모, 인수 현황 API를 호출한다.
     useEffect(() => {
         HomeAppliesModel().then(res => {
             if (res) {
@@ -42,6 +45,7 @@ export default function AdminHomeContents() {
         });
     }, []);
 
+    // 자바스크립트의 Date() 객체를 바탕으로 현재 요일의 상태를 저장한다.
     const getDate = () => {
         const d = new Date();
         const year = d.getFullYear();
@@ -49,6 +53,7 @@ export default function AdminHomeContents() {
         const date = d.getDate();
         let day = '';
 
+        // 요일 정보를 바탕으로 추첨과 재배정 기간이 정해지므로, 그 일정들을 정해준다.
         switch (d.getDay()) {
             case 0:
                 day = '일';
@@ -95,7 +100,6 @@ export default function AdminHomeContents() {
             default:
                 day = '';
         }
-
         setTodayDate(`${year}. ${month}. ${date} (${day})`);
     }
 
@@ -120,7 +124,7 @@ export default function AdminHomeContents() {
                 </DateData>
             </DateContainer>
             <StateData>
-                응모 현황
+                {`응모 현황`}
                 <StateContents>
                     <StateItem>{`${appliesData?.round}회차`}</StateItem>
                     <StateItem>{`${appliesData?.applyCnt}명 신청`}</StateItem>
@@ -129,7 +133,7 @@ export default function AdminHomeContents() {
                 </StateContents>
             </StateData>
             <StateData>
-                인수 현황
+                {`인수 현황`}
                 <StateContents>
                     <StateItem>{`${takesData?.applyRound}회차`}</StateItem>
                     <StateItem>{`${takesData?.applyCnt}명 신청`}</StateItem>

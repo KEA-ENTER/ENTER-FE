@@ -21,16 +21,20 @@ function Query() {
     return new URLSearchParams(useLocation().search);
 }
 
+// 인수 관리 페이지 리스트
 const StepList: React.FC = () => {
     const [stepData, setStepData] = useState<StepItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
+    const navigate = useNavigate();
 
     const query = Query();
     const type = query.get("type") ?? "ALL";
     const word = query.get("q") ?? "";
     const page = query.get("page") ?? "1";
 
+    // 인수 내역 API를 호출한다.
     useEffect(() => {
+        // 보여지는 페이지와 서버의 페이지 번호를 맞춘다.
         const pageNum = parseInt(page) - 1;
 
         StepListModel(word, type, pageNum).then(res => {
@@ -41,8 +45,7 @@ const StepList: React.FC = () => {
         });
     }, [type, word, page]);
 
-    const navigate = useNavigate();
-
+    // 리스트의 아이디에 맞게 인수/반납 보고서로 이동
     const goRentReport = (id: number) => {
         navigate(`/admin/vehicle-step/rent/${id}`)
     }
@@ -50,6 +53,7 @@ const StepList: React.FC = () => {
         navigate(`/admin/vehicle-step/return/${id}`)
     }
 
+    // 서버에서 받아오는 상태에 따라 화면에서 보여줄 단어로 변환
     const getStatusText = (state: string) => {
         if (state === 'RETURN')
             return '반납 완료';

@@ -9,6 +9,7 @@ interface VehicleReportProps {
     }
 }
 
+// 차량 상세보기 특이사항을 보여주는 컴포넌트
 const VehicleDetailReport: React.FC<VehicleReportProps> = ({ reportInfo }) => {
     return(
         <Container>

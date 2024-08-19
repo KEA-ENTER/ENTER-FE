@@ -24,16 +24,17 @@ interface VehicleInfo {
     vehicleNote: string;
 }
 
+// 인수 보고서 페이지
 export default function RentReport() {
     const navigate = useNavigate();
     const [rentData, setRentData] = useState<VehicleInfo | null>(null);
+    const { id } = useParams<{ id: string }>();
 
     const goStep = () => {
         navigate('/admin/vehicle-step');
     };
 
-    const { id } = useParams<{ id: string }>();
-
+    // 인수 보고서 API를 호출한다.
     useEffect(() => {
         const fetchRentData = async () => {
             const res = await RentReportModel(id || '-1');

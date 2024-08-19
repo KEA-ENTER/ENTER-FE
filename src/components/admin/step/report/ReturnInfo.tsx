@@ -22,6 +22,7 @@ interface VehicleInfo {
     }
 }
 
+// 반납 보고서 내용
 const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
     return (
         <Container>
@@ -79,6 +80,8 @@ const ReturnInfo: React.FC<VehicleInfo> = ({ returnData }) => {
                     </ImageContainer>
                 </HalfWrapper>
             </InfoWrapper>
+            <InfoItem>특이사항</InfoItem>
+            <NoteContainer>{returnData.vehicleNote}</NoteContainer>
         </Container>
     );
 };
@@ -109,4 +112,12 @@ const InfoItem = styled.div`
 
 const ImageContainer = styled.div`
     height: 180px;
+`;
+
+const NoteContainer = styled.div`
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
 `;

@@ -17,6 +17,7 @@ interface VehicleFormProps {
     imagePreview: string | ArrayBuffer | null;
 }
 
+// 차량 추가 또는 수정 입력을 처리하는 컴포넌트
 const VehicleForm: React.FC<VehicleFormProps> = ({ formData, handleInputChange, handleImageUpload, imagePreview }) => {
     const onDrop = (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
@@ -168,6 +169,8 @@ const ImageUploadContainer = styled.div`
     cursor: pointer;
     padding: 15px;
     margin: 0 auto;
+    border-radius: 10px;
+    background-color: #fff;
 `;
 
 const UploadMessage = styled.p`
@@ -177,5 +180,4 @@ const UploadMessage = styled.p`
 const ImagePreview = styled.img`
     max-width: 100%;
     max-height: 100%;
-    border-radius: 10px;
 `;

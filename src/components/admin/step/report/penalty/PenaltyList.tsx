@@ -18,6 +18,7 @@ interface IdProps {
     memberId: number;
 }
 
+// 페널티 리스트
 const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [alertModal, setAlertModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
@@ -25,6 +26,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
     const [penaltyList, setPenaltyList] = useState<PenaltyItem[]>([]);
     const [selectedPenaltyId, setSelectedPenaltyId] = useState<number | null>(null);
 
+    // 페널티 내역 API를 호출한다.
     useEffect(() => {
         const fetchPenaltyData = async () => {
             const res = await PenaltyListModel(memberId);
@@ -35,6 +37,7 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         fetchPenaltyData();
     }, [memberId]);
 
+    // 페널티 삭제 API를 호출한다.
     const fetchPenaltyDeleteData = async (penaltyId: number | null) => {
         const res = await PenaltyDeleteModel(memberId, penaltyId);
         if (!res) {
@@ -42,14 +45,15 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         }
     };
 
-    const openAlertModal = (id: number, category: string, level: string) => {
-        setSelectedPenalty(`선택된 페널티: ${category} / ${level}`);
+    // 페널티 삭제 전 확인 후 
+    const openAlertModal = (id: number, category: string, level: string, etc: string) => {
+        setSelectedPenalty(`선택된 페널티: ${showPenaltyReason(category)} / ${showPenaltyLevel(level)} / ${etc}`);
         setSelectedPenaltyId(id);
         setAlertModal(true);
     };
 
-    const closeAlertModal = () => {
-        if (selectedPenalty) {
+    const closeAlertModal = (confirmed: boolean) => {
+        if (selectedPenalty && confirmed) {
             fetchPenaltyDeleteData(selectedPenaltyId);
         }
         setAlertModal(false);
@@ -74,7 +78,22 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         else if (level == 'BLACKLIST')
             return '블랙리스트';
         else
-            return '';
+            return level;
+    }
+
+    const showPenaltyReason = (reason: string) => {
+        if (reason === "TAKE")
+            return "인수"
+        else if (reason === "RETURN")
+            return "반납"
+        else if (reason === "FUEL")
+            return "연료"
+        else if (reason === "BROKEN")
+            return "파손"
+        else if (reason === "ETC")
+            return "기타"
+        else
+            return reason
     }
 
     return (
@@ -82,24 +101,24 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
         <Title>페널티 내역</Title>
         <Table>
             <thead>
-            <TableRow>
-                <TableHeader>사유</TableHeader>
-                <TableHeader>페널티 수준</TableHeader>
-                <TableHeader>날짜</TableHeader>
-                <TableHeaderDetail>비고</TableHeaderDetail>
-                <TableHeader></TableHeader>
-            </TableRow>
+                <TableRow>
+                    <TableHeader>사유</TableHeader>
+                    <TableHeader>페널티 수준</TableHeader>
+                    <TableHeader>날짜</TableHeader>
+                    <TableHeaderDetail>비고</TableHeaderDetail>
+                    <TableHeader></TableHeader>
+                </TableRow>
             </thead>
             <tbody>
             {penaltyList.map((item, idx) => (
                 <TableRow key={idx}>
-                <TableCell>{item.reason}</TableCell>
-                <TableCell>{showPenaltyLevel(item.level)}</TableCell>
-                <TableCell>{DateString(item.createdAt)}</TableCell>
-                <TableCellDetail>{item.etc}</TableCellDetail>
-                <TableCell>
-                    <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level)}>삭제</DeleteButton>
-                </TableCell>
+                    <TableCell>{showPenaltyReason(item.reason)}</TableCell>
+                    <TableCell>{showPenaltyLevel(item.level)}</TableCell>
+                    <TableCell>{DateString(item.createdAt)}</TableCell>
+                    <TableCellDetail>{item.etc}</TableCellDetail>
+                    <TableCell>
+                        <DeleteButton onClick={() => openAlertModal(item.penaltyId, item.reason, item.level, item.etc)}>삭제</DeleteButton>
+                    </TableCell>
                 </TableRow>
             ))}
             </tbody>
@@ -125,7 +144,6 @@ const PenaltyList: React.FC<IdProps> = ({memberId}) => {
 
 export default PenaltyList;
 
-// Style
 const Container = styled.div`
   padding: 20px;
   border-radius: 0px;

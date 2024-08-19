@@ -5,6 +5,7 @@ import SearchBox from "../../common/SearchBox";
 import Button from "../basic/Button";
 import VehicleList from "./VehicleList";
 
+// 차량 관리 페이지
 export default function Vehicle() {
     const navigate = useNavigate();
 
