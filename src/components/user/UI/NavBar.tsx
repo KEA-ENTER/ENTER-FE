@@ -22,6 +22,7 @@ export default function NavBar() {
         const fetchReportType = async () => {
             try {
                 const reportTypeResponse = await getReportType();
+
                 setReportType(reportTypeResponse.reportType); // "TAKE", "RETURN", "NONE" 중 하나가 할당됨
             } catch (error) {
                 console.error(error);

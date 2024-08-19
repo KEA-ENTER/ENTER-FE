@@ -5,6 +5,8 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import getPenaltyHistory from '../../../API/user/panaltyHistory';
 import getParticipationHistory from '../../../API/user/participationHistory';
+import Button from '../../../components/user/UI/Button';
+import Loading from '../../../components/user/Loading';
 
 interface ParticipationItem {
     round: number;
@@ -24,21 +26,26 @@ interface PenaltyItem {
 export default function MyPage() {
     const navigate = useNavigate();
 
-    //데이터를 담는 state
-    const [participationHistoryState, setParticipationHistory] = useState<ParticipationItem[]>([]);
-    const [penaltyHistoryState, setPenaltyHistory] = useState<PenaltyItem[]>([]);
+    // 데이터 상태 관리
+    const [participationHistory, setParticipationHistory] = useState<ParticipationItem[]>([]);
+    const [penaltyHistory, setPenaltyHistory] = useState<PenaltyItem[]>([]);
 
-    //내역의 페이지 번호를 관리 state
+    // 페이지 상태 관리
     const [participationPage, setParticipationPage] = useState(0);
     const [penaltyPage, setPenaltyPage] = useState(0);
 
-    //더 불러올 데이터가 있는지 여부
+    // 더 불러올 데이터 여부
     const [participationHasMore, setParticipationHasMore] = useState(true);
     const [penaltyHasMore, setPenaltyHasMore] = useState(true);
 
-    //로딩 상태를 관리
-    const [participationLoading, setParticipationLoading] = useState(false);
-    const [penaltyLoading, setPenaltyLoading] = useState(false);
+    // 로딩 상태 관리
+    const [isLoading, setIsLoading] = useState({
+        participation: false,
+        penalty: false,
+    });
+
+    // 전체 로딩 상태
+    const isOverallLoading = isLoading.participation || isLoading.penalty;
 
     const participationObserver = useRef<IntersectionObserver | null>(null);
     const penaltyObserver = useRef<IntersectionObserver | null>(null);
@@ -46,6 +53,7 @@ export default function MyPage() {
     const lastParticipationElementRef = useRef<HTMLDivElement>(null);
     const lastPenaltyElementRef = useRef<HTMLDivElement>(null);
 
+    // 페널티 상세 페이지로 이동하는 함수
     const navigateToDetailPage = (penaltyId: number) => {
         navigate(`/penalty/${penaltyId}`);
     };
@@ -55,9 +63,9 @@ export default function MyPage() {
         ref: React.RefObject<HTMLDivElement>,
         setPage: React.Dispatch<React.SetStateAction<number>>,
         hasMore: boolean,
-        loading: boolean,
+        loadingKey: keyof typeof isLoading,
     ) => {
-        if (loading) return;
+        if (isLoading[loadingKey]) return;
         if (observerRef.current) observerRef.current.disconnect();
 
         observerRef.current = new IntersectionObserver((entries) => {
@@ -71,18 +79,24 @@ export default function MyPage() {
         }
     };
 
+    const logoutHandler = () => {
+        sessionStorage.clear();
+        navigate('/');
+        window.location.reload();
+    };
+
     useEffect(() => {
         const fetchParticipationHistory = async () => {
-            setParticipationLoading(true);
+            if (!participationHasMore || isLoading.participation) return;
+            setIsLoading((prev) => ({ ...prev, participation: true }));
             try {
-                const participationData = await getParticipationHistory(participationPage);
-                console.log(participationData);
-                setParticipationHistory((prev) => [...prev, ...participationData.lotteryListInfos]);
-                setParticipationHasMore(participationData.lotteryListInfos.length > 0);
-                setParticipationLoading(false);
+                const { lotteryListInfos } = await getParticipationHistory(participationPage);
+                setParticipationHistory((prev) => [...prev, ...lotteryListInfos]);
+                setParticipationHasMore(lotteryListInfos.length > 0);
             } catch (error) {
                 console.error('참여 내역을 가져오는 데 실패했습니다:', error);
-                setParticipationLoading(false);
+            } finally {
+                setIsLoading((prev) => ({ ...prev, participation: false }));
             }
         };
         fetchParticipationHistory();
@@ -90,16 +104,16 @@ export default function MyPage() {
 
     useEffect(() => {
         const fetchPenalties = async () => {
-            setPenaltyLoading(true);
+            if (!penaltyHasMore || isLoading.penalty) return;
+            setIsLoading((prev) => ({ ...prev, penalty: true }));
             try {
-                const penaltyData = await getPenaltyHistory(penaltyPage);
-                console.log('penaltyData', penaltyData);
-                setPenaltyHistory((prev) => [...prev, ...penaltyData.penaltyList]);
-                setPenaltyHasMore(penaltyData.penaltyList.length > 0);
-                setPenaltyLoading(false);
+                const { penaltyList } = await getPenaltyHistory(penaltyPage);
+                setPenaltyHistory((prev) => [...prev, ...penaltyList]);
+                setPenaltyHasMore(penaltyList.length > 0);
             } catch (error) {
                 console.error('데이터를 가져오는 데 실패했습니다:', error);
-                setPenaltyLoading(false);
+            } finally {
+                setIsLoading((prev) => ({ ...prev, penalty: false }));
             }
         };
         fetchPenalties();
@@ -111,13 +125,37 @@ export default function MyPage() {
             lastParticipationElementRef,
             setParticipationPage,
             participationHasMore,
-            participationLoading,
+            'participation',
         );
-    }, [participationLoading, participationHasMore]);
+    }, [isLoading.participation, participationHasMore]);
 
     useEffect(() => {
-        setupObserver(penaltyObserver, lastPenaltyElementRef, setPenaltyPage, penaltyHasMore, penaltyLoading);
-    }, [penaltyLoading, penaltyHasMore]);
+        setupObserver(penaltyObserver, lastPenaltyElementRef, setPenaltyPage, penaltyHasMore, 'penalty');
+    }, [isLoading.penalty, penaltyHasMore]);
+
+    const renderList = (
+        data: ParticipationItem[] | PenaltyItem[],
+        ref: React.RefObject<HTMLDivElement>,
+        renderItem: (item: ParticipationItem | PenaltyItem) => React.ReactNode,
+        clickHandler?: (item: PenaltyItem) => void,
+    ) => {
+        return data.map((item, index) => {
+            const isLastItem = index === data.length - 1;
+            return (
+                <ListContainer
+                    key={index}
+                    ref={isLastItem ? ref : null}
+                    onClick={() => clickHandler && clickHandler(item as PenaltyItem)}
+                >
+                    {renderItem(item)}
+                </ListContainer>
+            );
+        });
+    };
+
+    if (isOverallLoading) {
+        return <Loading />;
+    }
 
     return (
         <Container>
@@ -131,27 +169,16 @@ export default function MyPage() {
                     <TableHead>결과</TableHead>
                 </TableHeadContainer>
                 <ScrollableList>
-                    {participationHistoryState.map((item, index) => {
-                        if (index === participationHistoryState.length - 1) {
-                            return (
-                                <ListContainer key={index} ref={lastParticipationElementRef}>
-                                    <Items>{item.round}</Items>
-                                    <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
-                                    <Items>1 : {item.competitionRate}</Items>
-                                    <Items>{item.result}</Items>
-                                </ListContainer>
-                            );
-                        } else {
-                            return (
-                                <ListContainer key={index}>
-                                    <Items>{item.round}</Items>
-                                    <Items>{item.takeDate + ' ~ ' + item.returnDate}</Items>
-                                    <Items>1 : {item.competitionRate}</Items>
-                                    <Items>{item.result}</Items>
-                                </ListContainer>
-                            );
-                        }
-                    })}
+                    {renderList(participationHistory, lastParticipationElementRef, (item) => (
+                        <>
+                            <Items>{(item as ParticipationItem).round}</Items>
+                            <Items>
+                                {(item as ParticipationItem).takeDate + ' ~ ' + (item as ParticipationItem).returnDate}
+                            </Items>
+                            <Items>1 : {(item as ParticipationItem).competitionRate}</Items>
+                            <Items>{(item as ParticipationItem).result}</Items>
+                        </>
+                    ))}
                 </ScrollableList>
             </TableContainer>
 
@@ -163,31 +190,23 @@ export default function MyPage() {
                     <TableHead>기간</TableHead>
                 </TableHeadContainer>
                 <ScrollableList>
-                    {penaltyHistoryState.map((item, index) => {
-                        if (index === penaltyHistoryState.length - 1) {
-                            return (
-                                <ListContainer
-                                    key={index}
-                                    onClick={() => navigateToDetailPage(item.penaltyId)}
-                                    ref={lastPenaltyElementRef}
-                                >
-                                    <Items>{item.createdAt}</Items>
-                                    <Items>{item.reason}</Items>
-                                    <Items>{item.level}</Items>
-                                </ListContainer>
-                            );
-                        } else {
-                            return (
-                                <ListContainer key={index} onClick={() => navigateToDetailPage(item.penaltyId)}>
-                                    <Items>{item.createdAt}</Items>
-                                    <Items>{item.reason}</Items>
-                                    <Items>{item.level}</Items>
-                                </ListContainer>
-                            );
-                        }
-                    })}
+                    {renderList(
+                        penaltyHistory,
+                        lastPenaltyElementRef,
+                        (item) => (
+                            <>
+                                <Items>{(item as PenaltyItem).createdAt}</Items>
+                                <Items>{(item as PenaltyItem).reason}</Items>
+                                <Items>{(item as PenaltyItem).level}</Items>
+                            </>
+                        ),
+                        (item) => navigateToDetailPage(item.penaltyId),
+                    )}
                 </ScrollableList>
             </TableContainer>
+            <BottonContainer>
+                <Button onClick={logoutHandler}>로그아웃</Button>
+            </BottonContainer>
         </Container>
     );
 }
@@ -230,4 +249,9 @@ const ListContainer = styled.div`
 
 const Items = styled.div`
     font-size: 12px;
+`;
+
+const BottonContainer = styled.div`
+    width: 100%;
+    text-align: center;
 `;

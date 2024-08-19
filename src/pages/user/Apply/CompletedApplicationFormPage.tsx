@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/user/UI/Button';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Title from '../../../components/user/UI/Title';
+import Loading from '../../../components/user/Loading';
 
 import getDetail from '../../../API/user/getDetail';
 import deleteApplication from '../../../API/user/deleteApplication';
@@ -14,26 +15,12 @@ import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
 export default function CompletedApplicationForm() {
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const [date, setDate] = useState<string>('');
     const [purpose, setPurpose] = useState<string>('');
     const [selectedCar, setSelectedCar] = useState<string>('');
     const [applyId, setApplyId] = useState<number>();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const getDetailResponse = await getDetail();
-                setApplyId(getDetailResponse.applyId);
-                setDate(getDetailResponse.takeDate);
-                setPurpose(getDetailResponse.purpose);
-                setSelectedCar(getDetailResponse.model);
-            } catch (error) {
-                console.error('데이터를 가져오는 데 실패했습니다:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const deleteHandler = async () => {
         console.log('deleteHandler');
@@ -49,6 +36,29 @@ export default function CompletedApplicationForm() {
             }
         }
     };
+
+    useEffect(() => {
+        setIsLoading(true);
+        const fetchData = async () => {
+            try {
+                const getDetailResponse = await getDetail();
+                setApplyId(getDetailResponse.applyId);
+                setDate(getDetailResponse.takeDate);
+                setPurpose(getDetailResponse.purpose);
+                setSelectedCar(getDetailResponse.model);
+            } catch (error) {
+                console.error('데이터를 가져오는 데 실패했습니다:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <Container>

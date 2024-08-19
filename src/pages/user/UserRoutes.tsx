@@ -26,6 +26,7 @@ import checkLicenseValidation from '../../API/user/checkLicenseValidation';
 
 // Hook
 import useAutoRouting from '../../utils/useAutoRouting';
+import NotFoundPage from '../../components/common/NotFoundPage';
 
 const UserRoutes = () => {
     const navigate = useNavigate();
@@ -37,8 +38,6 @@ const UserRoutes = () => {
         const fetchRouting = async () => {
             try {
                 const userStatusResponse = await checkUserStatus();
-
-                console.log('userStatusResponse: ', userStatusResponse);
 
                 switch (userStatusResponse.code) {
                     case 'MEM-001':
@@ -63,9 +62,10 @@ const UserRoutes = () => {
                     }
 
                     case 'MEM-004':
-                        await autoRoutingFunc();
+                        if (!autoRoutingPage) {
+                            await autoRoutingFunc();
+                        }
                         break;
-
                     default:
                         console.error('알 수 없는 사용자 상태 코드:', userStatusResponse.code);
                 }
@@ -73,7 +73,7 @@ const UserRoutes = () => {
                 console.error('API 요청 중 오류가 발생했습니다:', error);
             }
         };
-
+        
         fetchRouting();
     }, []);
 
@@ -95,6 +95,7 @@ const UserRoutes = () => {
                 <Route path="rent/:page" element={<RentPage />} />
                 <Route path="return/:page" element={<ReturnPage />} />
                 <Route path="statistics" element={<StatisticsPage />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
     );

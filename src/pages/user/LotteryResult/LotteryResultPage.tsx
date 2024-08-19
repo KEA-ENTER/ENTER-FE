@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../../components/user/UI/Button';
 import congratulation from '../../../img/icon/congratulation.png';
@@ -7,17 +8,22 @@ import getResult from '../../../API/user/getResult';
 import Loading from '../../../components/user/Loading';
 
 export default function LotteryResultPage() {
+    const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [state, setState] = useState<boolean>();
     const [watting, setWatting] = useState<number | null>();
+
+    const toDetail = () => {
+        navigate('/detail');
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
                 const data = await getResult();
-                console.log(data);
                 setState(data.winning);
                 setWatting(data.waitingNumber);
             } catch (error) {
@@ -41,7 +47,7 @@ export default function LotteryResultPage() {
                 <Message>차량 추첨에 당첨됐어요!</Message>
                 <div>신청 날짜에 차량을 인수해주세요</div>
                 <div>
-                    <Button>신청내역</Button>
+                    <Button onClick={toDetail}>신청내역</Button>
                     <Button>신청취소</Button>
                 </div>
             </Container>
