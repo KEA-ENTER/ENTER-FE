@@ -129,14 +129,14 @@ const VehicleList: React.FC = () => {
                 <>
                     <Table>
                         <thead>
-                            <TableRow>  
+                            <TableTitle>  
                                 <TableHeader></TableHeader>
                                 <TableHeader>모델</TableHeader>
                                 <TableHeader>차량 번호</TableHeader>
                                 <TableHeader>수용 가능 인원</TableHeader>
                                 <TableHeader>상태</TableHeader>
                                 <TableHeader></TableHeader>
-                            </TableRow>
+                            </TableTitle>
                         </thead>
                         <tbody>
                             {vehicleData.map((item) => (
@@ -210,8 +210,15 @@ const Table = styled.table`
     overflow: hidden;
 `;
 
+const TableTitle = styled.tr`
+    border-bottom: solid 1px #686868;
+`;
+
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
+    &:hover {
+        background: rgba(220, 220, 220, 0.6);
+    }
 `;
 
 const TableHeader = styled.td`

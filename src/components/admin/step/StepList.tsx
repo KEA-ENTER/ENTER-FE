@@ -69,13 +69,13 @@ const StepList: React.FC = () => {
                 <>
                     <Table>
                         <thead>
-                            <TableRow>
+                            <TableTitle>
                                 <TableHeaderDetail>차량 정보</TableHeaderDetail>
                                 <TableHeaderDetail>인수 기간</TableHeaderDetail>
                                 <TableHeader>인수자명</TableHeader>
                                 <TableHeader>상태</TableHeader>
                                 <TableHeaderDetail></TableHeaderDetail>
-                            </TableRow>
+                            </TableTitle>
                         </thead>
                         <tbody>
                             {stepData.map((item, idx) => (
@@ -134,9 +134,16 @@ const Table = styled.table`
     overflow: hidden;
 `;
 
+const TableTitle = styled.tr`
+    border-bottom: solid 1px #686868;
+`;
+
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
     height: 60px;
+    &:hover {
+        background: rgba(220, 220, 220, 0.6);
+    }
 `;
 
 const TableHeader = styled.td`

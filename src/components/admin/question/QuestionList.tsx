@@ -71,13 +71,13 @@ export default function QuestionList () {
         <Container>
             <Table>
                 <thead>
-                    <TableRow>
+                    <TableTitle>
                         <TableHeader>카테고리</TableHeader>
                         <TableHeaderDetail>내용</TableHeaderDetail>
                         <TableHeader>상태</TableHeader>
                         <TableHeader>작성자</TableHeader>
                         <TableHeader>날짜</TableHeader>
-                    </TableRow>
+                    </TableTitle>
                 </thead>
                 <tbody>
                     {questionData.map((item) => (
@@ -108,9 +108,16 @@ const Table = styled.table`
     overflow: hidden;
 `;
 
+const TableTitle = styled.tr`
+    border-bottom: solid 1px #686868;
+`;
+
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
     height: 60px;
+    &:hover {
+        background: rgba(220, 220, 220, 0.6);
+    }
 `;
 
 const TableHeader = styled.td`

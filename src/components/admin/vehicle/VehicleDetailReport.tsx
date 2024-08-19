@@ -59,7 +59,6 @@ const Table = styled.table`
 `;
 
 const TableRow = styled.tr`
-
 `;
 
 const TableHeader = styled.td`

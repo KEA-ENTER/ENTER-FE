@@ -70,7 +70,7 @@ const LotteryList: React.FC = () => {
                 <>
                     <Table>
                         <thead>
-                            <TableRow>
+                            <TableTitle>
                                 <TableHeader>회차</TableHeader>
                                 <TableHeaderDetail>인수 기간</TableHeaderDetail>
                                 <TableHeaderDetail>차량 정보</TableHeaderDetail>
@@ -78,7 +78,7 @@ const LotteryList: React.FC = () => {
                                 <TableHeader>당첨자 수</TableHeader>
                                 <TableHeader>미인수자 수</TableHeader>
                                 <TableHeader>경쟁률</TableHeader>
-                            </TableRow>
+                            </TableTitle>
                         </thead>
                         <tbody>
                             {lotteryData.map((item, idx) => (
@@ -122,20 +122,27 @@ const Table = styled.table`
     overflow: hidden;
 `;
 
+const TableTitle = styled.tr`
+    border-bottom: solid 1px #686868;
+`;
+
 const TableRow = styled.tr`
     border-bottom: solid 1px #686868;
     height: 60px;
+    &:hover {
+        background: rgba(220, 220, 220, 0.6);
+    }
 `;
 
 const TableHeader = styled.td`
     font-style: none;
     padding: 10px;
     text-align: center;
-    width: 11%;
+    width: 12%;
 `;
 
 const TableHeaderDetail = styled(TableHeader)`
-    width: 22.5%;
+    width: 20%;
 `;
 
 const TableCell = styled.td`
@@ -148,5 +155,5 @@ const TableCell = styled.td`
 
 const TableCellDetail = styled(TableCell)`
     width: 20%;
-    font-size: 13px;
+    font-size: 12px;
 `;

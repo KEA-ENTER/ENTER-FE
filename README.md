@@ -28,7 +28,7 @@ git clone https://github.com/KEA-ENTER/ENTER-FE.git
 프로젝트 디렉토리로 이동한 후, npm을 사용하여 필요한 종속성을 설치합니다:
 
 ```bash
-cd ENTER_FE
+cd ENTER-FE
 npm install
 ```
 
