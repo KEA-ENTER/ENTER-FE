@@ -18,7 +18,7 @@ export const fetchCompetitionData = async () => {
     }
 };
 
-export const fetchWaitingData = async () => {
+export const fetchCancelData = async () => {
     try {
         const response = await axios.get(`${BASE_URL}/lotteries/average-waiting-numbers`, {
             headers: {

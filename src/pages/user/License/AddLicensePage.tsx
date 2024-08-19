@@ -5,7 +5,7 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Section from '../../../components/user/UI/Section';
 import Button from '../../../components/user/UI/Button';
-import Modal from '../../../components/user/UI/Modal'; // 모달 컴포넌트 불러오기
+import Modal from '../../../components/user/UI/PersonalInfoModal'; // 모달 컴포넌트 불러오기
 import { useNavigate } from 'react-router-dom';
 import addLicense from '../../../API/user/addLicense';
 import autoRouting from '../../../API/user/autoRouting';

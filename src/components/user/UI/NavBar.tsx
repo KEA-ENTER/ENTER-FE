@@ -82,7 +82,6 @@ export default function NavBar() {
                 <Img alt="통계 아이콘" src={통계} />
                 <Title $isHighlighted={activePage === 'statistics'}>통계</Title>
             </Button>
-
             {reportType === 'TAKE' && (
                 <Button onClick={() => handleNavigation('/rent/1')}>
                     <KeyImg>

@@ -9,11 +9,15 @@ import Button from '../../../components/user/UI/Button';
 import RadioButtonOption from '../../../components/user/Apply/RadioButtonOption';
 import CarOption from '../../../components/user/Apply/CarOption';
 import FinishedPage from './FinishedPage';
+import Loading from '../../../components/user/Loading';
 
 import getAppliesDate from '../../../API/user/getAppliesDate';
 import getAbleVehicle from '../../../API/user/getAbleVehicle';
 import applyVehicel from '../../../API/user/applyVehicel';
-import Loading from '../../../components/user/Loading';
+import getDetail from '../../../API/user/getDetail';
+import patchApplyVehicel from '../../../API/user/patchApplyVehicel';
+
+import useAutoRouting from '../../../utils/useAutoRouting';
 
 interface Car {
     company: string;
@@ -35,8 +39,11 @@ interface DateOption {
 
 export default function ApplicationFormPage() {
     const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting();
 
-    const [next, setNext] = useState<boolean>(false);
+    const [next, setNext] = useState<boolean>(false); //다음 페이지 전환
+
+    const [pastApplyId, setPastApplyId] = useState();
 
     const [purpose, setPurpose] = useState<string>('TRAVEL'); // 사용 목적
     const [selectedDate, setSelectedDate] = useState<DateOption | null>(null); // 탑승일
@@ -52,8 +59,11 @@ export default function ApplicationFormPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dateResponse = await getAppliesDate(); // API 호출 함수 사용
-                console.log(dateResponse);
+                const getDetailResponse = await getDetail(); //이전에 신청한 신청서가 있는지 확인
+                if (getDetailResponse != null) {
+                    setPastApplyId(getDetailResponse.applyId); //이전에 신청한 신청서 ID 저장
+                }
+                const dateResponse = await getAppliesDate(); // 신청 가능 일자 호출 API
                 setDates(dateResponse);
             } catch (error) {
                 console.error('Error fetching dates:', error);
@@ -80,11 +90,9 @@ export default function ApplicationFormPage() {
             setIsDataLoaded(false); // 로딩 시작
             if (selectedDate) {
                 const vehicleResponse = await getAbleVehicle(selectedDate.takeDate, selectedDate.returnDate);
-                console.log('vehicleResponse', vehicleResponse);
                 setCars(vehicleResponse || []);
             }
         } catch (error) {
-            console.error('차량 정보를 불러오는 중 오류가 발생했습니다.');
             setCars([]);
         } finally {
             setIsDataLoaded(true); // 로딩 종료
@@ -99,26 +107,31 @@ export default function ApplicationFormPage() {
         }
 
         if (!selectedDate || !purpose || !selectedCar) {
-            console.log('모든 항목을 선택해 주세요.');
+            alert('모든 항목을 선택해 주세요.');
             return;
         }
         setIsDataLoaded(false);
         try {
-            // 차량 신청 API 호출
-            const response = await applyVehicel(applyRoundId as number, purpose);
-            console.log('차량 신청 응답:', response);
+            // 차량 신청 API
+            let response;
+            if (pastApplyId) {
+                //이전 신청 내역이 있을 경우
+                response = await patchApplyVehicel(pastApplyId, applyRoundId as number, purpose);
+            } else {
+                //이전 신청 내역이 없을 경우
+                response = await applyVehicel(applyRoundId as number, purpose);
+            }
 
             if (response.code === 'APPLY-001') {
                 alert('만 26세 이하는 이용이 불가능합니다.');
                 navigate('/mypage');
                 return;
             }
-
-            // 신청 완료 후 다음 단계로 이동
         } catch (error) {
             console.error('차량 신청 중 오류가 발생했습니다.', error);
             return;
         } finally {
+            autoRoutingFunc();
             setFinished(true);
             setIsDataLoaded(true);
         }
@@ -130,7 +143,6 @@ export default function ApplicationFormPage() {
     return (
         <Container>
             <Title title="차량 신청" />
-
             {!next ? (
                 <>
                     <SubTitle subTitle="탑승일을 선택해주세요." />
