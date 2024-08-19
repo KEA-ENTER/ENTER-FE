@@ -32,6 +32,7 @@ const VehicleList: React.FC = () => {
     const [selectedId, setSelectedId] = useState<number | null>(null);
     const navigate = useNavigate();
     const [alertModal, setAlertModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
@@ -83,6 +84,7 @@ const VehicleList: React.FC = () => {
                 setConfirmModal(true);
             } else { // API 호출 오류로 삭제에 실패했을 때
                 setAlertModal(false);
+                setErrorModal(true);
             }
             setSelectedId(null);
             setSelectedVehicle(null);
@@ -103,6 +105,12 @@ const VehicleList: React.FC = () => {
         window.location.reload();
     };
 
+    const closeErrorModal = () => {
+        setErrorModal(false);
+        window.location.reload();
+    }
+
+    // 차량 더보기 메뉴
     const openMenu = (id: number) => {
         setSelectedId(id);
         setIsMenuOpen(true);
@@ -113,6 +121,7 @@ const VehicleList: React.FC = () => {
         setSelectedId(null);
     };
 
+    // 리스트 아이템 클릭 시 차량 상세보기 페이지로 이동한다.
     const goDetailPage = (id: number) => {
         navigate(`detail/${id}`);
     };
@@ -184,6 +193,13 @@ const VehicleList: React.FC = () => {
                             title="삭제되었습니다."
                             description=""
                             onClose={closeConfirmModal}
+                        />
+                    )}
+                    {errorModal && (
+                        <Modal
+                            title='차량 삭제에 실패했습니다.'
+                            description='예기치 못한 서버 문제가 발생했습니다.'
+                            onClose={closeErrorModal} 
                         />
                     )}
                     {loading && (
