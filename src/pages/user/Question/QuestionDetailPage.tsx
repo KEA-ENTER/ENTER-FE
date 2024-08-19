@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Title from '../../../components/user/UI/Title';
-import Button from '../../../components/user/UI/Button'; // Button 컴포넌트 추가
+import Button from '../../../components/user/UI/Button';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import BackButton from '../../../components/user/UI/BackButton';
+import Loading from '../../../components/user/Loading'; // Loading 컴포넌트 추가
 
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -15,6 +16,7 @@ export default function QuestionDetailPage() {
     const [answerContent, setAnswerContent] = useState<string>('');
     const [myQuestion, setMyQuestion] = useState<boolean>(false);
     const [questionAuthor, setQuestionAuthor] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태 추가
     const { id } = useParams();
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
@@ -22,8 +24,8 @@ export default function QuestionDetailPage() {
     const getCategoryText = (category: string) => {
         if (category === 'USER') return '사용자';
         else if (category === 'SERVICE') return '서비스';
-        else if (category == 'VEHICLE') return '차량 문의';
-        else if (category == 'ETC') return '기타';
+        else if (category === 'VEHICLE') return '차량 문의';
+        else if (category === 'ETC') return '기타';
         else return '';
     };
 
@@ -61,15 +63,20 @@ export default function QuestionDetailPage() {
             setContent(response.data.questionContent);
             setAnswerContent(response.data.answerContent);
             setMyQuestion(response.data.myQuestion);
+            setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 해제
         } catch (error) {
             console.error('API 요청 실패:', error);
-            throw error;
+            setIsLoading(false); // 에러 발생 시에도 로딩 상태 해제
         }
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    if (isLoading) {
+        return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
+    }
 
     return (
         <Container>
@@ -89,7 +96,7 @@ export default function QuestionDetailPage() {
                     <TextBox>{answerContent}</TextBox>
                 </>
             ) : (
-                myQuestion && ( // myQuestion이 true일 때만 버튼을 보여줌
+                myQuestion && (
                     <ButtonContainer>
                         <Button onClick={handleModifyClick}>수정하기</Button>
                         <Button onClick={handleDeleteClick}>삭제하기</Button>
@@ -126,7 +133,7 @@ const Author = styled.div`
 
 const AuthorBox = styled.div`
     display: flex;
-    justify-content: space-btween;
+    justify-content: space-between;
     align-items: center;
 `;
 

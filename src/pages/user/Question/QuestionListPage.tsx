@@ -7,6 +7,7 @@ import Input from '../../../components/user/UI/Input';
 import DateString from '../../../components/admin/basic/DateString';
 import Pagination from '../../../components/admin/basic/Pagination';
 import questionsList from '../../../API/user/questionsList';
+import Loading from '../../../components/user/Loading';
 
 interface QuestionItem {
     questionId: number;
@@ -34,6 +35,7 @@ export default function QuestionListPage() {
     const [debouncedInput, setDebouncedInput] = useState<string>(userInput);
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
     const [totalPage, setTotalPage] = useState(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태 추가
 
     const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ export default function QuestionListPage() {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedInput(userInput);
-        }, 300); // 300ms 딜레이 (필요에 따라 조정 가능)
+        }, 300);
 
         return () => {
             clearTimeout(handler);
@@ -56,15 +58,18 @@ export default function QuestionListPage() {
     }, [userInput]);
 
     const fetchData = () => {
+        setIsLoading(true);
         const pageNum = parseInt(page);
         questionsList(pageNum - 1, category, debouncedInput)
             .then((data) => {
                 console.log(data);
                 setQuestions(data.questions);
                 setTotalPage(data.totalPages);
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.error('Failed to fetch questions:', error);
+                setIsLoading(false);
             });
     };
 
@@ -87,6 +92,10 @@ export default function QuestionListPage() {
     const goQuestionWrite = () => {
         navigate(`/write`);
     };
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <Container>
