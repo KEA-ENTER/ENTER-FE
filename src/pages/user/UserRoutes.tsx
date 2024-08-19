@@ -32,7 +32,7 @@ import NotFoundPage from '../../components/common/NotFoundPage';
 const UserRoutes = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { autoRoutingFunc } = useAutoRouting(); // 커스텀 훅 사용
+    const { autoRoutingFunc } = useAutoRouting();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -43,7 +43,6 @@ const UserRoutes = () => {
             setIsLoading(true);
             try {
                 const userStatusResponse = await checkUserStatus();
-                console.log('userStatusResponse: ', userStatusResponse);
 
                 switch (userStatusResponse.code) {
                     case 'MEM-001':

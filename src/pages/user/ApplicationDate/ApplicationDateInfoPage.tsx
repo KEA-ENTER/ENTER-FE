@@ -4,6 +4,8 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Button from '../../../components/user/UI/Button';
 
+
+//서비스 이용일 안내 페이지
 export default function ApplicationDateInfoPage() {
     const navigate = useNavigate();
 

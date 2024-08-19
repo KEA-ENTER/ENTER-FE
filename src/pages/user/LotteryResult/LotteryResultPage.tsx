@@ -9,74 +9,81 @@ import getDetail from '../../../API/user/getDetail';
 import Loading from '../../../components/user/Loading';
 import deleteApplication from '../../../API/user/deleteApplication';
 import useAutoRouting from '../../../utils/useAutoRouting';
-import Modal from '../../../components/user/UI/CancelMonal'; // 모달 컴포넌트 경로에 맞게 수정
+import Modal from '../../../components/user/UI/CancelMonal';
 
 export default function LotteryResultPage() {
     const navigate = useNavigate();
     const { autoRoutingFunc } = useAutoRouting();
 
+    // State 관리
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [winning, setWinning] = useState<boolean>();
     const [watting, setWatting] = useState<number | null>();
     const [applyId, setApplyId] = useState<number>();
 
-    const [showModal, setShowModal] = useState<boolean>(false); // 모달 표시 상태
+    const [showModal, setShowModal] = useState<boolean>(false);
 
+    // 신청 내역 페이지로 이동
     const toDetail = () => {
         navigate('/detail');
     };
 
+    // 다음 신청일 확인 페이지로 이동
     const toDateInfo = () => {
         navigate('/date-info');
     };
 
+    // 신청 취소
     const handleCancel = () => {
         setShowModal(true); // 모달 표시
     };
 
+    // 모달 닫기 핸들러
+    const closeModal = () => {
+        setShowModal(false); // 모달 숨기기
+    };
+
+    // 모달에서 취소 확인 버튼 클릭 시 호출
     const confirmCancel = async () => {
-        setIsLoading(true);
+        setIsLoading(true); // 로딩 상태 활성화
         setShowModal(false); // 모달 숨기기
         try {
             if (typeof applyId === 'number') {
                 try {
-                    await deleteApplication(applyId);
+                    await deleteApplication(applyId); // 신청 삭제 API 호출
                 } catch {
-                    alert('삭제 실패했습니다.');
+                    alert('삭제 실패했습니다.'); // 삭제 실패 시 경고 메시지
                 } finally {
-                    await autoRoutingFunc();
+                    await autoRoutingFunc(); // 삭제 후 자동 라우팅
                 }
             }
         } catch (error) {
             console.log(error);
         } finally {
-            setIsLoading(false);
+            setIsLoading(false); // 로딩 상태 비활성화
         }
-    };
-
-    const closeModal = () => {
-        setShowModal(false); // 모달 숨기기
     };
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
+            setIsLoading(true); // 로딩 상태 활성화
             try {
-                const resultData = await getResult();
-                setWinning(resultData.winning);
-                setWatting(resultData.waitingNumber);
-                const detailData = await getDetail();
-                setApplyId(detailData.applyId);
+                const resultData = await getResult(); // 추첨 결과 데이터 호출
+                setWinning(resultData.winning); // 당첨 여부 설정
+                setWatting(resultData.waitingNumber); // 대기 번호 설정
+                const detailData = await getDetail(); // 신청 내역 데이터 호출
+                setApplyId(detailData.applyId); // 신청 ID 설정
             } catch (error) {
-                console.error('Error fetching lottery result:', error);
+                console.error('Error fetching lottery result:', error); // 오류 발생 시 콘솔에 로그
             } finally {
-                setIsLoading(false);
+                setIsLoading(false); // 로딩 상태 비활성화
             }
         };
 
-        fetchData();
+        fetchData(); // 데이터 가져오기 함수 호출
     }, []);
 
+    // 데이터 로딩 중일 때 로딩 컴포넌트 표시
     if (isLoading) {
         return <Loading />;
     }

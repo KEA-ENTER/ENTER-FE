@@ -24,33 +24,32 @@ interface PenaltyItem {
     reason: string;
 }
 
-// MyPage 컴포넌트 정의
 export default function MyPage() {
-    const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
+    const navigate = useNavigate();
 
-    // 참여 내역과 페널티 내역을 관리하는 state들
+    // 참여 내역과 페널티 내역을 관리하는 State
     const [participationHistory, setParticipationHistory] = useState<ParticipationItem[]>([]);
     const [penaltyHistory, setPenaltyHistory] = useState<PenaltyItem[]>([]);
 
-    // 페이지 번호를 관리하는 state들
+    // 페이지 번호를 관리하는 State
     const [participationPage, setParticipationPage] = useState(0);
     const [penaltyPage, setPenaltyPage] = useState(0);
 
-    // 추가로 불러올 데이터가 있는지 여부를 관리하는 state들
+    // 추가로 불러올 데이터가 있는지 여부를 관리하는 State
     const [participationHasMore, setParticipationHasMore] = useState(true);
     const [penaltyHasMore, setPenaltyHasMore] = useState(true);
 
-    // 데이터 로딩 상태를 관리하는 state들
+    // 데이터 로딩 상태를 관리하는 State
     const [isLoading, setIsLoading] = useState({
         participation: false,
         penalty: false,
     });
 
-    // 옵저버와 관련된 ref들
+    // 옵저버와 관련된 ref
     const participationObserver = useRef<IntersectionObserver | null>(null);
     const penaltyObserver = useRef<IntersectionObserver | null>(null);
 
-    // 마지막 요소를 참조하기 위한 ref들
+    // 마지막 요소를 참조하기 위한 ref
     const lastParticipationElementRef = useRef<HTMLDivElement>(null);
     const lastPenaltyElementRef = useRef<HTMLDivElement>(null);
 
@@ -158,7 +157,7 @@ export default function MyPage() {
                     ref={isLastItem ? ref : null} // 마지막 요소에 ref 설정
                     onClick={() => clickHandler && clickHandler(item as PenaltyItem)} // 클릭 핸들러가 있으면 실행
                 >
-                    {renderItem(item)} {/* 항목을 렌더링 */}
+                    {renderItem(item)}
                 </ListContainer>
             );
         });

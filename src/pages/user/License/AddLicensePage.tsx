@@ -5,70 +5,76 @@ import Title from '../../../components/user/UI/Title';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Section from '../../../components/user/UI/Section';
 import Button from '../../../components/user/UI/Button';
-import Modal from '../../../components/user/UI/PersonalInfoModal'; // 모달 컴포넌트 불러오기
-import { useNavigate } from 'react-router-dom';
+import Loading from '../../../components/user/Loading';
+import Modal from '../../../components/user/UI/PersonalInfoModal';
 import addLicense from '../../../API/user/addLicense';
-import autoRouting from '../../../API/user/autoRouting';
-import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
+import useAutoRouting from '../../../utils/useAutoRouting';
 
 export default function AddLicensePage() {
-    const [licenseCode, setLicenseCode] = useState<string>('');
-    const [licensePassword, setLicensePassword] = useState<string>('');
-    const [personalInfoAgree, setPersonalInfoAgree] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [showModal, setShowModal] = useState<boolean>(false); // 모달 표시 여부 상태
-    const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting(); // 자동 라우팅 커스텀 훅
 
+    const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 관리
+    const [licenseCode, setLicenseCode] = useState<string>(''); // 면허증 코드 입력 관리
+    const [licensePassword, setLicensePassword] = useState<string>(''); // 암호 일련번호 입력 관리
+    const [personalInfoAgree, setPersonalInfoAgree] = useState<boolean>(false); // 개인정보 처리 방침 동의 여부 관리
+    const [errorMessage, setErrorMessage] = useState<string>(''); // 오류 메시지 관리
+    const [showModal, setShowModal] = useState<boolean>(false); // 개인정보 처리 방침 모달 표시 여부 관리
+
+    // 면허증 코드 입력 핸들러
     const handleLicenseCode = (event: ChangeEvent<HTMLInputElement>) => {
         setLicenseCode(event.target.value);
     };
 
+    // 암호 일련번호 입력 핸들러
     const handleLicensePassword = (event: ChangeEvent<HTMLInputElement>) => {
         setLicensePassword(event.target.value);
     };
 
+    // 개인정보 처리 방침 동의 체크박스 핸들러
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
         setPersonalInfoAgree(event.target.checked);
     };
 
+    // 개인정보 처리 방침 모달 표시 핸들러
     const handlePersonalInfoDiscClick = () => {
-        setShowModal(true); // 모달을 표시
+        setShowModal(true);
     };
 
+    // 개인정보 처리 방침 모달 닫기 핸들러
     const handleCloseModal = () => {
-        setShowModal(false); // 모달을 닫음
+        setShowModal(false);
     };
 
+    // "다음" 버튼 클릭 핸들러
     const handleButtonClick = async () => {
         if (!personalInfoAgree) {
             alert('개인정보 처리 방침에 동의해주세요.');
             return;
         }
-        try {
-            
-            const response = await addLicense(licenseCode, licensePassword);
 
-            console.log('response', response);
+        setIsLoading(true); // 로딩 상태로 전환
+        try {
+            const response = await addLicense(licenseCode, licensePassword); // 면허증 등록 API 호출
 
             if (response === 'SUCCESS') {
-                const autoRoutingPage = sessionStorage.getItem('autoRoutingPage');
-
-                if (autoRoutingPage === null) {
-                    const autoRoutingResponse = await autoRouting();
-                    console.log('autoRoutingResponse: ', autoRoutingResponse);
-
-                    sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
-                    navigateBasedOnRoutingId(autoRoutingResponse.routingId, navigate);
-                }
+                autoRoutingFunc(); // 성공 시 자동 라우팅
             } else {
-                setErrorMessage('입력한 정보를 다시 확인해주세요.');
+                setErrorMessage('입력한 정보를 다시 확인해주세요.'); // 오류 메시지 설정
             }
         } catch (error) {
-            setErrorMessage('서버와의 통신 중 오류가 발생했습니다.');
+            setErrorMessage('서버와의 통신 중 오류가 발생했습니다.'); // 서버 통신 오류 처리
+        } finally {
+            setIsLoading(false); // 로딩 상태 해제
         }
     };
 
+    // 버튼 비활성화 조건 설정
     const isButtonDisabled = licenseCode === '' || licensePassword === '' || !personalInfoAgree;
+
+    // 로딩 중일 때 로딩 컴포넌트 표시
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <Container>
@@ -88,11 +94,11 @@ export default function AddLicensePage() {
                         <CheckBox type="checkbox" checked={personalInfoAgree} onChange={handleCheckboxChange} />
                         <PersonalInfoDisc onClick={handlePersonalInfoDiscClick}>
                             개인정보 처리 방침에 동의합니다.
-                        </PersonalInfoDisc>
+                        </PersonalInfoDisc>{' '}
                     </PersonalInfoBox>
                     <Button onClick={handleButtonClick} disabled={isButtonDisabled}>
                         다음
-                    </Button>
+                    </Button>{' '}
                 </ButtonContainer>
             </Section>
             <Modal show={showModal} handleClose={handleCloseModal}>
