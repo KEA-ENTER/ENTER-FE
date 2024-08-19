@@ -4,7 +4,7 @@ import SubTitle from '../../../components/user/UI/SubTitle';
 import { useEffect, useState } from 'react';
 import CompetitionGraph from '../../../components/user/Statistics/CompetitionGraph';
 import WaitingGraph from '../../../components/user/Statistics/WaitingGraph';
-import { fetchCompetitionData, fetchWaitingData, fetchPercentage } from '../../../API/user/getStatistic';
+import { fetchCompetitionData, fetchCancelData, fetchPercentage } from '../../../API/user/getStatistic';
 import Loading from '../../../components/user/Loading';
 
 interface Competition {
@@ -20,7 +20,7 @@ interface Waiting {
 export default function StatisticsPage() {
     const [compData, setCompData] = useState<Competition[]>([]);
     const [percentage, setPercentage] = useState<string>('100');
-    const [waitData, setWaitData] = useState<Waiting[]>([]);
+    const [cancelData, setCancelData] = useState<Waiting[]>([]);
     const [isLoading, setIsloading] = useState<boolean>(false);
 
     const name = sessionStorage.getItem('userName');
@@ -43,8 +43,8 @@ export default function StatisticsPage() {
             }
 
             try {
-                const waitingData = await fetchWaitingData();
-                setWaitData(waitingData);
+                const cancelData = await fetchCancelData();
+                setCancelData(cancelData);
             } catch (error) {
                 console.error('Error fetching waiting data:', error);
             } finally {
@@ -66,9 +66,17 @@ export default function StatisticsPage() {
             <GraphContainer>
                 <SubTitle subTitle="회차별 경쟁률" />
 
-                {compData.length > 0 ? <CompetitionGraph data={compData} /> : <div>경쟁률 데이터가 없습니다.</div>}
+                {compData.length > 0 ? (
+                    <CompetitionGraph data={compData} />
+                ) : (
+                    <div>회차별 경쟁률 데이터가 없습니다.</div>
+                )}
                 <SubTitle subTitle="회차별 평균 취소 비율" />
-                {waitData.length > 0 ? <WaitingGraph data={waitData} /> : <div>대기 수 데이터가 없습니다.</div>}
+                {cancelData.length > 0 ? (
+                    <WaitingGraph data={cancelData} />
+                ) : (
+                    <div>회차별 평균 취소 비율 데이터가 없습니다.</div>
+                )}
             </GraphContainer>
         </Container>
     );

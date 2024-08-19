@@ -1,19 +1,20 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import styled from 'styled-components';
 import Button from '../../../components/user/UI/Button';
 import SubTitle from '../../../components/user/UI/SubTitle';
 import Title from '../../../components/user/UI/Title';
 import Loading from '../../../components/user/Loading';
 
 import getDetail from '../../../API/user/getDetail';
+import getResult from '../../../API/user/getResult';
 import deleteApplication from '../../../API/user/deleteApplication';
-import autoRouting from '../../../API/user/autoRouting';
-import navigateBasedOnRoutingId from '../../../utils/navigateOnRoutingId';
+import useAutoRouting from '../../../utils/useAutoRouting';
 
 export default function CompletedApplicationForm() {
     const navigate = useNavigate();
+    const { autoRoutingFunc } = useAutoRouting();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -22,25 +23,35 @@ export default function CompletedApplicationForm() {
     const [selectedCar, setSelectedCar] = useState<string>('');
     const [applyId, setApplyId] = useState<number>();
 
+    const [disableEdit, setDisableEdit] = useState<boolean>(false);
+
     const deleteHandler = async () => {
-        console.log('deleteHandler');
         if (applyId != null) {
+            setIsLoading(true);
             try {
-                const deleteResponse = await deleteApplication(applyId);
-                console.log(deleteResponse);
-                const autoRoutingResponse = await autoRouting();
-                sessionStorage.setItem('autoRoutingPage', autoRoutingResponse.routingId.toString());
-                navigateBasedOnRoutingId(Number(sessionStorage.getItem('autoRoutingPage')), navigate);
+                await deleteApplication(applyId);
+                await autoRoutingFunc();
             } catch (error) {
                 console.error('삭제 실패:', error);
+            } finally {
+                setIsLoading(false);
             }
         }
+    };
+
+    const toApply = () => {
+        navigate('/application');
     };
 
     useEffect(() => {
         setIsLoading(true);
         const fetchData = async () => {
             try {
+                const resultData = await getResult();
+
+                // 데이터가 정상적으로 반환된 경우
+                const hasData = resultData.winning || resultData.waitingNumber !== null;
+                setDisableEdit(hasData);
                 const getDetailResponse = await getDetail();
                 setApplyId(getDetailResponse.applyId);
                 setDate(getDetailResponse.takeDate);
@@ -73,7 +84,9 @@ export default function CompletedApplicationForm() {
             <TextBox>{selectedCar}</TextBox>
 
             <ButtonContainer>
-                <Button>신청 수정</Button>
+                <Button onClick={toApply} disabled={disableEdit}>
+                    신청 수정
+                </Button>
                 <Button onClick={deleteHandler}>신청 취소</Button>
             </ButtonContainer>
         </Container>
