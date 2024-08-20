@@ -115,7 +115,7 @@ pipeline {
                             sudo docker pull ${FRONTEND_CR_ADDRESS}frontend:latest &&
                             sudo docker stop app || true &&
                             sudo docker rm app || true &&
-                            sudo docker run -d --name app -p ${FRONTEND_APP_PORT}:${FRONTEND_APP_PORT} ${FRONTEND_CR_ADDRESS}frontend:latest
+                            sudo docker run -d --name app -e VITE_SERVER_URL=${VITE_SERVER_URL} -p ${FRONTEND_APP_PORT}:${FRONTEND_APP_PORT} ${FRONTEND_CR_ADDRESS}frontend:latest
                             '
                         """
                     }
@@ -162,7 +162,7 @@ pipeline {
                             sudo docker pull ${FRONTEND_CR_ADDRESS}frontend:latest &&
                             sudo docker stop app || true &&
                             sudo docker rm app || true &&
-                            sudo docker run -d --name app -p ${FRONTEND_APP_PORT}:${FRONTEND_APP_PORT} ${FRONTEND_CR_ADDRESS}frontend:latest
+                            sudo docker run -d --name app -e VITE_SERVER_URL=${VITE_SERVER_URL} -p ${FRONTEND_APP_PORT}:${FRONTEND_APP_PORT} ${FRONTEND_CR_ADDRESS}frontend:latest
                             '
                         """
                     }
@@ -191,7 +191,3 @@ pipeline {
         }
     }
 }
-
-
-
-
