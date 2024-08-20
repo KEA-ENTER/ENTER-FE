@@ -110,6 +110,7 @@ const Table = styled.table`
     border-collapse: collapse;
     background: white;
     overflow: hidden;
+    table-layout: fixed;
 `;
 
 const TableTitle = styled.tr`
@@ -145,5 +146,7 @@ const TableCell = styled.td`
 const TableCellDetail = styled(TableCell)`
     width: 20%;
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
